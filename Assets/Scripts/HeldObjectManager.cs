@@ -40,7 +40,7 @@ namespace PBJ
 
 		private void Pickup(InputActionEventData data)
 		{
-			if (m_canAct)
+			if (m_status.CanAct)
 			{
 				Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, m_status.PickupRange, m_status.ItemMask);
 				if (hits.Length > 0)
@@ -65,7 +65,7 @@ namespace PBJ
 
 		private IEnumerator PickupObject(GameObject obj)
 		{
-			m_canAct = false;
+			m_status.SetCanAct(false);
 			Vector2 p0 = (Vector2)obj.transform.position;
 			Vector2 p1 = (Vector2)obj.transform.position + new Vector2(0, m_stackHeight + m_pickupOffset);
 			Vector2 p2 = StackOrigin;
@@ -76,8 +76,8 @@ namespace PBJ
 			{
 				t = currentPoint / (StackCurveSamples - 1.0f);
 				position = (1.0f - t) * (1.0f - t) * p0 + 2.0f * (1.0f - t) * t * p1 + t * t * p2;
-                float speed = m_status.PickupSpeed * m_status.PickupSpeedCurve.Evaluate(t);
-				obj.transform.position = Vector2.MoveTowards(obj.transform.position, position, speed * Time.deltaTime);
+                float speed = m_status.PickupSpeed * m_status.PickupSpeedCurve.Evaluate(t) * Time.deltaTime;
+				obj.transform.position = Vector2.MoveTowards(obj.transform.position, position, speed);
 				if (Vector2.Distance(obj.transform.position, position) <= .05f)
 				{
 					currentPoint++;
@@ -85,8 +85,7 @@ namespace PBJ
 				yield return null;
 			}
             //obj.transform.SetParent(m_stackContainer);
-			m_canAct = true;
-
+			m_status.SetCanAct(true);
 		}
 
 		private void Throw(InputActionEventData data)
