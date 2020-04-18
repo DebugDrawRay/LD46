@@ -8,14 +8,12 @@ namespace PBJ
 {
 	public class TwoAxisMovement : MonoBehaviour
 	{
-        [SerializeField]
-        private float m_maxSpeed;
-
         private float m_currentSpeed;
         private Player m_input;
         private Vector2 m_currentInput;
 
         private Rigidbody2D m_rigid;
+        private PlayerStatus m_status;
         private void Awake()
         {
             m_input = ReInput.players.GetPlayer(0);
@@ -25,6 +23,10 @@ namespace PBJ
             if(!TryGetComponent<Rigidbody2D>(out m_rigid))
             {
                 Debug.LogError("No rigidbody assigned");
+            }
+            if(!TryGetComponent<PlayerStatus>(out m_status))
+            {
+                Debug.LogError("No status assigned");
             }
         }
 
@@ -55,7 +57,7 @@ namespace PBJ
             }
             else
             {
-                m_currentSpeed = m_maxSpeed;
+                m_currentSpeed = m_status.MaxSpeed;
             }
             Vector2 newPosition = (Vector2)transform.position + (m_currentInput.normalized * m_currentSpeed * Time.deltaTime);
             m_rigid.MovePosition(newPosition);
