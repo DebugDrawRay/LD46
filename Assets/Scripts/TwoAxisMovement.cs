@@ -57,7 +57,7 @@ namespace PBJ
             {
                 m_currentSpeed = m_maxSpeed;
             }
-            Vector2 newPosition = (Vector2)transform.position + (m_currentInput * m_currentSpeed * Time.deltaTime);
+            Vector2 newPosition = (Vector2)transform.position + (m_currentInput.normalized * m_currentSpeed * Time.deltaTime);
             m_rigid.MovePosition(newPosition);
         }
 	}
