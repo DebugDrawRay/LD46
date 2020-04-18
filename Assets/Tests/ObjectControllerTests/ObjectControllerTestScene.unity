@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &46407242
 Transform:
   m_ObjectHideFlags: 0
@@ -220,10 +220,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425192, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425192, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 427082829323425193, guid: 09b268ca34c8938499793ff4a4c674ae,
         type: 3}
       propertyPath: m_Name
       value: Test - Oil Drum (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425197, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_isExplosionDelaySec
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09b268ca34c8938499793ff4a4c674ae, type: 3}
@@ -295,10 +310,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425192, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425192, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 427082829323425193, guid: 09b268ca34c8938499793ff4a4c674ae,
         type: 3}
       propertyPath: m_Name
       value: Test - Oil Drum (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425197, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_isExplosionDelaySec
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09b268ca34c8938499793ff4a4c674ae, type: 3}
@@ -721,7 +751,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1248959991
 Transform:
   m_ObjectHideFlags: 0
@@ -801,6 +831,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425192, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425192, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 427082829323425193, guid: 09b268ca34c8938499793ff4a4c674ae,
         type: 3}
@@ -952,10 +992,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425192, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425192, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 427082829323425193, guid: 09b268ca34c8938499793ff4a4c674ae,
         type: 3}
       propertyPath: m_Name
       value: Test - Oil Drum (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 427082829323425197, guid: 09b268ca34c8938499793ff4a4c674ae,
+        type: 3}
+      propertyPath: m_isExplosionDelaySec
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09b268ca34c8938499793ff4a4c674ae, type: 3}
