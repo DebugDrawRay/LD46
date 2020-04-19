@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 using PBJ.Configuration.Input;
-
+using DG.Tweening;
 namespace PBJ
 {
 	public class HeldObjectManager : MonoBehaviour
 	{
 		[SerializeField]
 		private Transform m_stackContainer;
+		[SerializeField]
+		private float m_reorgSpeed;
 		private Vector2 StackOrigin
 		{
 			get
@@ -101,6 +103,7 @@ namespace PBJ
 			if (m_objectStack.Count > 0)
 			{
 				ObjectController obj = m_objectStack.Dequeue();
+				obj.transform.DOComplete();
 				obj.Throw(transform.position, m_status.FacingDir * m_status.ThrowForce);
                 ReorganizeStack();
 			}
@@ -111,7 +114,7 @@ namespace PBJ
             m_stackHeight = 0;
             foreach(Transform obj in m_stackContainer)
             {
-                obj.transform.position = StackOrigin + new Vector2(0, m_stackHeight);
+                obj.transform.DOLocalMove(new Vector2(0, m_stackHeight), m_reorgSpeed).SetEase(Ease.OutBounce).Play();
                 m_stackHeight += obj.GetComponent<ObjectController>().ObjectHeight;
             }
         }
