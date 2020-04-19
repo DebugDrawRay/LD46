@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PBJ.Configuration;
 
 namespace PBJ
 {
@@ -14,7 +15,6 @@ namespace PBJ
 
 		public float PickupRange;
 		public float PickupSpeed;
-		public AnimationCurve PickupSpeedCurve;
 
 		public float ThrowCooldown;
 		public float ThrowForce;
@@ -38,6 +38,8 @@ namespace PBJ
 		}
 		private bool m_canAct = true;
 
+		[SerializeField]
+		private Animator m_anim;
 		private void Awake()
 		{
 			Instance = this;
@@ -52,6 +54,14 @@ namespace PBJ
 			if (dir != Vector2.zero)
 			{
 				m_facingDir = dir;
+				if (dir.x != 0)
+				{
+					m_anim.SetFloat(AnimationConst.FaceX, m_facingDir.x);
+				}
+				if (dir.y != 0)
+				{
+					m_anim.SetFloat(AnimationConst.FaceY, m_facingDir.y);
+				}
 			}
 		}
 	}
