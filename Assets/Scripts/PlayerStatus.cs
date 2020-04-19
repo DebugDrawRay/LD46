@@ -7,6 +7,7 @@ namespace PBJ
 	{
 		public static PlayerStatus Instance;
 
+		public int MaxHealth;
 		public float MaxSpeed;
 		public int MaxCarry;
 		public int MaxItemWeight;
@@ -28,6 +29,7 @@ namespace PBJ
 
 		private Tween m_knockTween;
 		private Vector2 m_facingDir;
+		private int m_currentHealth;
 
 		private bool m_canBeDamaged = true;
 		public Vector2 FacingDir
@@ -44,11 +46,28 @@ namespace PBJ
 				return m_canAct;
 			}
 		}
-		private bool m_canAct = true;
+		public bool Dead
+		{
+			get
+			{
+				return m_currentHealth <= 0;
+			}
+		}
+		private bool m_canAct;
 
 		private void Awake()
 		{
 			Instance = this;
+		}
+
+		private void Start()
+		{
+			Spawn();
+		}
+		private void Spawn()
+		{
+			SetCanAct(true);
+			m_currentHealth = MaxHealth;
 		}
 		public void SetCanAct(bool act)
 		{
@@ -77,17 +96,38 @@ namespace PBJ
 			{
 				SetCanAct(false);
 				m_canBeDamaged = false;
-				m_anim.SetTrigger(AnimationConst.Damage);
+				m_currentHealth--;
+				if(Dead)
+				{
+					Death();
 				Vector2 dir = ((Vector2)transform.position - origin).normalized * m_knockbackStrength;
 
-				if(m_knockTween != null && m_knockTween.IsPlaying())
-				{
-					m_knockTween.Kill();
+					if(m_knockTween != null && m_knockTween.IsPlaying())
+					{
+						m_knockTween.Kill();
+					}
+					Vector2 pos = (Vector2)transform.position + dir;
+					m_knockTween = transform.DOMove(pos, m_knockbackLength).SetEase(Ease.OutExpo).SetUpdate(UpdateType.Fixed).Play();
 				}
-				Vector2 pos = (Vector2)transform.position + dir;
-				m_knockTween = transform.DOMove(pos, m_knockbackLength).SetEase(Ease.OutExpo).SetUpdate(UpdateType.Fixed).OnComplete(OnKnockbackComplete).Play();
+				else
+				{
+					m_anim.SetTrigger(AnimationConst.Damage);
+					Vector2 dir = ((Vector2)transform.position - origin).normalized * m_knockbackStrength;
+
+					if(m_knockTween != null && m_knockTween.IsPlaying())
+					{
+						m_knockTween.Kill();
+					}
+					Vector2 pos = (Vector2)transform.position + dir;
+					m_knockTween = transform.DOMove(pos, m_knockbackLength).SetEase(Ease.OutExpo).SetUpdate(UpdateType.Fixed).OnComplete(OnKnockbackComplete).Play();
+				}
 			}
 
+		}
+
+		private void Death()
+		{
+			m_anim.SetTrigger(AnimationConst.Death);
 		}
 
 		private void OnKnockbackComplete()

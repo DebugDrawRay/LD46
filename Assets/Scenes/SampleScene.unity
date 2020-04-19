@@ -1095,6 +1095,7 @@ GameObject:
   - component: {fileID: 634299996}
   - component: {fileID: 634299997}
   - component: {fileID: 634299998}
+  - component: {fileID: 634299999}
   m_Layer: 10
   m_Name: Human
   m_TagString: Untagged
@@ -1133,18 +1134,21 @@ MonoBehaviour:
   m_patrolSpeed: 3
   m_patrolDelay: 2
   m_chaseRange: 5
-  m_chaseSpeed: 6
-  m_chaseTime: 3
+  m_chaseSpeed: 4.25
+  m_chaseTime: 2
   m_attackRange: 2
-  m_attackSpeed: 15
-  m_attackDamage: 0
+  m_attackSpeed: 10
+  m_attackDamage: 1
   m_attackDelay: 1
+  m_maxHealth: 3
+  m_stunTime: 3
   m_invalidMask:
     serializedVersion: 2
     m_Bits: 0
-  m_attackMask:
-    serializedVersion: 2
-    m_Bits: 0
+  m_knockbackStrength: 2.25
+  m_knockbackLength: 0.35
+  m_anim: {fileID: 0}
+  m_waypointDistance: 0.05
 --- !u!50 &634299997
 Rigidbody2D:
   serializedVersion: 4
@@ -1177,6 +1181,22 @@ CircleCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!58 &634299999
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634299994}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1219,28 +1239,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &828802914 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4455281202882169478, guid: d06127a6abae1dc4a86ae19fb9906714,
-    type: 3}
-  m_PrefabInstance: {fileID: 4455281202469133152}
-  m_PrefabAsset: {fileID: 0}
---- !u!58 &828802919
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828802914}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.25
 --- !u!1 &926010215
 GameObject:
   m_ObjectHideFlags: 0
@@ -3390,11 +3388,6 @@ PrefabInstance:
       propertyPath: _pc2D
       value: 
       objectReference: {fileID: 519420030}
-    - target: {fileID: 4455281202432368413, guid: d06127a6abae1dc4a86ae19fb9906714,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4455281202882169478, guid: d06127a6abae1dc4a86ae19fb9906714,
         type: 3}
       propertyPath: m_Name
@@ -3462,13 +3455,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4455281202882169482, guid: d06127a6abae1dc4a86ae19fb9906714,
         type: 3}
-      propertyPath: m_knockbackStrength
-      value: 2.25
+      propertyPath: MaxHealth
+      value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 4455281202882169482, guid: d06127a6abae1dc4a86ae19fb9906714,
+    - target: {fileID: 4455281202882169483, guid: d06127a6abae1dc4a86ae19fb9906714,
         type: 3}
-      propertyPath: m_knockbackLength
-      value: 0.35
+      propertyPath: m_scatterStrength
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4455281202882169483, guid: d06127a6abae1dc4a86ae19fb9906714,
+        type: 3}
+      propertyPath: m_throwTargetLayer.m_Bits
+      value: 1024
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d06127a6abae1dc4a86ae19fb9906714, type: 3}

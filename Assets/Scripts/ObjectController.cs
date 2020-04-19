@@ -40,6 +40,10 @@ namespace PBJ
         [SerializeField]
         // Amount of damage that this object can inflict upon other objects
         private int m_inflictDamage;
+
+        //how much time to stay in the thrown state if not acted upon by a collision
+        private const float TimeInThrown = 2f;
+
         public int InflictDamage
         {
             get
@@ -64,8 +68,17 @@ namespace PBJ
         [SerializeField]
         private ObjectState m_objectState;
 
+        public ObjectState CurrentState
+        {
+            get
+            {
+                return m_objectState;
+            }
+        }
         private Rigidbody2D m_rigid;
         private Collider2D m_collider;
+
+        private float m_lastThrowTime;
 
         private void OnDrawGizmosSelected()
         {
@@ -95,6 +108,17 @@ namespace PBJ
             }
         }
 
+        private void Update()
+        {
+            if(m_objectState.Thrown)
+            {
+                if(Time.time > m_lastThrowTime + TimeInThrown)
+                {
+                    Debug.Log("Done");
+                    m_objectState.Thrown = false;
+                }
+            }
+        }
         private IEnumerator ExplodeRoutine()
         {
             yield return new WaitForSeconds(m_isExplosionDelaySec);
@@ -188,6 +212,7 @@ namespace PBJ
             m_collider.enabled = true;
             m_rigid.AddForce(force, ForceMode2D.Impulse);
             m_objectState.Thrown = true;
+            m_lastThrowTime = Time.time;
         }
 
         public void OnCollisionEnter2D(Collision2D collision)
@@ -199,6 +224,10 @@ namespace PBJ
                 if (collision.gameObject.TryGetComponent(out ObjectController other))
                 {
                     other.Damage(m_inflictDamage);
+                }
+                if(collision.gameObject.TryGetComponent(out HumanController human ))
+                {
+                    human.Damage(m_inflictDamage, transform.position);
                 }
 
                 Damage(m_selfDamage);
