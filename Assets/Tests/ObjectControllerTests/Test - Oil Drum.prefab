@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 427082829323425198}
   - component: {fileID: 427082829323425199}
   - component: {fileID: 427082829323425192}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Test - Oil Drum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,11 +97,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_objectHeight: 0
   m_isExplosive: 1
   m_isExplosionDelaySec: 0
   m_explosionPrefab: {fileID: 667965991171784694, guid: 017024d7c3809534988732555868de74,
     type: 3}
   m_isBreakable: 1
+  m_breakPrefab: {fileID: 0}
+  m_numberOfBreakObjects: 0
+  m_breakObjectsSpawnRadius: 0
   m_health: 1
 --- !u!114 &427082829323425198
 MonoBehaviour:
@@ -140,7 +144,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 0.13, y: 0.13}
   m_EdgeRadius: 0
 --- !u!50 &427082829323425192
 Rigidbody2D:
