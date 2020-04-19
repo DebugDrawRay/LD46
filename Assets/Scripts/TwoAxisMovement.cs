@@ -37,16 +37,19 @@ namespace PBJ
 
 		private void UpdateAxis(InputActionEventData data)
 		{
-			Debug.Log("Updating");
 			switch (data.actionId)
 			{
 				case Actions.HorizontalMove:
-					m_currentInput.x = data.GetAxis();
+					m_currentInput.x = data.GetAxisRaw();
 					break;
 				case Actions.VerticalMove:
-					m_currentInput.y = data.GetAxis();
+					m_currentInput.y = data.GetAxisRaw();
 					break;
 			}
+            if(m_status.CanAct)
+            {
+                m_status.SetFacing(m_currentInput.normalized);
+            }
 		}
 
 		private void UpdateMovement()
