@@ -98,8 +98,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_isExplosive: 1
+  m_isExplosionDelaySec: 0
   m_explosionPrefab: {fileID: 667965991171784694, guid: 017024d7c3809534988732555868de74,
     type: 3}
+  m_isBreakable: 1
+  m_health: 1
 --- !u!114 &427082829323425198
 MonoBehaviour:
   m_ObjectHideFlags: 0
