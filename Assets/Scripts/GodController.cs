@@ -7,6 +7,8 @@ namespace PBJ
 {
 	public class GodController : MonoBehaviour
 	{
+		public static GodController Instance;
+
 		[SerializeField]
 		private Animator m_anim;
 		[SerializeField]
@@ -15,6 +17,8 @@ namespace PBJ
 		private GameObject m_requestContainer;
 		[SerializeField]
 		private float m_openDist;
+				[SerializeField]
+		private float m_requestDist;
 		[SerializeField]
 		private LayerMask m_itemLayer;
 		[SerializeField]
@@ -32,6 +36,21 @@ namespace PBJ
 				return PlayerStatus.Instance;
 			}
 		}
+		private void Awake()
+		{
+			if (Instance != null)
+			{
+				Destroy(Instance.gameObject);
+			}
+			Instance = this;
+		}
+		private void Start()
+		{
+		}
+		public void Spawn()
+		{
+			m_anim.Rebind();
+		}
 		private void Update()
 		{
 			CheckNearbyItems();
@@ -39,7 +58,7 @@ namespace PBJ
 		private void CheckNearbyItems()
 		{
 			float playerDist = Vector2.Distance(transform.position, m_player.transform.position);
-			m_requestContainer.SetActive(playerDist <= m_openDist);
+			m_requestContainer.SetActive(playerDist <= m_requestDist);
 
 			if (Physics2D.OverlapCircle(transform.position, m_openDist, m_itemLayer) ||
 			(playerDist <= m_openDist && m_player.GetComponent<HeldObjectManager>().HasItem))
@@ -79,6 +98,10 @@ namespace PBJ
 			ItemDB.Item item = GameController.Instance.ItemDb[Random.Range(0, GameController.Instance.ItemDb.Length)];
 			m_request = item.Prefab.name;
 			m_requestDisplay.sprite = item.Sprite;
+		}
+		public void Kill()
+		{
+
 		}
 	}
 }
