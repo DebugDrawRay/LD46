@@ -6,6 +6,8 @@ namespace PBJ
 {
 	public class PlayerStatus : MonoBehaviour
 	{
+		public static PlayerStatus Instance;
+
 		public float MaxSpeed;
 		public int MaxCarry;
 		public int MaxItemWeight;
@@ -14,6 +16,7 @@ namespace PBJ
 		public float PickupSpeed;
 		public AnimationCurve PickupSpeedCurve;
 
+		public float ThrowCooldown;
 		public float ThrowForce;
 
 		public LayerMask ItemMask;
@@ -35,6 +38,10 @@ namespace PBJ
 		}
 		private bool m_canAct = true;
 
+		private void Awake()
+		{
+			Instance = this;
+		}
 		public void SetCanAct(bool act)
 		{
 			m_canAct = act;
