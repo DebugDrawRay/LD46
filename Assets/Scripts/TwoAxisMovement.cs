@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using PBJ.Configuration;
 using PBJ.Configuration.Input;
 
 namespace PBJ
@@ -14,6 +15,9 @@ namespace PBJ
 
 		private Rigidbody2D m_rigid;
 		private PlayerStatus m_status;
+		[SerializeField]
+		private Animator m_anim;
+
 		private void Awake()
 		{
 			m_input = ReInput.players.GetPlayer(0);
@@ -67,6 +71,7 @@ namespace PBJ
 				Vector2 newPosition = (Vector2)transform.position + (m_currentInput.normalized * m_currentSpeed * Time.deltaTime);
 				m_rigid.MovePosition(newPosition);
 			}
+			m_anim.SetBool(AnimationConst.Moving, m_currentInput !=  Vector2.zero && m_status.CanAct);
 		}
 	}
 }

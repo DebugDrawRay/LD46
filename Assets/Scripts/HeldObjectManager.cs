@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using PBJ.Configuration;
 using PBJ.Configuration.Input;
 using DG.Tweening;
 namespace PBJ
@@ -22,6 +23,8 @@ namespace PBJ
 
 		private Player m_input;
 		private PlayerStatus m_status;
+		[SerializeField]
+		private Animator m_anim;
 
 		private float m_stackHeight = 0;
 		private bool m_canAct = true;
@@ -76,7 +79,7 @@ namespace PBJ
 					}
 					if (obj != null)
 					{
-
+						m_anim.SetTrigger(AnimationConst.Pickup);
 						StartCoroutine(PickupObject(obj));
 					}
 				}
@@ -110,19 +113,22 @@ namespace PBJ
 			obj.transform.position = p2;
 			m_status.SetCanAct(true);
             m_stackHeight += obj.ObjectHeight;
+			m_anim.SetBool(AnimationConst.Carry, true);
 		}
 
 		private void Throw(InputActionEventData data)
 		{
 			if (m_canThrow && m_objectStack.Count > 0)
 			{
+				m_anim.SetTrigger(AnimationConst.Throw);
 				ObjectController obj = m_objectStack.Dequeue();
 				obj.transform.DOComplete();
-				obj.Throw(transform.position, m_status.FacingDir * m_status.ThrowForce);
+				obj.Throw(obj.transform.position, m_status.FacingDir * m_status.ThrowForce);
                 ReorganizeStack();
 				m_lastThrowTime = Time.time;
 				m_canThrow = false;
 			}
+			m_anim.SetBool(AnimationConst.Carry, m_objectStack.Count > 0);
 		}
 
         private void ReorganizeStack()
