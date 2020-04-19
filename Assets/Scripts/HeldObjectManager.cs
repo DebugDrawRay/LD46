@@ -61,12 +61,12 @@ namespace PBJ
 
 		private void Pickup(InputActionEventData data)
 		{
-			if (m_status.CanAct)
+			if (m_status.CanAct && m_objectStack.Count < m_status.MaxCarry)
 			{
-				Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, m_status.PickupRange, m_status.ItemMask);
+				Collider2D[] hits = Physics2D.OverlapCircleAll((Vector2)transform.position + m_status.FacingDir, m_status.PickupRange, m_status.ItemMask);
 				if (hits.Length > 0)
 				{
-					float lastDist = m_status.PickupRange;
+					float lastDist = 1000;
 					ObjectController obj = null;
 					foreach (Collider2D hit in hits)
 					{

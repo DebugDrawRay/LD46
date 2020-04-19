@@ -26,7 +26,11 @@ namespace PBJ
 		[SerializeField]
 		private float m_attackRange;
 		[SerializeField]
+		private float m_attackSpeed;
+		[SerializeField]
 		private int m_attackDamage;
+		[SerializeField]
+		private int m_attackDelay;
 
 		[SerializeField]
 		private LayerMask m_invalidMask;
@@ -39,8 +43,14 @@ namespace PBJ
 		private Rigidbody2D m_rigid;
 
 		private float m_lastPatrolTime;
+		private float m_lastChaseTime;
+		private float m_lastAttackTime;
 
-        private Vector2 m_home;
+        private bool m_checkAttackRange;
+
+		private Vector2 m_home;
+		private Vector2 m_attackPosition;
+
 		private float AttackRange
 		{
 			get
@@ -62,15 +72,36 @@ namespace PBJ
 				return m_chaseTime;// ToDo: Add mood adjustment
 			}
 		}
-
+		private float AttackSpeed
+		{
+			get
+			{
+				return m_attackSpeed;// ToDo: Add mood adjustment
+			}
+		}
+		private int AttackDamage
+		{
+			get
+			{
+				return m_attackDamage;// ToDo: Add mood adjustment
+			}
+		}
 		private enum State
 		{
+			ReturnToHome,
 			Patrol,
 			Chase,
 			Attack
 		}
 		private State m_currentState;
 
+		private PlayerStatus m_player
+		{
+			get
+			{
+				return PlayerStatus.Instance;
+			}
+		}
 		private void Awake()
 		{
 			if (!TryGetComponent<Rigidbody2D>(out m_rigid))
@@ -79,10 +110,10 @@ namespace PBJ
 			}
 		}
 
-        private void Start()
-        {
-            m_home = transform.position;
-        }
+		private void Start()
+		{
+			m_home = transform.position;
+		}
 
 		private void FixedUpdate()
 		{
@@ -93,6 +124,9 @@ namespace PBJ
 		{
 			switch (m_currentState)
 			{
+				case State.ReturnToHome:
+					UpdateReturn();
+					break;
 				case State.Patrol:
 					UpdatePatrol();
 					break;
@@ -102,6 +136,19 @@ namespace PBJ
 				case State.Attack:
 					UpdateAttack();
 					break;
+			}
+		}
+		private void ReturnToHome()
+		{
+			m_currentState = State.ReturnToHome;
+		}
+		private void UpdateReturn()
+		{
+			Vector2 newPos = Vector2.MoveTowards(transform.position, m_home, m_patrolSpeed * Time.deltaTime);
+			m_rigid.MovePosition(newPos);
+			if (Vector2.Distance(transform.position, m_home) <= m_waypointDistance)
+			{
+				EnterPatrol();
 			}
 		}
 
@@ -121,61 +168,67 @@ namespace PBJ
 					m_rigid.MovePosition(newPos);
 					if (Vector2.Distance(transform.position, m_currentPatrolPoint) <= m_waypointDistance)
 					{
-                        m_currentPatrolPoint = FindPatrolPoint();
+						m_currentPatrolPoint = FindPatrolPoint();
 					}
 				}
 			}
+			else
+			{
+				EnterChase();
+			}
 		}
+
 		private void EnterChase()
 		{
-
+			m_currentState = State.Chase;
+			m_lastChaseTime = Time.time;
 		}
 		private void UpdateChase()
 		{
-
+            if (Vector2.Distance(transform.position, m_player.transform.position) <= AttackRange)
+			{
+				EnterAttack();
+			}
+			Vector2 newPos = Vector2.MoveTowards(transform.position, m_player.transform.position, m_chaseSpeed * Time.deltaTime);
+			m_rigid.MovePosition(newPos);
+			if (Time.time > m_lastChaseTime + ChaseTime)
+			{
+				ReturnToHome();
+			}
 		}
+
 		private void EnterAttack()
 		{
-
+            m_lastAttackTime = 0;
+            m_checkAttackRange = false;
+			m_currentState = State.Attack;
+			m_attackPosition = m_player.transform.position;
 		}
 		private void UpdateAttack()
 		{
+			if (Time.time > m_lastAttackTime + m_attackDelay)
+			{
+                if(m_checkAttackRange)
+                {
+                    if(Vector2.Distance(transform.position, m_player.transform.position) > AttackRange)
+                    {
+                        EnterPatrol();
+                    }
+                    else
+                    {
+                        m_checkAttackRange = false;
+                    }
+                }
+				Vector2 newPos = Vector2.MoveTowards(transform.position, m_attackPosition, AttackSpeed * Time.deltaTime);
+				m_rigid.MovePosition(newPos);
 
+				if (Vector2.Distance(transform.position, m_attackPosition) <= m_waypointDistance)
+				{
+					m_lastAttackTime = Time.time;
+                    m_checkAttackRange = true;
+				}
+			}
 		}
-
-		// private void UpdateAxis(InputActionEventData data)
-		// {
-		// 	switch (data.actionId)
-		// 	{
-		// 		case Actions.HorizontalMove:
-		// 			m_currentInput.x = data.GetAxisRaw();
-		// 			break;
-		// 		case Actions.VerticalMove:
-		// 			m_currentInput.y = data.GetAxisRaw();
-		// 			break;
-		// 	}
-		// 	if (m_status.CanAct)
-		// 	{
-		// 		m_status.SetFacing(m_currentInput.normalized);
-		// 	}
-		// }
-
-		// private void UpdateMovement()
-		// {
-		// 	if (m_status.CanAct)
-		// 	{
-		// 		if (m_currentInput == Vector2.zero)
-		// 		{
-		// 			m_currentSpeed = 0;
-		// 		}
-		// 		else
-		// 		{
-		// 			m_currentSpeed = m_status.MaxSpeed;
-		// 		}
-		// 		Vector2 newPosition = (Vector2)transform.position + (m_currentInput.normalized * m_currentSpeed * Time.deltaTime);
-		// 		m_rigid.MovePosition(newPosition);
-		// 	}
-		// }
 
 		private Vector2 FindPatrolPoint()
 		{
@@ -190,5 +243,14 @@ namespace PBJ
 				return pos;
 			}
 		}
+
+        private void OnTriggerEnter2D(Collider2D hit)
+        {
+            PlayerStatus player = null;
+            if(hit.TryGetComponent<PlayerStatus>(out player))
+            {
+                player.Damage(AttackDamage, transform.position);
+            }
+        }
 	}
 }

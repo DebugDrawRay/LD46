@@ -12,5 +12,7 @@ namespace PBJ.Configuration
 		public const string Throw = "Throw";
 		public const string Carry = "Carry";
 		public const string Pickup = "Pickup";
+		public const string Damage = "Damage";
+		public const string Death = "Death";
 	}
 }

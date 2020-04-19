@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4455281202432368413}
   - component: {fileID: 7702664738937963768}
   - component: {fileID: 1037975966}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4455281202432368410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0018749237, y: -0.003124997, z: 0}
+  m_LocalPosition: {x: 0.0033330917, y: 0.0020833313, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4455281202882169480}
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 4455281202882169481}
   - component: {fileID: 4455281202882169483}
   - component: {fileID: 4455281202882169482}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,64 +221,21 @@ MonoBehaviour:
   MaxSpeed: 5
   MaxCarry: 3
   MaxItemWeight: 1
-  PickupRange: 2
+  PickupRange: 0.5
   PickupSpeed: 12
-  PickupSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.2
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.2
-      inSlope: -1.5839134
-      outSlope: -1.5839134
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.7
-      value: 0.2
-      inSlope: 2.0579753
-      outSlope: 2.0579753
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.15847446
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2.6666665
-      outSlope: 2.6666665
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   ThrowCooldown: 0.15
   ThrowForce: 25
   ItemMask:
     serializedVersion: 2
     m_Bits: 256
+  m_knockbackStrength: 0.25
+  m_knockbackLength: 1
+  m_knockbackCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   m_anim: {fileID: 7702664738937963768}
 --- !u!1 &4455281203542200734
 GameObject:
@@ -289,7 +246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4455281203542200735}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Stack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +261,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4455281203542200734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.514, z: 0}
+  m_LocalPosition: {x: 0, y: 1.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4455281202882169480}
