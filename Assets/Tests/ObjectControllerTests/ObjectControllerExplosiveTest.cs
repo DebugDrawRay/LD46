@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectControllerExplosiveTest : MonoBehaviour
 {
     [SerializeField]
-    private ObjectController m_objectController;
+    private PBJ.ObjectController m_objectController;
     private bool m_isFired = false;
 
 
