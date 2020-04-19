@@ -7,6 +7,15 @@ namespace PBJ
 {
 	public class ObjectController : MonoBehaviour
 	{
+        [SerializeField]
+        private float m_objectHeight;
+        public float ObjectHeight
+        {
+            get
+            {
+                return m_objectHeight;
+            }
+        }
 		[SerializeField]
 		private bool m_isExplosive;
 		private bool m_isBreakable;
@@ -25,22 +34,9 @@ namespace PBJ
 		private Rigidbody2D m_rigid;
         private Collider2D m_collider;
 
-
-        //Physics properties
-        private float m_mass;
-        private float m_linearDrag;
-        private float m_angularDrag;
-
-
 		private void Awake()
 		{
-			if (TryGetComponent<Rigidbody2D>(out m_rigid))
-			{
-                m_mass = m_rigid.mass;
-                m_linearDrag = m_rigid.drag;
-                m_angularDrag = m_rigid.angularDrag;
-			}
-			else
+			if (!TryGetComponent<Rigidbody2D>(out m_rigid))
 			{
 				Debug.LogError("No rigidbody found");
 			}
@@ -110,15 +106,17 @@ namespace PBJ
 		public void PickedUp()
 		{
             m_rigid.bodyType = RigidbodyType2D.Kinematic;
+            m_rigid.velocity = Vector3.zero;
             m_collider.enabled = false;
 		}
 
-		public void Throw(Vector2 force)
+		public void Throw(Vector2 origin, Vector2 force)
 		{
+            transform.SetParent(null);
+            transform.position = origin;
             m_rigid.bodyType = RigidbodyType2D.Dynamic;
             m_collider.enabled = true;
             m_rigid.AddForce(force, ForceMode2D.Impulse);
-            transform.SetParent(null);
 		}
 	}
 }

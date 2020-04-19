@@ -55,12 +55,12 @@ namespace PBJ
 						if (dist < lastDist)
 						{
 							obj = hit.gameObject.GetComponent<ObjectController>();
+                            lastDist = dist;
 						}
 					}
 					if (obj != null)
 					{
-						obj.PickedUp();
-						m_objectStack.Enqueue(obj);
+
 						StartCoroutine(PickupObject(obj));
 					}
 				}
@@ -69,10 +69,12 @@ namespace PBJ
 
 		private IEnumerator PickupObject(ObjectController obj)
 		{
+            obj.PickedUp();
+            m_objectStack.Enqueue(obj);
 			m_status.SetCanAct(false);
 			Vector2 p0 = (Vector2)obj.transform.position;
 			Vector2 p1 = (Vector2)obj.transform.position + new Vector2(0, m_stackHeight + m_pickupOffset);
-			Vector2 p2 = StackOrigin;
+			Vector2 p2 = StackOrigin + new Vector2(0, m_stackHeight);
 			float t;
 			Vector2 position;
 			int currentPoint = 0;
@@ -80,7 +82,7 @@ namespace PBJ
 			{
 				t = currentPoint / (StackCurveSamples - 1.0f);
 				position = (1.0f - t) * (1.0f - t) * p0 + 2.0f * (1.0f - t) * t * p1 + t * t * p2;
-				float speed = m_status.PickupSpeed * m_status.PickupSpeedCurve.Evaluate(t) * Time.deltaTime;
+				float speed = m_status.PickupSpeed * Time.deltaTime;
 				obj.transform.position = Vector2.MoveTowards(obj.transform.position, position, speed);
 				if (Vector2.Distance(obj.transform.position, position) <= .05f)
 				{
@@ -91,6 +93,7 @@ namespace PBJ
 			obj.transform.SetParent(m_stackContainer);
 			obj.transform.position = p2;
 			m_status.SetCanAct(true);
+            m_stackHeight += obj.ObjectHeight;
 		}
 
 		private void Throw(InputActionEventData data)
@@ -98,8 +101,19 @@ namespace PBJ
 			if (m_objectStack.Count > 0)
 			{
 				ObjectController obj = m_objectStack.Dequeue();
-				obj.Throw(m_status.FacingDir * m_status.ThrowForce);
+				obj.Throw(transform.position, m_status.FacingDir * m_status.ThrowForce);
+                ReorganizeStack();
 			}
 		}
+
+        private void ReorganizeStack()
+        {
+            m_stackHeight = 0;
+            foreach(Transform obj in m_stackContainer)
+            {
+                obj.transform.position = StackOrigin + new Vector2(0, m_stackHeight);
+                m_stackHeight += obj.GetComponent<ObjectController>().ObjectHeight;
+            }
+        }
 	}
 }
