@@ -26,9 +26,12 @@ namespace PBJ
 		private float m_stackHeight = 0;
 		private bool m_canAct = true;
 
+		private bool m_canThrow = true;
+		private float m_lastThrowTime;
+
 		private Queue<ObjectController> m_objectStack = new Queue<ObjectController>();
 
-		private const float m_pickupOffset = 2;
+		private const float m_pickupOffset = 2.5f;
 		private const int StackCurveSamples = 10;
 		private void Awake()
 		{
@@ -39,6 +42,17 @@ namespace PBJ
 			if (!TryGetComponent<PlayerStatus>(out m_status))
 			{
 				Debug.LogError("No status found");
+			}
+		}
+
+		private void Update()
+		{
+			if(!m_canThrow)
+			{
+				if(Time.time > m_lastThrowTime + m_status.ThrowCooldown)
+				{
+					m_canThrow = true;
+				}
 			}
 		}
 
@@ -100,12 +114,14 @@ namespace PBJ
 
 		private void Throw(InputActionEventData data)
 		{
-			if (m_objectStack.Count > 0)
+			if (m_canThrow && m_objectStack.Count > 0)
 			{
 				ObjectController obj = m_objectStack.Dequeue();
 				obj.transform.DOComplete();
 				obj.Throw(transform.position, m_status.FacingDir * m_status.ThrowForce);
                 ReorganizeStack();
+				m_lastThrowTime = Time.time;
+				m_canThrow = false;
 			}
 		}
 
