@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Com.LuisPedroFonseca.ProCamera2D;
 
 namespace PBJ
 {
@@ -23,6 +24,17 @@ namespace PBJ
         [SerializeField]
         private ItemDB m_itemDb;
 
+        [Header("Game Over Sequence")]
+        [SerializeField]
+        public float m_timeToDeath;
+        [SerializeField]
+        public float m_timeAfterDeath;
+        [SerializeField]
+        public float m_cameraSpeed;
+
+        private bool m_deathStarted;
+
+
         public ItemDB.Item[] ItemDb
         {
             get
@@ -44,13 +56,25 @@ namespace PBJ
 
 		private void Awake()
 		{
+            if(Instance != null)
+            {
+                Destroy(Instance.gameObject);
+            }
 			Instance = this;
 		}
 
 		private void Start()
 		{
-			m_state = new WorldState() { Happiness = m_initialHappiness, Sustinence = m_initialSustinence };
+            InitializeGame();
 		}
+
+        private void InitializeGame()
+        {
+			m_state = new WorldState() { Happiness = m_initialHappiness, Sustinence = m_initialSustinence };
+            m_deathStarted = false;
+            GodController.Instance.Spawn();
+            PlayerStatus.Instance.Spawn();
+        }
 
 		private void Update()
 		{
@@ -61,6 +85,8 @@ namespace PBJ
 		{
             if(CurrentState.Sustinence <= 0)
             {
+                m_deathStarted = true;
+                StartCoroutine(DeathSequence());
                 Debug.Log("<color=red>GAME OVER</color>");
             }
             else
@@ -77,6 +103,19 @@ namespace PBJ
 			}
             }
 		}
+
+        public IEnumerator DeathSequence()
+        {
+            ProCamera2D.Instance.RemoveAllCameraTargets();
+            ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
+            ProCamera2D.Instance.VerticalFollowSmoothness = m_cameraSpeed;
+            ProCamera2D.Instance.HorizontalFollowSmoothness = m_cameraSpeed;
+
+            PlayerStatus.Instance.SetPaused(true);
+            yield return new WaitForSeconds(m_timeToDeath);
+            GodController.Instance.Kill();
+            yield return new WaitForSeconds(m_timeToDeath);
+        }
 
 		public class WorldState
 		{

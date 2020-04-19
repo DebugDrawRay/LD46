@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using PBJ.Configuration;
 using DG.Tweening;
+
 namespace PBJ
 {
 	public class PlayerStatus : MonoBehaviour
@@ -43,7 +44,7 @@ namespace PBJ
 		{
 			get
 			{
-				return m_canAct;
+				return m_canAct && !m_pause;
 			}
 		}
 		public bool Dead
@@ -54,9 +55,14 @@ namespace PBJ
 			}
 		}
 		private bool m_canAct;
+		private bool m_pause;
 
 		private void Awake()
 		{
+			if (Instance != null)
+			{
+				Destroy(Instance.gameObject);
+			}
 			Instance = this;
 		}
 
@@ -64,14 +70,20 @@ namespace PBJ
 		{
 			Spawn();
 		}
-		private void Spawn()
+		public void Spawn()
 		{
 			SetCanAct(true);
 			m_currentHealth = MaxHealth;
+			SetFacing(new Vector2(0, -1));
+			m_anim.Rebind();
 		}
 		public void SetCanAct(bool act)
 		{
 			m_canAct = act;
+		}
+		public void SetPaused(bool pause)
+		{
+			m_pause = pause;
 		}
 
 		public void SetFacing(Vector2 dir)
@@ -92,17 +104,17 @@ namespace PBJ
 
 		public void Damage(int amount, Vector2 origin)
 		{
-			if(m_canBeDamaged)
+			if (m_canBeDamaged)
 			{
 				SetCanAct(false);
 				m_canBeDamaged = false;
 				m_currentHealth--;
-				if(Dead)
+				if (Dead)
 				{
 					Death();
-				Vector2 dir = ((Vector2)transform.position - origin).normalized * m_knockbackStrength;
+					Vector2 dir = ((Vector2)transform.position - origin).normalized * m_knockbackStrength;
 
-					if(m_knockTween != null && m_knockTween.IsPlaying())
+					if (m_knockTween != null && m_knockTween.IsPlaying())
 					{
 						m_knockTween.Kill();
 					}
@@ -114,7 +126,7 @@ namespace PBJ
 					m_anim.SetTrigger(AnimationConst.Damage);
 					Vector2 dir = ((Vector2)transform.position - origin).normalized * m_knockbackStrength;
 
-					if(m_knockTween != null && m_knockTween.IsPlaying())
+					if (m_knockTween != null && m_knockTween.IsPlaying())
 					{
 						m_knockTween.Kill();
 					}
