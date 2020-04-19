@@ -34,12 +34,12 @@ namespace PBJ
         private uint m_numberOfBreakObjects;
         [SerializeField]
         private float m_breakObjectsSpawnRadius;
+        [SerializeField][Range(0f,100f)]
+        private float m_breakObjectsSpawnRadiusVariationPercent;
         [SerializeField]
         private float m_breakObjectsSpawnForce;
-        [SerializeField]
-        private float m_breakObjectsSpawnRadiusVariation;
-        [SerializeField]
-        private float m_breakObjectsSpawnForceVariation;
+        [SerializeField][Range(0f,100f)]
+        private float m_breakObjectsSpawnForceVariationPercent;
 
         [Space]
 
@@ -193,17 +193,21 @@ namespace PBJ
                 // Spawn the break objects and push them away from the epicenter
                 for (int i = 0; i < m_numberOfBreakObjects; i++)
                 {
-                    float angleRad = Mathf.Lerp(0f, 360f, (float)i / m_numberOfBreakObjects) * Mathf.Deg2Rad;
+                    float angleDeg = Mathf.Lerp(0f, 360f, (float)i / m_numberOfBreakObjects);
 
-                    float radiusPositionX = m_breakObjectsSpawnRadius * Mathf.Cos(angleRad);
-                    float radiusPositionY = m_breakObjectsSpawnRadius * Mathf.Sin(angleRad);
+                    // Calculate the spawn position along the spawn radius
+                    float spawnPositionAngleDeg = angleDeg + (360f * Random.Range(0f, m_breakObjectsSpawnRadiusVariationPercent / 100f));
+                    float radiusPositionX = m_breakObjectsSpawnRadius * Mathf.Cos(spawnPositionAngleDeg * Mathf.Deg2Rad);
+                    float radiusPositionY = m_breakObjectsSpawnRadius * Mathf.Sin(spawnPositionAngleDeg * Mathf.Deg2Rad);
                     Vector2 spawnPosition = new Vector2(transform.position.x + radiusPositionX, transform.position.y + radiusPositionY);
 
                     GameObject spawnedObject = Instantiate(m_breakPrefab, spawnPosition, transform.rotation);
                     if (spawnedObject.TryGetComponent(out Rigidbody2D spawnedRb))
                     {
-                        float forceX = m_breakObjectsSpawnForce * Mathf.Cos(angleRad);
-                        float forceY = m_breakObjectsSpawnForce * Mathf.Sin(angleRad);
+                        // Calculate the angle for the force to be applied
+                        float spawnForceAngleDeg = angleDeg + (360f * Random.Range(0f, m_breakObjectsSpawnForceVariationPercent / 100f));
+                        float forceX = m_breakObjectsSpawnForce * Mathf.Cos(spawnForceAngleDeg * Mathf.Deg2Rad);
+                        float forceY = m_breakObjectsSpawnForce * Mathf.Sin(spawnForceAngleDeg * Mathf.Deg2Rad);
                         spawnedRb.AddForce(new Vector2(forceX, forceY));
                     }
                 }

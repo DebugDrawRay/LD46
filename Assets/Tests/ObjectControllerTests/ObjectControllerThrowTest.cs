@@ -17,13 +17,24 @@ namespace PBJ
 
         private bool m_isFired = false;
 
-        private void OnMouseDown()
+        private void OnMouseOver()
         {
             if (m_isFired)
                 return;
 
-            m_objectController.Throw(transform.position, m_throwDirection * m_throwForce);
-            m_isFired = true;
+            if (Input.GetMouseButtonDown(0))
+            {
+                // Left click to throw
+                m_objectController.Throw(transform.position, m_throwDirection * m_throwForce);
+                m_isFired = true;
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                Debug.Log("Pressed secondary button.");
+                // Right click to break
+                m_objectController.Break();
+                m_isFired = true;
+            }
         }
     }
 }
