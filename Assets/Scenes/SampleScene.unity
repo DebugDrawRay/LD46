@@ -253,7 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &152114103
@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &211513420
@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &256700806
@@ -661,7 +661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &304656869
@@ -797,7 +797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &512023058
@@ -1128,7 +1128,7 @@ MonoBehaviour:
   MaxCarry: 3
   MaxItemWeight: 1
   PickupRange: 2
-  PickupSpeed: 7
+  PickupSpeed: 12
   PickupSpeedCurve:
     serializedVersion: 2
     m_Curve:
@@ -2520,7 +2520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &1231806216
@@ -2700,7 +2700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &1402609254
@@ -2937,7 +2937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!1 &1829006690
@@ -2972,7 +2972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &1829006692
@@ -3108,7 +3108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &1838905360
@@ -3244,7 +3244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.5
+  m_objectHeight: 0.25
   m_isExplosive: 0
   m_explosionPrefab: {fileID: 0}
 --- !u!58 &1990727983
