@@ -24,8 +24,8 @@ namespace PBJ
         private float m_isExplosionDelaySec;
         [SerializeField]
         private GameObject m_explosionPrefab;
-
-        [Space]
+        
+        [Header("Break Attributes")]
         [SerializeField]
         private bool m_isBreakable;
         [SerializeField]
@@ -34,6 +34,15 @@ namespace PBJ
         private uint m_numberOfBreakObjects;
         [SerializeField]
         private float m_breakObjectsSpawnRadius;
+        [SerializeField]
+        private float m_breakObjectsSpawnForce;
+        [SerializeField]
+        private float m_breakObjectsSpawnRadiusVariation;
+        [SerializeField]
+        private float m_breakObjectsSpawnForceVariation;
+
+        [Space]
+
         [SerializeField]
         // Amount of damage this object will take upon collision
         private int m_selfDamage;
@@ -80,8 +89,6 @@ namespace PBJ
             public bool Breaking;
             public bool Exploding;
             public bool Thrown;
-            public bool Damaging;
-            public bool SelfDamaging;
         }
 
         [SerializeField]
@@ -129,9 +136,9 @@ namespace PBJ
 
         private void Update()
         {
-            if(m_objectState.Thrown)
+            if (m_objectState.Thrown)
             {
-                if(Time.time > m_lastThrowTime + TimeInThrown)
+                if (Time.time > m_lastThrowTime + TimeInThrown)
                 {
                     Debug.Log("Done");
                     m_objectState.Thrown = false;
@@ -179,15 +186,26 @@ namespace PBJ
 
             m_objectState.Breaking = true;
 
-
-            for (int i = 0; i < m_numberOfBreakObjects; i++)
+            if (m_breakPrefab)
             {
-                GameObject spawnedObject = Instantiate(m_breakPrefab, transform.position, transform.rotation);
-                if (spawnedObject.TryGetComponent(out Rigidbody2D spawnedRb))
+                Assert.IsTrue(m_numberOfBreakObjects > 0, "Breakable objects that spawn smaller objects need number of break objects greater than zero");
+
+                // Spawn the break objects and push them away from the epicenter
+                for (int i = 0; i < m_numberOfBreakObjects; i++)
                 {
-                    float x = Mathf.Lerp(-1, 1, (float) i / m_numberOfBreakObjects) * m_breakObjectsSpawnRadius;
-                    float y = x;
-                    spawnedRb.AddForce(new Vector2(x, y));
+                    float angleRad = Mathf.Lerp(0f, 360f, (float)i / m_numberOfBreakObjects) * Mathf.Deg2Rad;
+
+                    float radiusPositionX = m_breakObjectsSpawnRadius * Mathf.Cos(angleRad);
+                    float radiusPositionY = m_breakObjectsSpawnRadius * Mathf.Sin(angleRad);
+                    Vector2 spawnPosition = new Vector2(transform.position.x + radiusPositionX, transform.position.y + radiusPositionY);
+
+                    GameObject spawnedObject = Instantiate(m_breakPrefab, spawnPosition, transform.rotation);
+                    if (spawnedObject.TryGetComponent(out Rigidbody2D spawnedRb))
+                    {
+                        float forceX = m_breakObjectsSpawnForce * Mathf.Cos(angleRad);
+                        float forceY = m_breakObjectsSpawnForce * Mathf.Sin(angleRad);
+                        spawnedRb.AddForce(new Vector2(forceX, forceY));
+                    }
                 }
             }
 
@@ -250,7 +268,7 @@ namespace PBJ
                 {
                     other.Damage(m_inflictDamage);
                 }
-                if(collision.gameObject.TryGetComponent(out HumanController human ))
+                if (collision.gameObject.TryGetComponent(out HumanController human))
                 {
                     human.Damage(m_inflictDamage, transform.position);
                 }
