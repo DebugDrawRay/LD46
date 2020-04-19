@@ -14,5 +14,9 @@ namespace PBJ.Configuration
 		public const string Pickup = "Pickup";
 		public const string Damage = "Damage";
 		public const string Death = "Death";
+		
+		public const string Chomp = "Chomp";
+		public const string Open = "Open";
+		public const string Close = "Close";
 	}
 }

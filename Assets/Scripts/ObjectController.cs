@@ -41,6 +41,25 @@ namespace PBJ
         // Amount of damage that this object can inflict upon other objects
         private int m_inflictDamage;
 
+        [SerializeField]
+        private int m_sustinenceProvided;
+        public int SustinenceProvided
+        {
+            get
+            {
+                return m_sustinenceProvided;
+            }
+        }
+        [SerializeField]
+        private int m_happinessProvided;
+        public int HappinessProvided
+        {
+            get
+            {
+                return m_happinessProvided;
+            }
+        }
+
         //how much time to stay in the thrown state if not acted upon by a collision
         private const float TimeInThrown = 2f;
 
@@ -221,6 +240,12 @@ namespace PBJ
             {
                 m_objectState.Thrown = false;
 
+                if(collision.gameObject.TryGetComponent(out GodController god ))
+                {
+                    god.Feed(this);
+                    Debug.Log("Destroy");
+                    Destroy(gameObject);
+                }
                 if (collision.gameObject.TryGetComponent(out ObjectController other))
                 {
                     other.Damage(m_inflictDamage);
@@ -229,7 +254,6 @@ namespace PBJ
                 {
                     human.Damage(m_inflictDamage, transform.position);
                 }
-
                 Damage(m_selfDamage);
             }
         }
