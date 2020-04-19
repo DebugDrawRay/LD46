@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8311043771365119267}
   - component: {fileID: 4065435793740996044}
+  - component: {fileID: 3130090229542573138}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -662,3 +663,24 @@ MonoBehaviour:
     controllerMapEnablerSetIdCounter: 0
   _controllerDataFiles: {fileID: 11400000, guid: d21d2b20df8369642b76aafbb2576ba7,
     type: 2}
+--- !u!114 &3130090229542573138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67568703872429468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b176dbd0649761846ab2df6dbd1efeb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_initialHappiness: 0
+  m_initialSustinence: 0
+  m_happinessDrain: 0
+  m_happinessDrainRate: 0
+  m_sustinenceDrain: 0
+  m_sustinenceDrainRate: 0
+  m_itemDb: {fileID: 11400000, guid: fed4daf018f6a9e40bd8b73a57ff9fb5, type: 2}
+  m_lastHappinessDrain: 0
+  m_lastSustinenceDrain: 0

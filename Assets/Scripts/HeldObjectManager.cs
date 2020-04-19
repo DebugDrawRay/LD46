@@ -41,6 +41,13 @@ namespace PBJ
 
 		private Coroutine m_pickup;
 
+		public bool HasItem
+		{
+			get
+			{
+				return m_objectStack.Count > 0;
+			}
+		}
 		private const float m_pickupOffset = 2.5f;
 		private const int StackCurveSamples = 10;
 		private void Awake()
