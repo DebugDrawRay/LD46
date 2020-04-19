@@ -28,6 +28,8 @@ namespace PBJ
         [Space]
         [SerializeField]
         private bool m_isBreakable;
+        [SerializeField]
+        private int m_health;
 
         public enum ObjectState
         {
@@ -61,7 +63,6 @@ namespace PBJ
             Instantiate(m_explosionPrefab, transform.position, transform.rotation);
             gameObject.SetActive(false);
         }
-
 
         public void Explode()
         {
@@ -111,9 +112,10 @@ namespace PBJ
             return m_isBreakable && m_objectState != ObjectState.Exploding && m_objectState != ObjectState.Breaking;
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        public void Damage(int damageAmount)
         {
-            if (collision.gameObject.tag == "Explosion")
+            m_health -= damageAmount;
+            if (m_health <= 0)
             {
                 if (CanExplode())
                     Explode();
