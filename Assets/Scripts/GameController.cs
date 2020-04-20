@@ -25,8 +25,8 @@ namespace PBJ
 		private int m_happinessToEvolve;
 		[SerializeField]
 		private int m_initialSustinence;
-        [SerializeField]
-        private int m_maxSustinence;
+		[SerializeField]
+		private int m_maxSustinence;
 		[SerializeField]
 		private int m_happinessDrain;
 		[SerializeField]
@@ -78,7 +78,7 @@ namespace PBJ
 
 		private bool m_deathStarted;
 
-        private bool m_paused;
+		private bool m_paused;
 
 		public ItemDB.Item[] ItemDb
 		{
@@ -110,11 +110,6 @@ namespace PBJ
 
 		private void Awake()
 		{
-			Assert.AreNotEqual(m_maxHappiness, 0);
-			Assert.AreNotEqual(m_happinessToEvolve, 0);
-			Assert.AreNotEqual(m_initialSustinence, 0);
-
-
 			if (Instance != null)
 			{
 				Destroy(Instance.gameObject);
@@ -200,12 +195,12 @@ namespace PBJ
 							}
 						}
 					}
-					else if (CanEvolve())
-					{
-						Evolve();
-					}
 					else
 					{
+						if (CanEvolve())
+						{
+							Evolve();
+						}
 						if (Time.time > m_lastSustinenceDrain + m_sustinenceDrainRate)
 						{
 							CurrentState.Sustinence -= m_sustinenceDrain;
@@ -228,13 +223,13 @@ namespace PBJ
 
 		private bool CanEvolve()
 		{
-			return !CurrentState.IsEvolved && !GodController.Instance.IsEvolving && CurrentState.Happiness >= m_happinessToEvolve;
+			return !CurrentState.IsEvolved && CurrentState.Happiness >= m_happinessToEvolve;
 		}
 
 		private void Evolve()
 		{
 			// The GodController will start its Evolve routine and then set CurrentState.IsEvolved when finished
-			GodController.Instance.Evolve(() => CurrentState.IsEvolved = true);
+			GodController.Instance.Evolve();
 		}
 
 		public IEnumerator DeathSequence()
