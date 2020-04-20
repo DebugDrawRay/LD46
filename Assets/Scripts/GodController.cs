@@ -136,6 +136,7 @@ namespace PBJ
 			{
 				StopCoroutine(m_checkRequest);
 			}
+			m_anim.SetTrigger(AnimationConst.Chomp);
 			m_checkRequest = StartCoroutine(CheckRequest(obj.Id == m_request));
 			GameController.Instance.CurrentState.ItemsEaten++;
 			Destroy(obj.gameObject);
