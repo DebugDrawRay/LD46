@@ -22,7 +22,7 @@ namespace PBJ
 		[SerializeField]
 		private int m_maxHappiness;
 		[SerializeField]
-		private int m_happinessToEvolve;
+		private float m_happinessPercentToEvolve;
 		[SerializeField]
 		private int m_initialSustinence;
 		[SerializeField]
@@ -223,7 +223,7 @@ namespace PBJ
 
 		private bool CanEvolve()
 		{
-			return !CurrentState.IsEvolved && CurrentState.Happiness >= m_happinessToEvolve;
+			return !CurrentState.IsEvolved && CurrentState.Happiness >= m_maxHappiness * m_happinessPercentToEvolve;
 		}
 
 		private void Evolve()
