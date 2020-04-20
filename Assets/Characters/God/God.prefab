@@ -145,7 +145,7 @@ MonoBehaviour:
   m_requestGoodSound: event:/SFX/God/RequestGood
   m_eatSound: event:/SFX/God/Eat
   m_deathSound: event:/SFX/God/Death
-  m_evolveSound: 
+  m_evolveSound: event:/SFX/God/Evolve
   m_containerEvolvePos: {x: -3.28125, y: 8.8125}
   m_happyEvolvePos: {x: -0.715, y: 8.65875}
 --- !u!60 &6190348255294143954
