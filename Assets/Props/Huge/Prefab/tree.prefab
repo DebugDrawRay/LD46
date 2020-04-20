@@ -111,6 +111,9 @@ MonoBehaviour:
   m_breakObjectsSpawnRadiusVariationPercent: 100
   m_breakObjectsSpawnForce: 50
   m_breakObjectsSpawnForceVariationPercent: 100
+  m_isSplinterable: 0
+  m_splinterChildren: []
+  m_isChildOfSplinterable: 0
   m_selfDamage: 0
   m_inflictDamage: 3
   m_sustinenceProvided: 10
