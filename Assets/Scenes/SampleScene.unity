@@ -5616,7 +5616,7 @@ PrefabInstance:
     - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
         type: 3}
       propertyPath: m_initialSustinence
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
         type: 3}
