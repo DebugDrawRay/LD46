@@ -125,7 +125,7 @@ namespace PBJ
 		public void Feed(ObjectController obj)
 		{
 			GameController.Instance.CurrentState.Sustinence += obj.SustinenceProvided;
-			if (obj.gameObject.name == m_request)
+			if (obj.Id == m_request)
 			{
 				GameController.Instance.CurrentState.Happiness += obj.HappinessProvided;
 			}
@@ -133,14 +133,14 @@ namespace PBJ
 			{
 				StopCoroutine(m_checkRequest);
 			}
-			m_checkRequest = StartCoroutine(CheckRequest(obj.gameObject.name == m_request));
+			m_checkRequest = StartCoroutine(CheckRequest(obj.Id == m_request));
 			Destroy(obj.gameObject);
 		}
 		public void MakeNewRequest()
 		{
 			RuntimeManager.PlayOneShot(m_requestSound);
 			ItemDB.Item item = GameController.Instance.ItemDb[Random.Range(0, GameController.Instance.ItemDb.Length)];
-			m_request = item.Prefab.name;
+			m_request = item.Prefab.GetComponent<ObjectController>().Id;
 			m_requestDisplay.sprite = item.Sprite;
 		}
 		public void Kill()

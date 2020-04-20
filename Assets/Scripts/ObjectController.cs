@@ -8,6 +8,7 @@ namespace PBJ
 {
 	public class ObjectController : MonoBehaviour
 	{
+        public string Id;
 		[SerializeField]
 		private float m_objectHeight;
 		public float ObjectHeight
