@@ -166,6 +166,11 @@ namespace PBJ
 			yield return new WaitForSeconds(m_timeToDeath);
 		}
 
+        public void OnQuit()
+        {
+            m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
+
 		public class WorldState
 		{
 			public float Mood
