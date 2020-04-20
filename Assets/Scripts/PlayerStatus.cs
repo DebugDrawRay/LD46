@@ -150,6 +150,8 @@ namespace PBJ
 
 		private void Death()
 		{
+			GetComponent<HeldObjectManager>().ScatterStack();
+			SetCanAct(false);
 			m_anim.SetTrigger(AnimationConst.Death);
 			RuntimeManager.PlayOneShot(m_deathSound);
 		}

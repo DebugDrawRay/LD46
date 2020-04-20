@@ -144,8 +144,16 @@ namespace PBJ
 			m_requestDisplay.sprite = item.Sprite;
 		}
 		public void Kill()
-		{
-			//m_anim.SetTrigger(AnimationConst.Death);
+		{			
+			if (m_checkRequest != null)
+			{
+				StopCoroutine(m_checkRequest);
+			}
+			m_hasRequest = false;
+			m_failIcon.SetActive(false);
+			m_successIcon.SetActive(false);
+			m_requestContainer.SetActive(false);
+			m_anim.SetTrigger(AnimationConst.Death);
 			RuntimeManager.PlayOneShot(m_deathSound);
 		}
 		private IEnumerator CheckRequest(bool successful)
