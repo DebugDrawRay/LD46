@@ -13,60 +13,15 @@ MonoBehaviour:
   m_Name: ItemData
   m_EditorClassIdentifier: 
   Items:
-  - Category: chicken
-    Sprite: {fileID: 21300000, guid: ba51caf77783aa04ba07c6ba8de6a251, type: 3}
-  - Category: chicken
-    Sprite: {fileID: 21300000, guid: a581322fa7e50564d878f0738fc647be, type: 3}
-  - Category: chicken
-    Sprite: {fileID: 21300000, guid: 228eceb97fe05774fa04500a25b923da, type: 3}
-  - Category: crab
-    Sprite: {fileID: 21300000, guid: 22c2f4205c137c4449026a2862eb8b0a, type: 3}
-  - Category: pot
-    Sprite: {fileID: 21300000, guid: 1bc3ef7f13bb16f48a80defb2e371e9f, type: 3}
-  - Category: apple
-    Sprite: {fileID: 6422085674583116018, guid: 05f16579685555a40b3f93df50336c21,
-      type: 3}
-  - Category: orange
-    Sprite: {fileID: -2199681193780744630, guid: 05f16579685555a40b3f93df50336c21,
-      type: 3}
-  - Category: peach
-    Sprite: {fileID: -5321949957799140045, guid: 05f16579685555a40b3f93df50336c21,
-      type: 3}
-  - Category: pear
-    Sprite: {fileID: 1248475614767147607, guid: 05f16579685555a40b3f93df50336c21,
-      type: 3}
-  - Category: gallon
-    Sprite: {fileID: 21300000, guid: 42961b518ac8b2a4b819e22c8d0a998a, type: 3}
-  - Category: paint
-    Sprite: {fileID: 21300000, guid: 4e36bddc7345c1040bb5980f0d46ee00, type: 3}
-  - Category: pie
-    Sprite: {fileID: 21300000, guid: 31a30b6bb88424643938d0613d996fef, type: 3}
-  - Category: pig
-    Sprite: {fileID: 21300000, guid: 0dcfcfbb2efccc2409671e040a0bfa33, type: 3}
-  - Category: pig
-    Sprite: {fileID: 21300000, guid: 0acb5577b67a8d446b87fc55806fa431, type: 3}
-  - Category: rock
-    Sprite: {fileID: -2705597995764985619, guid: 078351e20aa5a5941a2d20fabbeb14cf,
-      type: 3}
-  - Category: rock
-    Sprite: {fileID: 8032301891362702160, guid: 078351e20aa5a5941a2d20fabbeb14cf,
-      type: 3}
-  - Category: rock
-    Sprite: {fileID: -1916236507332333500, guid: 078351e20aa5a5941a2d20fabbeb14cf,
-      type: 3}
-  - Category: chair
-    Sprite: {fileID: 21300000, guid: 182546cb3fb9bcd4e8e7573e864b1c75, type: 3}
-  - Category: stick
-    Sprite: {fileID: 21300000, guid: 237850024f29699458664f23fc1ef274, type: 3}
-  - Category: garbage
-    Sprite: {fileID: 21300000, guid: c3056fa2c8fde7541a035cb0f9f31e02, type: 3}
-  - Category: barrel
-    Sprite: {fileID: 21300000, guid: 65ca9c485b9ab994691d416ef473c7c0, type: 3}
-  - Category: postbox
-    Sprite: {fileID: 21300000, guid: 6274455ffff4e6348958d585afe66ae6, type: 3}
-  - Category: cabin
-    Sprite: {fileID: 21300000, guid: 96daf7b1ca0ad35458405a76ed274141, type: 3}
-  - Category: cabin
-    Sprite: {fileID: 21300000, guid: 9afffa81b2ca3e248ae872bafb2c3575, type: 3}
-  - Category: tree
-    Sprite: {fileID: 21300000, guid: f0fc5c781d046914b906a1b2c58f8dbb, type: 3}
+  - Category: fruit
+    Sprite: {fileID: 21300000, guid: 9ecd2347f9aecb3449f1dd341e98642f, type: 3}
+  - Category: structure
+    Sprite: {fileID: 21300000, guid: 61c309a408c253c4e94298b04d080a88, type: 3}
+  - Category: junk
+    Sprite: {fileID: 21300000, guid: 2289c6ba4c734854b889d02bba7df708, type: 3}
+  - Category: meat
+    Sprite: {fileID: 21300000, guid: 3bbd54f7478e13a479ca04f9e0d9cbdc, type: 3}
+  - Category: metal
+    Sprite: {fileID: 21300000, guid: 7c85b46223b8b60488e4c64b0c6c43dd, type: 3}
+  - Category: vegetation
+    Sprite: {fileID: 21300000, guid: f03274a7ab556f44ba3769674442e381, type: 3}

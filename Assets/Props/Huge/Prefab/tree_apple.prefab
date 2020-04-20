@@ -262,7 +262,7 @@ PrefabInstance:
     - target: {fileID: 3372654819196969319, guid: 98cec657b4d291148b3474ef6fc7cf8a,
         type: 3}
       propertyPath: Id
-      value: tree_apple
+      value: vegetation
       objectReference: {fileID: 0}
     - target: {fileID: 3372654819196969319, guid: 98cec657b4d291148b3474ef6fc7cf8a,
         type: 3}

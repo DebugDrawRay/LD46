@@ -130,7 +130,12 @@ namespace PBJ
 				StopCoroutine(m_checkRequest);
 			}
 			m_anim.SetTrigger(AnimationConst.Chomp);
-			m_checkRequest = StartCoroutine(CheckRequest(obj.Id == m_request));
+			bool success = obj.Id == m_request;
+			if(success)
+			{
+				m_remainingItems--;
+			}
+			m_checkRequest = StartCoroutine(CheckRequest(success));
 			GameController.Instance.CurrentState.ItemsEaten++;
 			Destroy(obj.gameObject);
 		}
@@ -166,7 +171,6 @@ namespace PBJ
 				m_happyIcon.SetActive(true);
 				yield return new WaitForSeconds(m_requestDelay);
 				m_happyIcon.SetActive(false);
-				m_remainingItems--;
 				if (m_remainingItems <= 0)
 				{
 					MakeNewRequest();

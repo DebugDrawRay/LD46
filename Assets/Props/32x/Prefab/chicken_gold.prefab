@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: chicken
+  Id: meat
   m_objectHeight: 0.75
   m_isExplosive: 0
   m_isExplosionDelaySec: 0
@@ -127,6 +127,9 @@ MonoBehaviour:
   m_breakObjectsSpawnRadiusVariationPercent: 0
   m_breakObjectsSpawnForce: 0
   m_breakObjectsSpawnForceVariationPercent: 0
+  m_splinterType: 0
+  m_splinterChildSeparationForceMagnitude: 0
+  m_splinterChildren: []
   m_selfDamage: 0
   m_inflictDamage: 1
   m_sustinenceProvided: 5

@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: spire
+  Id: structure
   m_objectHeight: 10
   m_isExplosive: 0
   m_isExplosionDelaySec: 0
@@ -110,6 +110,9 @@ MonoBehaviour:
   m_breakObjectsSpawnRadiusVariationPercent: 100
   m_breakObjectsSpawnForce: 50
   m_breakObjectsSpawnForceVariationPercent: 100
+  m_splinterType: 0
+  m_splinterChildSeparationForceMagnitude: 0
+  m_splinterChildren: []
   m_selfDamage: 0
   m_inflictDamage: 3
   m_sustinenceProvided: 10
