@@ -3,6 +3,7 @@ using UnityEngine;
 using Com.LuisPedroFonseca.ProCamera2D;
 using FMOD.Studio;
 using FMODUnity;
+using UnityEngine.Assertions;
 
 namespace PBJ
 {
@@ -21,9 +22,11 @@ namespace PBJ
 		[SerializeField]
 		private int m_maxHappiness;
 		[SerializeField]
+		private int m_happinessToEvolve;
+		[SerializeField]
 		private int m_initialSustinence;
-        [SerializeField]
-        private int m_maxSustinence;
+		[SerializeField]
+		private int m_maxSustinence;
 		[SerializeField]
 		private int m_happinessDrain;
 		[SerializeField]
@@ -75,7 +78,7 @@ namespace PBJ
 
 		private bool m_deathStarted;
 
-        private bool m_paused;
+		private bool m_paused;
 
 		public ItemDB.Item[] ItemDb
 		{
@@ -127,7 +130,7 @@ namespace PBJ
 		private void InitializeGame()
 		{
 			m_themeInstance.start();
-			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence };
+			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence, IsEvolved = false };
 			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
 			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_maxSustinence);
 			m_deathStarted = false;
@@ -194,6 +197,10 @@ namespace PBJ
 					}
 					else
 					{
+						if (CanEvolve())
+						{
+							Evolve();
+						}
 						if (Time.time > m_lastSustinenceDrain + m_sustinenceDrainRate)
 						{
 							CurrentState.Sustinence -= m_sustinenceDrain;
@@ -212,6 +219,17 @@ namespace PBJ
 			}
 			HUDController.Instance.Warn(!m_deathStarted && CurrentState.Sustinence <= (float)m_maxSustinence * m_alertPercent);
 
+		}
+
+		private bool CanEvolve()
+		{
+			return !CurrentState.IsEvolved && CurrentState.Happiness >= m_happinessToEvolve;
+		}
+
+		private void Evolve()
+		{
+			// The GodController will start its Evolve routine and then set CurrentState.IsEvolved when finished
+			GodController.Instance.Evolve();
 		}
 
 		public IEnumerator DeathSequence()
@@ -260,6 +278,7 @@ namespace PBJ
 			}
 			public int Happiness;
 			public int Sustinence;
+			public bool IsEvolved;
 
 			public int ItemsEaten;
 			public int ItemsTouched;

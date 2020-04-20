@@ -3131,14 +3131,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1028864132, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487, type: 3}
-      propertyPath: _pc2D
-      value: 
-      objectReference: {fileID: 519420030}
-    - target: {fileID: 1694416125, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487, type: 3}
-      propertyPath: _pc2D
-      value: 
-      objectReference: {fileID: 519420030}
     - target: {fileID: 2163242360146338272, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3199,16 +3191,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: God
       objectReference: {fileID: 0}
-    - target: {fileID: 2163242360670471046, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
-        type: 3}
-      propertyPath: _pc2D
-      value: 
-      objectReference: {fileID: 519420030}
-    - target: {fileID: 2163242361460402337, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
-        type: 3}
-      propertyPath: _pc2D
-      value: 
-      objectReference: {fileID: 519420030}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487, type: 3}
 --- !u!1001 &2712359024441523530
@@ -5690,6 +5672,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_maxHappiness
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
+        type: 3}
+      propertyPath: m_happinessToEvolve
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8311043771365119267, guid: 3546e1cec0cbbf442ab321306d6e4e20,
         type: 3}

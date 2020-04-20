@@ -15,9 +15,11 @@ namespace PBJ.Configuration
 		public const string Damage = "Damage";
 		public const string Death = "Death";
 		
+		public const string IsEvolved = "IsEvolved";
 		public const string Chomp = "Chomp";
 		public const string Open = "Open";
 		public const string Close = "Close";
+		public const string Evolve = "Evolve";
 
 		public const string Stun = "Stun";
 		public const string Running = "Run";

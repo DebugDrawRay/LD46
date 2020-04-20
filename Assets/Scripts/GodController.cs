@@ -43,6 +43,16 @@ namespace PBJ
 		[SerializeField]
 		[EventRef]
 		private string m_deathSound;
+		[SerializeField]
+		[EventRef]
+		private string m_evolveSound;
+
+		[SerializeField]
+		private Vector2 m_containerEvolvePos;
+		private Vector2 m_containerHome;
+		[SerializeField]
+		private Vector2 m_happyEvolvePos;
+		private Vector2 m_happyHome;
 
 		private bool m_hasOpened;
 		private float m_lastOpenTime;
@@ -68,6 +78,9 @@ namespace PBJ
 				Destroy(Instance.gameObject);
 			}
 			Instance = this;
+
+			m_happyHome = m_happyIcon.transform.position;
+			m_containerHome = m_requestContainer.transform.position;
 		}
 		private void Start()
 		{
@@ -131,7 +144,7 @@ namespace PBJ
 			}
 			m_anim.SetTrigger(AnimationConst.Chomp);
 			bool success = obj.Id == m_request;
-			if(success)
+			if (success)
 			{
 				m_remainingItems--;
 			}
@@ -180,6 +193,14 @@ namespace PBJ
 			yield return new WaitForSeconds(m_statusIconHold);
 			m_requestContainer.SetActive(false);
 			m_hasRequest = true;
+		}
+
+		public void Evolve()
+		{
+			m_anim.SetBool(AnimationConst.IsEvolved, true);
+			RuntimeManager.PlayOneShot(m_evolveSound);
+			m_requestContainer.transform.position = m_containerEvolvePos;
+			m_happyIcon.transform.position = m_happyEvolvePos;
 		}
 	}
 }
