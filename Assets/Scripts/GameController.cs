@@ -130,7 +130,7 @@ namespace PBJ
 		private void InitializeGame()
 		{
 			m_themeInstance.start();
-			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence, IsEvolved = false };
+			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence, IsEvolved = false, GameStart = Time.time };
 			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
 			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_maxSustinence);
 			m_deathStarted = false;
@@ -235,7 +235,7 @@ namespace PBJ
 		public IEnumerator DeathSequence()
 		{
 			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-
+            float time = Mathf.RoundToInt(100 * (Time.time - m_state.GameStart)) / 100f;
 			yield return new WaitForSeconds(m_deathDelay);
 			ProCamera2D.Instance.RemoveAllCameraTargets();
 			ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
@@ -246,7 +246,8 @@ namespace PBJ
 			yield return new WaitForSeconds(m_timeToDeath);
 			GodController.Instance.Kill();
 			yield return new WaitForSeconds(m_timeToDeath);
-			PauseMenuController.Instance.GameOver();
+
+			PauseMenuController.Instance.EndScreen(true, m_state.ItemsEaten, m_state.ItemsTouched, m_state.ItemsDestroyed, m_state.PeopleStunned, time);
 		}
 
 		public void OnQuit()
@@ -293,6 +294,8 @@ namespace PBJ
 			public int ItemsDestroyed;
 
 			public int PeopleStunned;
+
+            public float GameStart;
 
 			//Adjustments
             private const float HappinessAdjustment = 1;

@@ -21,6 +21,21 @@ namespace PBJ
 		private string m_mainMenuSceneName;
 		[SerializeField]
 		private string m_gameSceneName;
+		[SerializeField]
+		public Text m_gameOverHeader;
+		[SerializeField]
+		private Text m_happiness;
+		[SerializeField]
+		private Text m_eaten;
+		[SerializeField]
+		private Text m_thrown;
+		[SerializeField]
+		private Text m_destroy;
+		[SerializeField]
+		private Text m_attacked;
+		[SerializeField]
+		private Text m_time;
+
 		private Player m_input;
 
 		private void Awake()
@@ -55,7 +70,7 @@ namespace PBJ
 			GameController.Instance.CurrentGameState = GameController.GameState.Playing;
 		}
 
-		public void GameOver()
+		public void EndScreen(bool gameOver, int eaten, int thrown, int destroyed, int attacked, float time)
 		{
 			m_gameOverUI.SetActive(true);
 			Time.timeScale = 0f;
@@ -65,6 +80,13 @@ namespace PBJ
 			EventSystem.current.SetSelectedGameObject(m_gameOverFirstSelectedButton.gameObject);
 			// Highlight the button
 			m_pauseMenuFirstSelectedButton.OnSelect(new BaseEventData(EventSystem.current));
+
+			m_gameOverHeader.text = gameOver ? "Game Over" : "The God Is Content";
+			m_eaten.text = eaten.ToString() + " Items Eaten"; 
+			m_thrown.text = thrown.ToString() + " Items Thrown"; 
+			m_destroy.text = destroyed.ToString() + " Items Destroyed"; 
+			m_attacked.text = attacked.ToString() + " People Attacked"; 
+			m_time.text = "You Lasted: " + time.ToString() + " Seconds"; 
 		}
 		void Pause()
 		{
