@@ -2,43 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Rewired;
+using PBJ.Configuration.Input;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace PBJ
 {
 	public class PauseMenuController : MonoBehaviour
 	{
-		public GameObject pauseMenuUI;
+
+		public GameObject m_pauseMenuUI;
+		public Button m_pauseMenuFirstSelectedButton;
 
 		[SerializeField]
 		private string m_mainMenuSceneName;
 
-		void Update()
+		private Player m_input;
+
+		private void Awake()
 		{
-			if (Input.GetKeyDown(KeyCode.Escape))
+			m_input = ReInput.players.GetPlayer(0);
+			m_input.AddInputEventDelegate(Menu, UpdateLoopType.Update, InputActionEventType.ButtonJustPressed, Actions.Menu);
+			
+		}
+
+		private void Menu(InputActionEventData data)
+		{
+			if (GameController.Instance.CurrentGameState == GameController.GameState.Paused)
 			{
-				if (GameController.Instance.CurrentGameState == GameController.GameState.Paused)
-				{
-					Resume();
-				}
-				else if (GameController.Instance.CurrentGameState == GameController.GameState.Playing)
-				{
-					Pause();
-				}
+				Resume();
+			}
+			else if (GameController.Instance.CurrentGameState == GameController.GameState.Playing)
+			{
+				Pause();
 			}
 		}
 
 		public void Resume()
 		{
-			pauseMenuUI.SetActive(false);
+			m_pauseMenuUI.SetActive(false);
 			Time.timeScale = 1f;
 			GameController.Instance.CurrentGameState = GameController.GameState.Playing;
 		}
 
 		void Pause()
 		{
-			pauseMenuUI.SetActive(true);
+			m_pauseMenuUI.SetActive(true);
 			Time.timeScale = 0f;
 			GameController.Instance.CurrentGameState = GameController.GameState.Paused;
+
+
+			// Select the button
+			EventSystem.current.SetSelectedGameObject(m_pauseMenuFirstSelectedButton.gameObject);
+			// Highlight the button
+			m_pauseMenuFirstSelectedButton.OnSelect(new BaseEventData(EventSystem.current));
 		}
 
 		public void LoadMenu()
