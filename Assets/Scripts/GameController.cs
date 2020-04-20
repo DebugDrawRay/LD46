@@ -102,6 +102,12 @@ namespace PBJ
 			m_deathStarted = false;
 			GodController.Instance.Spawn();
 			PlayerStatus.Instance.Spawn();
+            ProCamera2D.Instance.RemoveAllCameraTargets();
+			ProCamera2D.Instance.AddCameraTarget(PlayerStatus.Instance.transform);
+			ProCamera2D.Instance.VerticalFollowSmoothness = 0;
+			ProCamera2D.Instance.HorizontalFollowSmoothness = 0;
+            ProCamera2D.Instance.CenterOnTargets();
+
 		}
 
 		private void Update()
@@ -147,6 +153,7 @@ namespace PBJ
 
 		public IEnumerator DeathSequence()
 		{
+            m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			yield return new WaitForSeconds(m_deathDelay);
 			ProCamera2D.Instance.RemoveAllCameraTargets();
 			ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);

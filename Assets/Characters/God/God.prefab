@@ -220,8 +220,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   m_closeDelay: 1
-  m_statusIconHold: 1.5
-  m_requestDelay: 1
+  m_statusIconHold: 2
+  m_requestDelay: 2
   m_successIcon: {fileID: 1588143627}
   m_failIcon: {fileID: 252098061}
   m_requestSound: event:/SFX/God/Request
