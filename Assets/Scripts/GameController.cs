@@ -75,6 +75,8 @@ namespace PBJ
 
 		private bool m_deathStarted;
 
+        private bool m_paused;
+
 		public ItemDB.Item[] ItemDb
 		{
 			get

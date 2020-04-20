@@ -54,7 +54,7 @@ namespace PBJ
 		{
 			get
 			{
-				return m_canAct && !m_pause;
+				return m_canAct && !m_pause && GameController.Instance.CurrentGameState == GameController.GameState.Playing;
 			}
 		}
 		public bool Damaged
