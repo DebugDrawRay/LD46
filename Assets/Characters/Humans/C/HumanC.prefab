@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5064520315426709529}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0037498474, y: 0.0037498474, z: 0}
+  m_LocalPosition: {x: -0.002500534, y: 0.012499809, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5064520315733680884}
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 1840602941
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 148461689928566452, guid: 9f3f92135afbc3d458ea1dc9a8a82afc, type: 3}
+  m_Sprite: {fileID: 4714666543671338, guid: 6a68be2c2256a3f4e91f2ea42878f6e3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,7 +111,7 @@ Animator:
   m_GameObject: {fileID: 5064520315426709529}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ea2ff89dde69f734bafb3af6f1325b27, type: 2}
+  m_Controller: {fileID: 22100000, guid: 20fea03e822f8c04cb2a40fcad23860f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 5064520315733680880}
   - component: {fileID: 5064520315733680881}
   m_Layer: 10
-  m_Name: Human
+  m_Name: HumanC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -72,7 +72,8 @@ SpriteRenderer:
   m_SortingLayerID: 1840602941
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 148461689928566452, guid: 9f3f92135afbc3d458ea1dc9a8a82afc, type: 3}
+  m_Sprite: {fileID: 9004570984890446612, guid: 5c6ddcd46a2a3324ca82b95293b718de,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,7 +112,7 @@ Animator:
   m_GameObject: {fileID: 5064520315426709529}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ea2ff89dde69f734bafb3af6f1325b27, type: 2}
+  m_Controller: {fileID: 22100000, guid: ef6503e5b29bb474c9898b819b38e081, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -134,7 +135,7 @@ GameObject:
   - component: {fileID: 5064520315733680880}
   - component: {fileID: 5064520315733680881}
   m_Layer: 10
-  m_Name: Human
+  m_Name: HumanB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
