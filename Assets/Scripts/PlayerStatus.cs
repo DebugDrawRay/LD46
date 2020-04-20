@@ -57,6 +57,13 @@ namespace PBJ
 				return m_canAct && !m_pause;
 			}
 		}
+		public bool Damaged
+		{
+			get
+			{
+				return m_currentHealth < MaxHealth;
+			}
+		}
 		public bool Dead
 		{
 			get
@@ -167,6 +174,12 @@ namespace PBJ
 				m_anim.SetTrigger(AnimationConst.Damage);
 				RuntimeManager.PlayOneShot(m_damageSound);
 			}
+		}
+
+		public void RestoreHealth(int restore)
+		{
+			m_currentHealth = Mathf.Clamp(m_currentHealth + restore, 0, MaxHealth);
+			HUDController.Instance.AdjustHealth(m_currentHealth);
 		}
 
 		private void OnKnockbackComplete()
