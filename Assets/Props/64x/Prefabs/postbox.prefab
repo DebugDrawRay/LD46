@@ -102,20 +102,21 @@ MonoBehaviour:
   m_isExplosive: 0
   m_isExplosionDelaySec: 0
   m_explosionPrefab: {fileID: 0}
-  m_isBreakable: 0
-  m_breakPrefab: {fileID: 0}
-  m_numberOfBreakObjects: 0
-  m_breakObjectsSpawnRadius: 0
-  m_breakObjectsSpawnRadiusVariationPercent: 0
-  m_breakObjectsSpawnForce: 0
-  m_breakObjectsSpawnForceVariationPercent: 0
+  m_isBreakable: 1
+  m_breakPrefab: {fileID: 9102206554303946951, guid: 1bdf8e88f8befea4eb6b813c96fdc002,
+    type: 3}
+  m_numberOfBreakObjects: 3
+  m_breakObjectsSpawnRadius: 2
+  m_breakObjectsSpawnRadiusVariationPercent: 100
+  m_breakObjectsSpawnForce: 25
+  m_breakObjectsSpawnForceVariationPercent: 100
   m_selfDamage: 0
-  m_inflictDamage: 0
-  m_sustinenceProvided: 0
-  m_happinessProvided: 0
+  m_inflictDamage: 2
+  m_sustinenceProvided: 10
+  m_happinessProvided: 10
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
-  m_health: 0
+  m_health: 3
   m_objectState:
     Breaking: 0
     Exploding: 0
@@ -173,7 +174,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246511561690506299}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

@@ -71,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1840602941
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -7276907677144805703, guid: 23a1c1be7a1132240bb0cdbb2ee03068,
     type: 3}
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!50 &951308581229702672
 Rigidbody2D:
   serializedVersion: 4
@@ -99,7 +99,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 3
+  m_LinearDrag: 4
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -169,19 +169,20 @@ MonoBehaviour:
   m_isExplosionDelaySec: 0
   m_explosionPrefab: {fileID: 0}
   m_isBreakable: 0
-  m_breakPrefab: {fileID: 0}
-  m_numberOfBreakObjects: 0
-  m_breakObjectsSpawnRadius: 0
-  m_breakObjectsSpawnRadiusVariationPercent: 0
-  m_breakObjectsSpawnForce: 0
-  m_breakObjectsSpawnForceVariationPercent: 0
+  m_breakPrefab: {fileID: 9102206554303946951, guid: 1bdf8e88f8befea4eb6b813c96fdc002,
+    type: 3}
+  m_numberOfBreakObjects: 5
+  m_breakObjectsSpawnRadius: 3
+  m_breakObjectsSpawnRadiusVariationPercent: 100
+  m_breakObjectsSpawnForce: 35
+  m_breakObjectsSpawnForceVariationPercent: 100
   m_selfDamage: 0
-  m_inflictDamage: 0
-  m_sustinenceProvided: 0
-  m_happinessProvided: 0
+  m_inflictDamage: 2
+  m_sustinenceProvided: 10
+  m_happinessProvided: 10
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
-  m_health: 0
+  m_health: 3
   m_objectState:
     Breaking: 0
     Exploding: 0

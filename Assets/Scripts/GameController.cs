@@ -105,7 +105,7 @@ namespace PBJ
 		private void InitializeGame()
 		{
 			m_themeInstance.start();
-			m_state = new WorldState() { Happiness = m_maxHappiness, Sustinence = m_initialSustinence };
+			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence };
 			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
 			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
 

@@ -128,9 +128,9 @@ MonoBehaviour:
   m_breakObjectsSpawnForce: 0
   m_breakObjectsSpawnForceVariationPercent: 0
   m_selfDamage: 0
-  m_inflictDamage: 0
-  m_sustinenceProvided: 0
-  m_happinessProvided: 0
+  m_inflictDamage: 1
+  m_sustinenceProvided: 5
+  m_happinessProvided: 5
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
   m_health: 0
@@ -168,7 +168,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 3.75
+  m_LinearDrag: 2
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}

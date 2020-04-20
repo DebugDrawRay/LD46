@@ -194,13 +194,8 @@ namespace PBJ
             RuntimeManager.PlayOneShot(m_breakSound);
 			GameController.Instance.CurrentState.ItemsDestroyed++;
 
-			if (m_isExplosive)
-			{
-				Explode();
-				return;
-			}
-
 			m_objectState.Breaking = true;
+			Instantiate(m_explosionPrefab, transform.position, transform.rotation);
 
 			if (m_breakPrefab)
 			{
@@ -247,9 +242,7 @@ namespace PBJ
 			m_health -= damageAmount;
 			if (m_health <= 0)
 			{
-				if (CanExplode())
-					Explode();
-				else if (CanBreak())
+				if (CanBreak())
 					Break();
 			}
 		}
