@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using PBJ.Configuration;
-
+using FMOD.Studio;
+using FMODUnity;
 namespace PBJ
 {
 	public class HumanController : MonoBehaviour
@@ -56,6 +57,13 @@ namespace PBJ
 		[SerializeField]
 		private float m_waypointDistance;
 
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string m_damageSound;
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string m_stunSound;
+
 		private Rigidbody2D m_rigid;
 
 		private float m_lastPatrolTime;
@@ -75,7 +83,7 @@ namespace PBJ
 
 		private float m_stoppedChaseTime;
 
-        private bool m_cancelMovement;
+		private bool m_cancelMovement;
 
 		private float AttackRange
 		{
@@ -213,11 +221,11 @@ namespace PBJ
 			m_anim.SetBool(AnimationConst.Moving, true);
 			if (Vector2.Distance(transform.position, m_home) <= m_waypointDistance || m_cancelMovement)
 			{
-                if(m_cancelMovement)
-                {
-                    m_cancelMovement = false;
-                    m_home = transform.position;
-                }
+				if (m_cancelMovement)
+				{
+					m_cancelMovement = false;
+					m_home = transform.position;
+				}
 				EnterPatrol();
 				return;
 			}
@@ -253,7 +261,7 @@ namespace PBJ
 					{
 						m_currentPatrolPoint = FindPatrolPoint();
 						m_lastPatrolTime = Time.time;
-                        m_cancelMovement = false;
+						m_cancelMovement = false;
 					}
 				}
 				else
@@ -372,10 +380,10 @@ namespace PBJ
 				held.ScatterStack();
 			}
 		}
-        private void OnCollisionEnter2D(Collision2D hit)
-        {
-            m_cancelMovement = true;
-        }
+		private void OnCollisionEnter2D(Collision2D hit)
+		{
+			m_cancelMovement = true;
+		}
 
 		public void Damage(int amount, Vector2 origin)
 		{
@@ -397,9 +405,11 @@ namespace PBJ
 					m_anim.SetBool(AnimationConst.Stun, true);
 					Debug.Log("Why");
 					m_lastStunTime = Time.time;
+					RuntimeManager.PlayOneShot(m_stunSound);
 				}
 				else
 				{
+					RuntimeManager.PlayOneShot(m_damageSound);
 					m_anim.SetTrigger(AnimationConst.Damage);
 					m_knockTween.OnComplete(OnKnockbackComplete);
 				}

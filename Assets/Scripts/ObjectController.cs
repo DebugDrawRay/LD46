@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-
+using FMOD.Studio;
+using FMODUnity;
 namespace PBJ
 {
 	public class ObjectController : MonoBehaviour
@@ -70,6 +71,14 @@ namespace PBJ
 				return m_happinessProvided;
 			}
 		}
+
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string m_collideSound;
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string m_breakSound;
+
 
 		//how much time to stay in the thrown state if not acted upon by a collision
 		private const float TimeInThrown = 2f;
@@ -162,6 +171,7 @@ namespace PBJ
 			if (!CanExplode())
 				return;
 
+
 			m_objectState.Exploding = true;
 			StartCoroutine(ExplodeRoutine());
 		}
@@ -179,6 +189,7 @@ namespace PBJ
 		public void Break()
 		{
 			Assert.IsTrue(m_isBreakable);
+            RuntimeManager.PlayOneShot(m_breakSound);
 
 			if (m_isExplosive)
 			{
@@ -274,6 +285,7 @@ namespace PBJ
 				if (collision.gameObject.TryGetComponent(out ObjectController other))
 				{
 					other.Damage(m_inflictDamage);
+                    RuntimeManager.PlayOneShot(m_collideSound);
 				}
 				if (collision.gameObject.TryGetComponent(out HumanController human))
 				{

@@ -675,12 +675,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b176dbd0649761846ab2df6dbd1efeb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialHappiness: 0
-  m_initialSustinence: 0
+  m_initialHappiness: 100
+  m_initialSustinence: 100
   m_happinessDrain: 0
   m_happinessDrainRate: 0
-  m_sustinenceDrain: 0
-  m_sustinenceDrainRate: 0
+  m_sustinenceDrain: 1
+  m_sustinenceDrainRate: 0.5
   m_itemDb: {fileID: 11400000, guid: fed4daf018f6a9e40bd8b73a57ff9fb5, type: 2}
-  m_lastHappinessDrain: 0
-  m_lastSustinenceDrain: 0
+  m_healthDrain: 1
+  m_healthDrainRate: 1
+  m_deathDelay: 1
+  m_timeToDeath: 2
+  m_timeAfterDeath: 2
+  m_cameraSpeed: 0.3
+  m_theme: event:/Tracks/Theme

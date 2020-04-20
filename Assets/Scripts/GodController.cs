@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PBJ.Configuration;
+using FMOD.Studio;
+using FMODUnity;
 
 namespace PBJ
 {
@@ -17,17 +19,46 @@ namespace PBJ
 		private GameObject m_requestContainer;
 		[SerializeField]
 		private float m_openDist;
-				[SerializeField]
+		[SerializeField]
 		private float m_requestDist;
 		[SerializeField]
 		private LayerMask m_itemLayer;
 		[SerializeField]
 		private float m_closeDelay;
+		[SerializeField]
+		private float m_statusIconHold;
+		[SerializeField]
+		private float m_requestDelay;
+		[SerializeField]
+		private GameObject m_successIcon;
+		[SerializeField]
+		private GameObject m_failIcon;
+		[SerializeField]
+		[EventRef]
+		private string m_requestSound;
+		[SerializeField]
+		[EventRef]
+		private string m_requestGoodSound;
+		[SerializeField]
+		[EventRef]
+		private string m_requestBadSound;
+		[SerializeField]
+		[EventRef]
+		private string m_mouthOpenSound;
+		[SerializeField]
+		[EventRef]
+		private string m_eatSound;
+		[SerializeField]
+		[EventRef]
+		private string m_deathSound;
 
 		private bool m_hasOpened;
 		private float m_lastOpenTime;
 
 		private string m_request;
+		private Coroutine m_checkRequest;
+
+		private bool m_hasRequest;
 
 		private PlayerStatus m_player
 		{
@@ -50,6 +81,11 @@ namespace PBJ
 		public void Spawn()
 		{
 			m_anim.Rebind();
+			MakeNewRequest();
+			m_hasRequest = true;
+			m_successIcon.SetActive(false);
+			m_failIcon.SetActive(false);
+			m_requestContainer.SetActive(false);
 		}
 		private void Update()
 		{
@@ -58,8 +94,11 @@ namespace PBJ
 		private void CheckNearbyItems()
 		{
 			float playerDist = Vector2.Distance(transform.position, m_player.transform.position);
-			m_requestContainer.SetActive(playerDist <= m_requestDist);
 
+			if (m_hasRequest)
+			{
+				m_requestContainer.SetActive(playerDist <= m_requestDist);
+			}
 			if (Physics2D.OverlapCircle(transform.position, m_openDist, m_itemLayer) ||
 			(playerDist <= m_openDist && m_player.GetComponent<HeldObjectManager>().HasItem))
 			{
@@ -87,21 +126,53 @@ namespace PBJ
 		public void Feed(ObjectController obj)
 		{
 			GameController.Instance.CurrentState.Sustinence += obj.SustinenceProvided;
-			if (obj.name == m_request)
+			if (obj.gameObject.name == m_request)
 			{
 				GameController.Instance.CurrentState.Happiness += obj.HappinessProvided;
 			}
+			if (m_checkRequest != null)
+			{
+				StopCoroutine(m_checkRequest);
+			}
+			m_checkRequest = StartCoroutine(CheckRequest(obj.gameObject.name == m_request));
 			Destroy(obj.gameObject);
 		}
 		public void MakeNewRequest()
 		{
+			RuntimeManager.PlayOneShot(m_requestSound);
 			ItemDB.Item item = GameController.Instance.ItemDb[Random.Range(0, GameController.Instance.ItemDb.Length)];
 			m_request = item.Prefab.name;
 			m_requestDisplay.sprite = item.Sprite;
 		}
 		public void Kill()
 		{
-
+			//m_anim.SetTrigger(AnimationConst.Death);
+			RuntimeManager.PlayOneShot(m_deathSound);
+		}
+		private IEnumerator CheckRequest(bool successful)
+		{
+			m_hasRequest = false;
+			RuntimeManager.PlayOneShot(m_eatSound);
+			yield return new WaitForSeconds(m_requestDelay);
+			if (successful)
+			{
+				RuntimeManager.PlayOneShot(m_requestGoodSound);
+				m_successIcon.SetActive(true);
+				yield return new WaitForSeconds(m_statusIconHold);
+				m_successIcon.SetActive(false);
+				MakeNewRequest();
+				m_requestContainer.SetActive(true);
+				yield return new WaitForSeconds(m_statusIconHold);
+				m_requestContainer.SetActive(false);
+			}
+			else
+			{
+				RuntimeManager.PlayOneShot(m_requestBadSound);
+				m_failIcon.SetActive(true);
+				yield return new WaitForSeconds(m_statusIconHold);
+				m_failIcon.SetActive(false);
+			}
+			m_hasRequest = true;
 		}
 	}
 }

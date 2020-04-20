@@ -1,7 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Com.LuisPedroFonseca.ProCamera2D;
+using FMOD.Studio;
+using FMODUnity;
 
 namespace PBJ
 {
@@ -30,14 +31,19 @@ namespace PBJ
 		[SerializeField]
 		public float m_healthDrainRate;
 		[Header("Game Over Sequence")]
-        [SerializeField]
-        public float m_deathDelay;
+		[SerializeField]
+		public float m_deathDelay;
 		[SerializeField]
 		public float m_timeToDeath;
 		[SerializeField]
 		public float m_timeAfterDeath;
 		[SerializeField]
 		public float m_cameraSpeed;
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string m_theme;
+
+		private EventInstance m_themeInstance;
 
 		private bool m_deathStarted;
 
@@ -73,11 +79,17 @@ namespace PBJ
 
 		private void Start()
 		{
+			if (m_theme != null)
+			{
+				m_themeInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+			}
+			m_themeInstance = RuntimeManager.CreateInstance(m_theme);
 			InitializeGame();
 		}
 
 		private void InitializeGame()
 		{
+            m_themeInstance.start();
 			m_state = new WorldState() { Happiness = m_initialHappiness, Sustinence = m_initialSustinence };
 			m_deathStarted = false;
 			GodController.Instance.Spawn();
@@ -98,7 +110,7 @@ namespace PBJ
 					if (Time.time > m_lastHealthDrain + m_healthDrainRate)
 					{
 						PlayerStatus.Instance.DrainHealth(m_healthDrain);
-                        m_lastHealthDrain = Time.time;
+						m_lastHealthDrain = Time.time;
 						if (PlayerStatus.Instance.Dead)
 						{
 							StartCoroutine(DeathSequence());
@@ -125,7 +137,7 @@ namespace PBJ
 
 		public IEnumerator DeathSequence()
 		{
-            yield return new WaitForSeconds(m_deathDelay);
+			yield return new WaitForSeconds(m_deathDelay);
 			ProCamera2D.Instance.RemoveAllCameraTargets();
 			ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
 			ProCamera2D.Instance.VerticalFollowSmoothness = m_cameraSpeed;

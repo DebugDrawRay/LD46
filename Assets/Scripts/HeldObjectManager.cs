@@ -5,6 +5,8 @@ using Rewired;
 using PBJ.Configuration;
 using PBJ.Configuration.Input;
 using DG.Tweening;
+using FMOD.Studio;
+using FMODUnity;
 namespace PBJ
 {
 	public class HeldObjectManager : MonoBehaviour
@@ -29,7 +31,12 @@ namespace PBJ
 		private float m_scatterStrength;
 		[SerializeField]
 		private LayerMask m_throwTargetLayer;
-
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string m_pickupSound;
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string m_throwSound;
 
 		private float m_stackHeight = 0;
 		private bool m_canAct = true;
@@ -104,6 +111,7 @@ namespace PBJ
 		{
 			if (!obj.CurrentState.Thrown)
 			{
+				RuntimeManager.PlayOneShot(m_pickupSound);
 				obj.PickedUp();
 				m_objectStack.Enqueue(obj);
 				m_status.SetCanAct(false);
@@ -137,6 +145,7 @@ namespace PBJ
 		{
 			if (m_canThrow && m_objectStack.Count > 0)
 			{
+				RuntimeManager.PlayOneShot(m_throwSound);
 				m_anim.SetTrigger(AnimationConst.Throw);
 				ObjectController obj = m_objectStack.Dequeue();
 				obj.transform.DOComplete();

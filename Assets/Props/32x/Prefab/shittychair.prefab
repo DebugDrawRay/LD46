@@ -130,6 +130,8 @@ MonoBehaviour:
   m_inflictDamage: 0
   m_sustinenceProvided: 0
   m_happinessProvided: 0
+  m_collideSound: event:/SFX/Pickups/Collide
+  m_breakSound: event:/SFX/Pickups/Break
   m_health: 0
 --- !u!58 &4125248860275592949
 CircleCollider2D:

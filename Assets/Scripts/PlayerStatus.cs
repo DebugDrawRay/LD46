@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using PBJ.Configuration;
 using DG.Tweening;
+using FMOD.Studio;
+using FMODUnity;
 
 namespace PBJ
 {
@@ -27,7 +29,12 @@ namespace PBJ
 		private float m_knockbackLength;
 		[SerializeField]
 		private Animator m_anim;
-
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string m_damageSound;		
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string m_deathSound;
 		private Tween m_knockTween;
 		private Vector2 m_facingDir;
 		private int m_currentHealth;
@@ -124,6 +131,7 @@ namespace PBJ
 				else
 				{
 					m_anim.SetTrigger(AnimationConst.Damage);
+					RuntimeManager.PlayOneShot(m_damageSound);
 					Vector2 dir = ((Vector2)transform.position - origin).normalized * m_knockbackStrength;
 
 					if (m_knockTween != null && m_knockTween.IsPlaying())
@@ -140,6 +148,7 @@ namespace PBJ
 		private void Death()
 		{
 			m_anim.SetTrigger(AnimationConst.Death);
+			RuntimeManager.PlayOneShot(m_deathSound);
 		}
 
 		public void DrainHealth(int drain)
@@ -152,6 +161,7 @@ namespace PBJ
 			else
 			{
 				m_anim.SetTrigger(AnimationConst.Damage);
+				RuntimeManager.PlayOneShot(m_damageSound);
 			}
 		}
 

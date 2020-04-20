@@ -4,6 +4,8 @@ using UnityEngine;
 using Rewired;
 using PBJ.Configuration;
 using PBJ.Configuration.Input;
+using FMOD.Studio;
+using FMODUnity;
 
 namespace PBJ
 {
@@ -17,6 +19,9 @@ namespace PBJ
 		private PlayerStatus m_status;
 		[SerializeField]
 		private Animator m_anim;
+		[SerializeField]
+		[EventRef]
+		public string m_footstep;
 
 		private void Awake()
 		{
@@ -72,6 +77,11 @@ namespace PBJ
 				m_rigid.MovePosition(newPosition);
 			}
 			m_anim.SetBool(AnimationConst.Moving, m_currentInput !=  Vector2.zero && m_status.CanAct);
+		}
+
+		public void Footstep()
+		{
+			RuntimeManager.PlayOneShot(m_footstep);
 		}
 	}
 }

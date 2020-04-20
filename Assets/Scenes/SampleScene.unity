@@ -501,13 +501,14 @@ MonoBehaviour:
   m_patrolSpeed: 3
   m_patrolDelay: 2
   m_chaseRange: 5
-  m_chaseSpeed: 4.25
+  m_chaseSpeed: 5
   m_chaseTime: 2
+  m_chaseDelay: 1
   m_attackRange: 2
   m_attackSpeed: 10
   m_attackDamage: 1
   m_attackDelay: 1
-  m_maxHealth: 3
+  m_maxHealth: 1
   m_stunTime: 3
   m_invalidMask:
     serializedVersion: 2
@@ -516,6 +517,8 @@ MonoBehaviour:
   m_knockbackLength: 0.35
   m_anim: {fileID: 436380858}
   m_waypointDistance: 0.05
+  m_damageSound: event:/SFX/Human/Collide
+  m_stunSound: event:/SFX/Human/KO
 --- !u!50 &634299997
 Rigidbody2D:
   serializedVersion: 4
@@ -524,7 +527,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 634299994}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -2094,6 +2097,8 @@ MonoBehaviour:
   m_inflictDamage: 0
   m_sustinenceProvided: 100
   m_happinessProvided: 0
+  m_collideSound: 
+  m_breakSound: 
   m_health: 0
 --- !u!4 &1926118538 stripped
 Transform:
@@ -2538,6 +2543,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1694416125, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487, type: 3}
+      propertyPath: _pc2D
+      value: 
+      objectReference: {fileID: 519420030}
     - target: {fileID: 2163242360146338272, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2598,16 +2607,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: God
       objectReference: {fileID: 0}
-    - target: {fileID: 2163242360670471041, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.125
-      objectReference: {fileID: 0}
-    - target: {fileID: 2163242360670471041, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.53125
-      objectReference: {fileID: 0}
     - target: {fileID: 2163242360670471046, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
         type: 3}
       propertyPath: _pc2D
@@ -2618,16 +2617,6 @@ PrefabInstance:
       propertyPath: _pc2D
       value: 
       objectReference: {fileID: 519420030}
-    - target: {fileID: 2163242361460402339, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2163242361460402339, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.03125
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487, type: 3}
 --- !u!1001 &3108106061835326811
@@ -3085,16 +3074,6 @@ PrefabInstance:
       propertyPath: _pc2D
       value: 
       objectReference: {fileID: 519420030}
-    - target: {fileID: 4455281202432368411, guid: d06127a6abae1dc4a86ae19fb9906714,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.013750076
-      objectReference: {fileID: 0}
-    - target: {fileID: 4455281202432368411, guid: d06127a6abae1dc4a86ae19fb9906714,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.012500003
-      objectReference: {fileID: 0}
     - target: {fileID: 4455281202882169478, guid: d06127a6abae1dc4a86ae19fb9906714,
         type: 3}
       propertyPath: m_Name
@@ -4165,6 +4144,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_timeAfterDeath
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
+        type: 3}
+      propertyPath: m_deathDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
+        type: 3}
+      propertyPath: m_happinessDrainRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
+        type: 3}
+      propertyPath: m_happinessDrain
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
+        type: 3}
+      propertyPath: m_healthDrainRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
+        type: 3}
+      propertyPath: m_healthDrain
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8311043771365119267, guid: 3546e1cec0cbbf442ab321306d6e4e20,
         type: 3}
