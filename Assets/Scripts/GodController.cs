@@ -99,8 +99,7 @@ namespace PBJ
 			{
 				m_requestContainer.SetActive(playerDist <= m_requestDist);
 			}
-			if (Physics2D.OverlapCircle(transform.position, m_openDist, m_itemLayer) ||
-			(playerDist <= m_openDist && m_player.GetComponent<HeldObjectManager>().HasItem))
+			if (playerDist <= m_openDist && m_player.GetComponent<HeldObjectManager>().HasItem)
 			{
 				if (!m_hasOpened)
 				{

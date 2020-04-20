@@ -176,7 +176,7 @@ namespace PBJ
 				{
 					m_anim.SetBool(AnimationConst.Stun, false);
 					m_currentHealth = m_maxHealth;
-					ReturnToHome();
+					EnterChase();
 					OnKnockbackComplete();
 				}
 			}
@@ -369,15 +369,18 @@ namespace PBJ
 
 		private void OnTriggerEnter2D(Collider2D hit)
 		{
-			PlayerStatus player = null;
-			if (hit.TryGetComponent<PlayerStatus>(out player))
+			if (!Stunned)
 			{
-				player.Damage(AttackDamage, transform.position);
-			}
-			HeldObjectManager held = null;
-			if (hit.TryGetComponent<HeldObjectManager>(out held))
-			{
-				held.ScatterStack();
+				PlayerStatus player = null;
+				if (hit.TryGetComponent<PlayerStatus>(out player))
+				{
+					player.Damage(AttackDamage, transform.position);
+				}
+				HeldObjectManager held = null;
+				if (hit.TryGetComponent<HeldObjectManager>(out held))
+				{
+					held.ScatterStack();
+				}
 			}
 		}
 		private void OnCollisionEnter2D(Collision2D hit)
