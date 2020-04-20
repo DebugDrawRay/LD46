@@ -92,7 +92,6 @@ namespace PBJ
 		{
 			if (m_canPickup && m_status.CanAct && m_objectStack.Count < m_status.MaxCarry)
 			{
-				Debug.Log("Pickup at " + Time.time);
 				Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, m_status.PickupRange, m_status.ItemMask);
 				if (hits.Length > 0)
 				{
@@ -117,6 +116,7 @@ namespace PBJ
 						m_canPickup = false;
 						m_anim.SetTrigger(AnimationConst.Pickup);
 						m_pickup = StartCoroutine(PickupObject(obj));
+						GameController.Instance.CurrentState.ItemsTouched++;
 					}
 				}
 			}
@@ -157,7 +157,6 @@ namespace PBJ
 		{
 			if (m_status.CanAct && m_canThrow && m_objectStack.Count > 0)
 			{
-				Debug.Log("Throw at " + Time.time);
 				RuntimeManager.PlayOneShot(m_throwSound);
 				m_anim.SetTrigger(AnimationConst.Throw);
 				ObjectController obj = m_objectStack.Dequeue();

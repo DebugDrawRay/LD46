@@ -19,7 +19,7 @@ namespace PBJ
 		}
 
 		[SerializeField]
-		private int m_initialHappiness;
+		private int m_maxHappiness;
 		[SerializeField]
 		private int m_initialSustinence;
 		[SerializeField]
@@ -63,6 +63,13 @@ namespace PBJ
 				return m_itemDb.Items;
 			}
 		}
+		public float Mood
+		{
+			get
+			{
+				return m_state.Mood;
+			}
+		}
 
 		private float m_lastHappinessDrain;
 		private float m_lastSustinenceDrain;
@@ -98,8 +105,8 @@ namespace PBJ
 		private void InitializeGame()
 		{
 			m_themeInstance.start();
-			m_state = new WorldState() { Happiness = m_initialHappiness, Sustinence = m_initialSustinence };
-			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_initialHappiness);
+			m_state = new WorldState() { Happiness = m_maxHappiness, Sustinence = m_initialSustinence };
+			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
 			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
 
 			m_deathStarted = false;
@@ -152,11 +159,11 @@ namespace PBJ
 					{
 						CurrentState.Happiness -= m_happinessDrain;
 						m_lastHappinessDrain = Time.time;
-						HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_initialHappiness);
+						HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
 					}
 				}
 
-                HUDController.Instance.Warn(CurrentState.Sustinence <= m_initialSustinence / 3);
+				HUDController.Instance.Warn(CurrentState.Sustinence <= m_initialSustinence / 3);
 			}
 		}
 
@@ -173,7 +180,7 @@ namespace PBJ
 			yield return new WaitForSeconds(m_timeToDeath);
 			GodController.Instance.Kill();
 			yield return new WaitForSeconds(m_timeToDeath);
-            PauseMenuController.Instance.GameOver();
+			PauseMenuController.Instance.GameOver();
 		}
 
 		public void OnQuit()
@@ -181,17 +188,28 @@ namespace PBJ
 			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		}
 
+		public void IncreaseHappiness(int happiness)
+		{
+			m_state.Happiness = Mathf.Clamp(m_state.Happiness + happiness, 0, m_maxHappiness);
+			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
+		}
+		public void IncreaseSustinence(int sustience)
+		{
+			m_state.Sustinence = Mathf.Clamp(m_state.Sustinence + sustience, 0, m_initialSustinence);
+			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
+		}
+		[System.Serializable]
 		public class WorldState
 		{
 			public float Mood
 			{
 				get
 				{
-					return (Happiness * HappinessAdjustment) +
-					(ItemsEaten * ItemsEatenAdjustment) +
-					(ItemsTouched * ItemsTouchedAdjustment) +
-					(ItemsDestroyed * ItemsDestroyedAdjustment) +
-					(PeopleStunned * PeopleStunnedAdjustment);
+					return ((float)Happiness * HappinessAdjustment) +
+					((float)ItemsEaten * ItemsEatenAdjustment) +
+					((float)ItemsTouched * ItemsTouchedAdjustment) +
+					((float)ItemsDestroyed * ItemsDestroyedAdjustment) +
+					((float)PeopleStunned * PeopleStunnedAdjustment); 
 				}
 			}
 			public int Happiness;
@@ -204,11 +222,11 @@ namespace PBJ
 			public int PeopleStunned;
 
 			//Adjustments
-			private const float HappinessAdjustment = 1;
-			private const float ItemsEatenAdjustment = 1;
-			private const float ItemsTouchedAdjustment = 1;
-			private const float ItemsDestroyedAdjustment = 1;
-			private const float PeopleStunnedAdjustment = 1;
+			private const float HappinessAdjustment = .1f;
+			private const float ItemsEatenAdjustment = .5f;
+			private const float ItemsTouchedAdjustment = .1f;
+			private const float ItemsDestroyedAdjustment = .1f;
+			private const float PeopleStunnedAdjustment = .5f;
 		}
 	}
 }

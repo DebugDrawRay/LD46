@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Id: garbage
-  m_objectHeight: 1
+  m_objectHeight: 1.75
   m_isExplosive: 0
   m_isExplosionDelaySec: 0
   m_explosionPrefab: {fileID: 0}
@@ -116,6 +116,11 @@ MonoBehaviour:
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
   m_health: 0
+  m_objectState:
+    Breaking: 0
+    Exploding: 0
+    Thrown: 0
+    Held: 0
 --- !u!114 &2014847373715299724
 MonoBehaviour:
   m_ObjectHideFlags: 0

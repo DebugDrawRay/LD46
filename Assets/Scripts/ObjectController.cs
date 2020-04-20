@@ -192,6 +192,7 @@ namespace PBJ
 		{
 			Assert.IsTrue(m_isBreakable);
             RuntimeManager.PlayOneShot(m_breakSound);
+			GameController.Instance.CurrentState.ItemsDestroyed++;
 
 			if (m_isExplosive)
 			{

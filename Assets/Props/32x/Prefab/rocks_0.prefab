@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Id: rock
-  m_objectHeight: 0.25
+  m_objectHeight: 0.75
   m_isExplosive: 0
   m_isExplosionDelaySec: 0
   m_explosionPrefab: {fileID: 0}
@@ -135,6 +135,11 @@ MonoBehaviour:
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
   m_health: 0
+  m_objectState:
+    Breaking: 0
+    Exploding: 0
+    Thrown: 0
+    Held: 0
 --- !u!58 &3712600919947083187
 CircleCollider2D:
   m_ObjectHideFlags: 0
