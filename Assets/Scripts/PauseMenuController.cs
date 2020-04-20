@@ -63,6 +63,10 @@ namespace PBJ
 		{
 			Time.timeScale = 1f;
 			SceneManager.LoadScene(m_mainMenuSceneName);
+			if(GameController.Instance)
+			{
+				GameController.Instance.OnQuit();
+			}
 		}
 
 		public void QuitGame()
