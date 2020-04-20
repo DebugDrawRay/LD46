@@ -55,10 +55,6 @@ namespace PBJ
 					m_currentInput.y = data.GetAxisRaw();
 					break;
 			}
-            if(m_status.CanAct)
-            {
-                m_status.SetFacing(m_currentInput.normalized);
-            }
 		}
 
 		private void UpdateMovement()
@@ -71,6 +67,7 @@ namespace PBJ
 				}
 				else
 				{
+                	m_status.SetFacing(m_currentInput.normalized);
 					m_currentSpeed = m_status.MaxSpeed;
 				}
 				Vector2 newPosition = (Vector2)transform.position + (m_currentInput.normalized * m_currentSpeed * Time.deltaTime);

@@ -18,6 +18,8 @@ namespace PBJ
 		[SerializeField]
 		private Image m_warning;
 		[SerializeField]
+		private Image m_category;
+		[SerializeField]
 		[EventRef]
 		private string m_warnSound;
 
@@ -48,6 +50,10 @@ namespace PBJ
 		public void AdjustHunger(float hunger)
 		{
 			m_hungerMeter.fillAmount = hunger;
+		}
+		public void UpdateCategory(Sprite category)
+		{
+			m_category.sprite = category;
 		}
 		public void Warn(bool active)
 		{

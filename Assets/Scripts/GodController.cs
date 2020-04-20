@@ -30,10 +30,6 @@ namespace PBJ
 		[SerializeField]
 		private float m_requestDelay;
 		[SerializeField]
-		private GameObject m_successIcon;
-		[SerializeField]
-		private GameObject m_failIcon;
-		[SerializeField]
 		[EventRef]
 		private string m_requestSound;
 		[SerializeField]
@@ -83,8 +79,6 @@ namespace PBJ
 			m_anim.Rebind();
 			MakeNewRequest();
 			m_hasRequest = true;
-			m_successIcon.SetActive(false);
-			m_failIcon.SetActive(false);
 			m_requestContainer.SetActive(false);
 		}
 		private void Update()
@@ -147,16 +141,15 @@ namespace PBJ
 			ItemDB.Item item = GameController.Instance.ItemDb[Random.Range(0, GameController.Instance.ItemDb.Length)];
 			m_request = item.Prefab.GetComponent<ObjectController>().Id;
 			m_requestDisplay.sprite = item.Sprite;
+			HUDController.Instance.UpdateCategory(item.Sprite);
 		}
 		public void Kill()
-		{			
+		{
 			if (m_checkRequest != null)
 			{
 				StopCoroutine(m_checkRequest);
 			}
 			m_hasRequest = false;
-			m_failIcon.SetActive(false);
-			m_successIcon.SetActive(false);
 			m_requestContainer.SetActive(false);
 			m_anim.SetTrigger(AnimationConst.Death);
 			RuntimeManager.PlayOneShot(m_deathSound);
@@ -165,25 +158,17 @@ namespace PBJ
 		{
 			m_hasRequest = false;
 			RuntimeManager.PlayOneShot(m_eatSound);
+			m_requestContainer.SetActive(false);
 			yield return new WaitForSeconds(m_requestDelay);
-			if (successful)
+			if(successful)
 			{
 				RuntimeManager.PlayOneShot(m_requestGoodSound);
-				m_successIcon.SetActive(true);
-				yield return new WaitForSeconds(m_statusIconHold);
-				m_successIcon.SetActive(false);
+				yield return new WaitForSeconds(m_requestDelay);
 				MakeNewRequest();
-				m_requestContainer.SetActive(true);
-				yield return new WaitForSeconds(m_statusIconHold);
-				m_requestContainer.SetActive(false);
 			}
-			else
-			{
-				RuntimeManager.PlayOneShot(m_requestBadSound);
-				m_failIcon.SetActive(true);
-				yield return new WaitForSeconds(m_statusIconHold);
-				m_failIcon.SetActive(false);
-			}
+			m_requestContainer.SetActive(true);
+			yield return new WaitForSeconds(m_statusIconHold);
+			m_requestContainer.SetActive(false);
 			m_hasRequest = true;
 		}
 	}
