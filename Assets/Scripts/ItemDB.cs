@@ -12,7 +12,7 @@ namespace PBJ
         [System.Serializable]
         public class Item
         {
-            public GameObject Prefab;
+            public string Category;
             public Sprite Sprite;
         }
 	}

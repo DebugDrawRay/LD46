@@ -25,7 +25,7 @@ namespace PBJ
 
 		private void Awake()
 		{
-			if(Instance != null)
+			if (Instance != null)
 			{
 				Destroy(Instance.gameObject);
 			}
@@ -68,22 +68,25 @@ namespace PBJ
 		}
 		void Pause()
 		{
-			m_pauseMenuUI.SetActive(true);
-			Time.timeScale = 0f;
-			GameController.Instance.CurrentGameState = GameController.GameState.Paused;
+			if (!m_gameOverUI.activeSelf)
+			{
+				m_pauseMenuUI.SetActive(true);
+				Time.timeScale = 0f;
+				GameController.Instance.CurrentGameState = GameController.GameState.Paused;
 
 
-			// Select the button
-			EventSystem.current.SetSelectedGameObject(m_pauseMenuFirstSelectedButton.gameObject);
-			// Highlight the button
-			m_pauseMenuFirstSelectedButton.OnSelect(new BaseEventData(EventSystem.current));
+				// Select the button
+				EventSystem.current.SetSelectedGameObject(m_pauseMenuFirstSelectedButton.gameObject);
+				// Highlight the button
+				m_pauseMenuFirstSelectedButton.OnSelect(new BaseEventData(EventSystem.current));
+			}
 		}
 
 		public void LoadMenu()
 		{
 			Time.timeScale = 1f;
 			SceneManager.LoadScene(m_mainMenuSceneName);
-			if(GameController.Instance)
+			if (GameController.Instance)
 			{
 				GameController.Instance.OnQuit();
 			}

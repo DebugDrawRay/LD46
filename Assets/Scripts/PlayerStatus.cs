@@ -54,7 +54,14 @@ namespace PBJ
 		{
 			get
 			{
-				return m_canAct && !m_pause;
+				return m_canAct && !m_pause && GameController.Instance.CurrentGameState == GameController.GameState.Playing;
+			}
+		}
+		public bool Damaged
+		{
+			get
+			{
+				return m_currentHealth < MaxHealth;
 			}
 		}
 		public bool Dead
@@ -85,7 +92,7 @@ namespace PBJ
 			m_shadow.SetActive(true);
 			SetCanAct(true);
 			m_currentHealth = MaxHealth;
-			HUDController.Instance.AdjustHealth((float)m_currentHealth / (float)MaxHealth);
+			HUDController.Instance.AdjustHealth(m_currentHealth);
 			SetFacing(new Vector2(0, -1));
 			m_anim.Rebind();
 		}
@@ -102,7 +109,7 @@ namespace PBJ
 		{
 			if (GameController.Instance.CurrentGameState != GameController.GameState.Playing)
 				return;
-				
+
 			m_facingDir = dir;
 			m_anim.SetFloat(AnimationConst.FaceX, m_facingDir.x);
 			m_anim.SetFloat(AnimationConst.FaceY, m_facingDir.y);
@@ -115,7 +122,7 @@ namespace PBJ
 				SetCanAct(false);
 				m_canBeDamaged = false;
 				m_currentHealth--;
-				HUDController.Instance.AdjustHealth((float)m_currentHealth / (float)MaxHealth);
+				HUDController.Instance.AdjustHealth(m_currentHealth);
 				if (Dead)
 				{
 					Death();
@@ -157,7 +164,7 @@ namespace PBJ
 		public void DrainHealth(int drain)
 		{
 			m_currentHealth -= drain;
-			HUDController.Instance.AdjustHealth((float)m_currentHealth / (float)MaxHealth);
+			HUDController.Instance.AdjustHealth(m_currentHealth);
 			if (Dead)
 			{
 				Death();
@@ -167,6 +174,12 @@ namespace PBJ
 				m_anim.SetTrigger(AnimationConst.Damage);
 				RuntimeManager.PlayOneShot(m_damageSound);
 			}
+		}
+
+		public void RestoreHealth(int restore)
+		{
+			m_currentHealth = Mathf.Clamp(m_currentHealth + restore, 0, MaxHealth);
+			HUDController.Instance.AdjustHealth(m_currentHealth);
 		}
 
 		private void OnKnockbackComplete()

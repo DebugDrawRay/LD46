@@ -14,7 +14,7 @@ namespace PBJ
 		[SerializeField]
 		private Image m_happyMeter;
 		[SerializeField]
-		private Image m_healthMeter;
+		private PipBar m_healthMeter;
 		[SerializeField]
 		private Image m_warning;
 		[SerializeField]
@@ -38,9 +38,9 @@ namespace PBJ
 			m_warnInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 		}
 
-		public void AdjustHealth(float health)
+		public void AdjustHealth(int health)
 		{
-			m_healthMeter.fillAmount = health;
+			m_healthMeter.AdjustCount(health);
 		}
 		public void AdjustHappy(float happy)
 		{

@@ -25,6 +25,8 @@ namespace PBJ
 		private int m_happinessToEvolve;
 		[SerializeField]
 		private int m_initialSustinence;
+        [SerializeField]
+        private int m_maxSustinence;
 		[SerializeField]
 		private int m_happinessDrain;
 		[SerializeField]
@@ -34,6 +36,18 @@ namespace PBJ
 		[SerializeField]
 		private float m_sustinenceDrainRate;
 		[SerializeField]
+		private int m_itemsBeforeNewRequest;
+		[SerializeField]
+		private float m_alertPercent = .3f;
+
+		public int ItemsBeforeNewRequest
+		{
+			get
+			{
+				return m_itemsBeforeNewRequest;
+			}
+		}
+		[SerializeField]
 		private ItemDB m_itemDb;
 
 		[Header("Player")]
@@ -41,6 +55,12 @@ namespace PBJ
 		public int m_healthDrain;
 		[SerializeField]
 		public float m_healthDrainRate;
+		[SerializeField]
+		public int m_healthRegen;
+		[SerializeField]
+		public float m_healthRegenRate;
+		[SerializeField]
+		private float m_healthPercent = .75f;
 		[Header("Game Over Sequence")]
 		[SerializeField]
 		public float m_deathDelay;
@@ -58,6 +78,7 @@ namespace PBJ
 
 		private bool m_deathStarted;
 
+        private bool m_paused;
 
 		public ItemDB.Item[] ItemDb
 		{
@@ -77,6 +98,7 @@ namespace PBJ
 		private float m_lastHappinessDrain;
 		private float m_lastSustinenceDrain;
 		private float m_lastHealthDrain;
+		private float m_lastHealthRegen;
 		private WorldState m_state;
 		public WorldState CurrentState
 		{
@@ -115,8 +137,7 @@ namespace PBJ
 			m_themeInstance.start();
 			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence, IsEvolved = false };
 			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
-			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
-
+			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_maxSustinence);
 			m_deathStarted = false;
 			GodController.Instance.Spawn();
 			PlayerStatus.Instance.Spawn();
@@ -149,6 +170,21 @@ namespace PBJ
 				}
 				else
 				{
+					if (PlayerStatus.Instance.Damaged)
+					{
+						if (CurrentState.Sustinence > (float)m_maxSustinence * m_healthPercent)
+						{
+							if (Time.time > m_lastHealthRegen + m_healthRegenRate)
+							{
+								PlayerStatus.Instance.RestoreHealth(m_healthRegen);
+								m_lastHealthRegen = Time.time;
+							}
+						}
+					}
+					else
+					{
+						m_lastHealthRegen = Time.time;
+					}
 					if (CurrentState.Sustinence <= 0)
 					{
 						if (Time.time > m_lastHealthDrain + m_healthDrainRate)
@@ -174,7 +210,7 @@ namespace PBJ
 						{
 							CurrentState.Sustinence -= m_sustinenceDrain;
 							m_lastSustinenceDrain = Time.time;
-							HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
+							HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_maxSustinence);
 						}
 						if (Time.time > m_lastHappinessDrain + m_happinessDrainRate)
 						{
@@ -186,7 +222,7 @@ namespace PBJ
 
 				}
 			}
-			HUDController.Instance.Warn(!m_deathStarted && CurrentState.Sustinence <= m_initialSustinence / 3);
+			HUDController.Instance.Warn(!m_deathStarted && CurrentState.Sustinence <= (float)m_maxSustinence * m_alertPercent);
 
 		}
 
@@ -230,8 +266,8 @@ namespace PBJ
 		}
 		public void IncreaseSustinence(int sustience)
 		{
-			m_state.Sustinence = Mathf.Clamp(m_state.Sustinence + sustience, 0, m_initialSustinence);
-			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
+			m_state.Sustinence = Mathf.Clamp(m_state.Sustinence + sustience, 0, m_maxSustinence);
+			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_maxSustinence);
 		}
 		[System.Serializable]
 		public class WorldState
@@ -240,11 +276,9 @@ namespace PBJ
 			{
 				get
 				{
-					return ((float)Happiness * HappinessAdjustment);/* +
-					((float)ItemsEaten * ItemsEatenAdjustment) +
-					((float)ItemsTouched * ItemsTouchedAdjustment) +
+					return ((float)ItemsTouched * ItemsTouchedAdjustment) +
 					((float)ItemsDestroyed * ItemsDestroyedAdjustment) +
-					((float)PeopleStunned * PeopleStunnedAdjustment);*/
+					((float)PeopleStunned * PeopleStunnedAdjustment);
 				}
 			}
 			public int Happiness;
@@ -258,11 +292,9 @@ namespace PBJ
 			public int PeopleStunned;
 
 			//Adjustments
-			private const float HappinessAdjustment = .1f;
-			private const float ItemsEatenAdjustment = .5f;
-			private const float ItemsTouchedAdjustment = .1f;
-			private const float ItemsDestroyedAdjustment = .1f;
-			private const float PeopleStunnedAdjustment = .5f;
+			private const float ItemsTouchedAdjustment = .05f;
+			private const float ItemsDestroyedAdjustment = .25f;
+			private const float PeopleStunnedAdjustment = .25f;
 		}
 	}
 }
