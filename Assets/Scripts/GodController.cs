@@ -159,7 +159,7 @@ namespace PBJ
 			m_hasRequest = false;
 			RuntimeManager.PlayOneShot(m_eatSound);
 			m_requestContainer.SetActive(false);
-			yield return new WaitForSeconds(m_requestDelay);
+			yield return new WaitForSeconds(m_closeDelay);
 			if (successful)
 			{
 				RuntimeManager.PlayOneShot(m_requestGoodSound);

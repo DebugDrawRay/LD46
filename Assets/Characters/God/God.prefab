@@ -140,7 +140,7 @@ MonoBehaviour:
     m_Bits: 256
   m_closeDelay: 1
   m_statusIconHold: 2
-  m_requestDelay: 2
+  m_requestDelay: 2.5
   m_requestSound: event:/SFX/God/Request
   m_requestGoodSound: event:/SFX/God/RequestGood
   m_eatSound: event:/SFX/God/Eat
