@@ -361,6 +361,7 @@ MonoBehaviour:
   MaxItemWeight: 1
   PickupRange: 0.5
   PickupSpeed: 12
+  PickupCooldown: 0
   ThrowCooldown: 0.15
   ThrowForce: 25
   ItemMask:

@@ -319,7 +319,7 @@ MonoBehaviour:
     - _id: 0
       _name: Default
       _joystickAxisSensitivity: 1
-      _digitalAxisSimulation: 1
+      _digitalAxisSimulation: 0
       _digitalAxisSnap: 1
       _digitalAxisInstantReverse: 0
       _digitalAxisGravity: 3
@@ -1059,7 +1059,7 @@ MonoBehaviour:
     actionCategoryIdCounter: 2
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 2
-    joystickLayoutIdCounter: 1
+    joystickLayoutIdCounter: 2
     keyboardLayoutIdCounter: 1
     mouseLayoutIdCounter: 1
     customControllerLayoutIdCounter: 1
@@ -1069,7 +1069,7 @@ MonoBehaviour:
     customControllerMapIdCounter: 0
     customControllerIdCounter: 0
     controllerMapLayoutManagerSetIdCounter: 0
-    controllerMapEnablerSetIdCounter: 0
+    controllerMapEnablerSetIdCounter: 1
   _controllerDataFiles: {fileID: 11400000, guid: d21d2b20df8369642b76aafbb2576ba7,
     type: 2}
 --- !u!114 &3130090229542573138
@@ -1098,3 +1098,4 @@ MonoBehaviour:
   m_timeToDeath: 0
   m_timeAfterDeath: 0
   m_cameraSpeed: 0
+  m_theme: 

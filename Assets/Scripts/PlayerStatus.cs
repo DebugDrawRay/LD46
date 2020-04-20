@@ -17,6 +17,7 @@ namespace PBJ
 
 		public float PickupRange;
 		public float PickupSpeed;
+		public float PickupCooldown;
 
 		public float ThrowCooldown;
 		public float ThrowForce;

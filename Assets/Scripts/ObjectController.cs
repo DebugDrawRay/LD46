@@ -96,11 +96,13 @@ namespace PBJ
 		[SerializeField]
 		private int m_health;
 
+		[System.Serializable]
 		public struct ObjectState
 		{
 			public bool Breaking;
 			public bool Exploding;
 			public bool Thrown;
+			public bool Held;
 		}
 
 		[SerializeField]
@@ -152,7 +154,6 @@ namespace PBJ
 			{
 				if (Time.time > m_lastThrowTime + TimeInThrown)
 				{
-					Debug.Log("Done");
 					m_objectState.Thrown = false;
 				}
 			}
@@ -256,18 +257,29 @@ namespace PBJ
 		{
 			m_rigid.bodyType = RigidbodyType2D.Kinematic;
 			m_rigid.velocity = Vector3.zero;
+			m_objectState.Held = true;
 			m_collider.enabled = false;
 		}
 
 		public void Throw(Vector2 origin, Vector2 force)
+		{
+			m_objectState.Held = false;
+			m_objectState.Thrown = true;
+			transform.SetParent(null);
+			transform.position = origin;
+			m_rigid.bodyType = RigidbodyType2D.Dynamic;
+			m_collider.enabled = true;
+			m_rigid.AddForce(force, ForceMode2D.Impulse);
+			m_lastThrowTime = Time.time;
+		}
+
+		public void Drop(Vector2 origin, Vector2 force)
 		{
 			transform.SetParent(null);
 			transform.position = origin;
 			m_rigid.bodyType = RigidbodyType2D.Dynamic;
 			m_collider.enabled = true;
 			m_rigid.AddForce(force, ForceMode2D.Impulse);
-			m_objectState.Thrown = true;
-			m_lastThrowTime = Time.time;
 		}
 
 		public void OnCollisionEnter2D(Collision2D collision)
@@ -275,12 +287,12 @@ namespace PBJ
 			if (collision.gameObject.TryGetComponent(out GodController god))
 			{
 				god.Feed(this);
-				Debug.Log("Destroy");
 				Destroy(gameObject);
 			}
 
 			if (m_objectState.Thrown)
 			{
+				Debug.Log("Collide");
 				m_objectState.Thrown = false;
 
 				if (collision.gameObject.TryGetComponent(out ObjectController other))

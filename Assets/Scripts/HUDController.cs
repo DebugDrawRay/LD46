@@ -14,6 +14,8 @@ namespace PBJ
 		private Image m_happyMeter;
 		[SerializeField]
 		private Image m_healthMeter;
+		[SerializeField]
+		private Image m_warning;
 
 		private void Awake()
 		{
@@ -37,5 +39,9 @@ namespace PBJ
         {
             m_hungerMeter.fillAmount = hunger;
         }
+		public void Warn(bool active)
+		{
+			m_warning.gameObject.SetActive(active);
+		}
 	}
 }

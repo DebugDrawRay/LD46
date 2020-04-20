@@ -39,10 +39,11 @@ namespace PBJ
 		private string m_throwSound;
 
 		private float m_stackHeight = 0;
-		private bool m_canAct = true;
 
 		private bool m_canThrow = true;
 		private float m_lastThrowTime;
+		private bool m_canPickup = false;
+		private float m_lastPickupTime;
 
 		private Queue<ObjectController> m_objectStack = new Queue<ObjectController>();
 
@@ -78,13 +79,21 @@ namespace PBJ
 					m_canThrow = true;
 				}
 			}
+			if (!m_canPickup)
+			{
+				if (Time.time > m_lastPickupTime + m_status.PickupCooldown)
+				{
+					m_canPickup = true;
+				}
+			}
 		}
 
 		private void Pickup(InputActionEventData data)
 		{
-			if (m_status.CanAct && m_objectStack.Count < m_status.MaxCarry)
+			if (m_canPickup && m_status.CanAct && m_objectStack.Count < m_status.MaxCarry)
 			{
-				Collider2D[] hits = Physics2D.OverlapCircleAll((Vector2)transform.position + m_status.FacingDir, m_status.PickupRange, m_status.ItemMask);
+				Debug.Log("Pickup at " + Time.time);
+				Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, m_status.PickupRange, m_status.ItemMask);
 				if (hits.Length > 0)
 				{
 					float lastDist = 1000;
@@ -98,8 +107,14 @@ namespace PBJ
 							lastDist = dist;
 						}
 					}
-					if (obj != null)
+					if (obj != null && !obj.CurrentState.Thrown && !obj.CurrentState.Held)
 					{
+						if (m_pickup != null)
+						{
+							StopCoroutine(m_pickup);
+						}
+						m_lastPickupTime = Time.time;
+						m_canPickup = false;
 						m_anim.SetTrigger(AnimationConst.Pickup);
 						m_pickup = StartCoroutine(PickupObject(obj));
 					}
@@ -109,42 +124,40 @@ namespace PBJ
 
 		private IEnumerator PickupObject(ObjectController obj)
 		{
-			if (!obj.CurrentState.Thrown)
+			m_status.SetCanAct(false);
+			obj.PickedUp();
+			RuntimeManager.PlayOneShot(m_pickupSound);
+			m_objectStack.Enqueue(obj);
+			Vector2 p0 = (Vector2)obj.transform.position;
+			Vector2 p1 = (Vector2)obj.transform.position + new Vector2(0, m_stackHeight + m_pickupOffset);
+			Vector2 p2 = StackOrigin + new Vector2(0, m_stackHeight);
+			float t;
+			Vector2 position;
+			int currentPoint = 0;
+			while (currentPoint < StackCurveSamples)
 			{
-				RuntimeManager.PlayOneShot(m_pickupSound);
-				obj.PickedUp();
-				m_objectStack.Enqueue(obj);
-				m_status.SetCanAct(false);
-				Vector2 p0 = (Vector2)obj.transform.position;
-				Vector2 p1 = (Vector2)obj.transform.position + new Vector2(0, m_stackHeight + m_pickupOffset);
-				Vector2 p2 = StackOrigin + new Vector2(0, m_stackHeight);
-				float t;
-				Vector2 position;
-				int currentPoint = 0;
-				while (currentPoint < StackCurveSamples)
+				t = currentPoint / (StackCurveSamples - 1.0f);
+				position = (1.0f - t) * (1.0f - t) * p0 + 2.0f * (1.0f - t) * t * p1 + t * t * p2;
+				float speed = m_status.PickupSpeed * Time.deltaTime;
+				obj.transform.position = Vector2.MoveTowards(obj.transform.position, position, speed);
+				if (Vector2.Distance(obj.transform.position, position) <= .05f)
 				{
-					t = currentPoint / (StackCurveSamples - 1.0f);
-					position = (1.0f - t) * (1.0f - t) * p0 + 2.0f * (1.0f - t) * t * p1 + t * t * p2;
-					float speed = m_status.PickupSpeed * Time.deltaTime;
-					obj.transform.position = Vector2.MoveTowards(obj.transform.position, position, speed);
-					if (Vector2.Distance(obj.transform.position, position) <= .05f)
-					{
-						currentPoint++;
-					}
-					yield return null;
+					currentPoint++;
 				}
-				obj.transform.SetParent(m_stackContainer);
-				obj.transform.position = p2;
-				m_status.SetCanAct(true);
-				m_stackHeight += obj.ObjectHeight;
-				m_anim.SetBool(AnimationConst.Carry, true);
+				yield return null;
 			}
+			obj.transform.SetParent(m_stackContainer);
+			obj.transform.position = p2;
+			m_stackHeight += obj.ObjectHeight;
+			m_anim.SetBool(AnimationConst.Carry, true);
+			m_status.SetCanAct(true);
 		}
 
 		private void Throw(InputActionEventData data)
 		{
-			if (m_canThrow && m_objectStack.Count > 0)
+			if (m_status.CanAct && m_canThrow && m_objectStack.Count > 0)
 			{
+				Debug.Log("Throw at " + Time.time);
 				RuntimeManager.PlayOneShot(m_throwSound);
 				m_anim.SetTrigger(AnimationConst.Throw);
 				ObjectController obj = m_objectStack.Dequeue();
@@ -170,6 +183,7 @@ namespace PBJ
 			m_stackHeight = 0;
 			foreach (Transform obj in m_stackContainer)
 			{
+				obj.transform.DOComplete();
 				obj.transform.DOLocalMove(new Vector2(0, m_stackHeight), m_reorgSpeed).SetEase(Ease.OutBounce).Play();
 				m_stackHeight += obj.GetComponent<ObjectController>().ObjectHeight;
 			}
@@ -186,7 +200,7 @@ namespace PBJ
 				ObjectController obj = m_objectStack.Dequeue();
 				obj.transform.DOComplete();
 				Vector2 dir = Random.insideUnitCircle.normalized;
-				obj.Throw(obj.transform.position, dir * m_scatterStrength);
+				obj.Drop(obj.transform.position, dir * m_scatterStrength);
 			}
 			m_stackHeight = 0;
 			m_anim.SetBool(AnimationConst.Carry, false);

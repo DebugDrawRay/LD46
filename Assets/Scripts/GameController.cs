@@ -155,6 +155,8 @@ namespace PBJ
 						HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_initialHappiness);
 					}
 				}
+
+                HUDController.Instance.Warn(CurrentState.Sustinence <= m_initialSustinence / 3);
 			}
 		}
 
@@ -171,6 +173,7 @@ namespace PBJ
 			yield return new WaitForSeconds(m_timeToDeath);
 			GodController.Instance.Kill();
 			yield return new WaitForSeconds(m_timeToDeath);
+            PauseMenuController.Instance.GameOver();
 		}
 
 		public void OnQuit()
