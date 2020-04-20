@@ -95,6 +95,9 @@ namespace PBJ
 
 		public void SetFacing(Vector2 dir)
 		{
+			if (GameController.Instance.CurrentGameState != GameController.GameState.Playing)
+				return;
+
 			if (dir != Vector2.zero)
 			{
 				m_facingDir = dir;
