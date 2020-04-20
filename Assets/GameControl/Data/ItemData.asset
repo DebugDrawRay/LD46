@@ -25,3 +25,5 @@ MonoBehaviour:
     Sprite: {fileID: 21300000, guid: 7c85b46223b8b60488e4c64b0c6c43dd, type: 3}
   - Category: vegetation
     Sprite: {fileID: 21300000, guid: f03274a7ab556f44ba3769674442e381, type: 3}
+  - Category: money
+    Sprite: {fileID: 21300000, guid: f03274a7ab556f44ba3769674442e381, type: 3}
