@@ -1091,6 +1091,7 @@ MonoBehaviour:
   m_happinessDrainRate: 0
   m_sustinenceDrain: 1
   m_sustinenceDrainRate: 0.5
+  m_itemsBeforeNewRequest: 3
   m_itemDb: {fileID: 11400000, guid: fed4daf018f6a9e40bd8b73a57ff9fb5, type: 2}
   m_healthDrain: 1
   m_healthDrainRate: 1

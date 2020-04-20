@@ -37,12 +37,6 @@ namespace PBJ
 		private string m_requestGoodSound;
 		[SerializeField]
 		[EventRef]
-		private string m_requestBadSound;
-		[SerializeField]
-		[EventRef]
-		private string m_mouthOpenSound;
-		[SerializeField]
-		[EventRef]
 		private string m_eatSound;
 		[SerializeField]
 		[EventRef]
@@ -55,6 +49,8 @@ namespace PBJ
 		private Coroutine m_checkRequest;
 
 		private bool m_hasRequest;
+
+		private int m_remainingItems;
 
 		private PlayerStatus m_player
 		{
@@ -141,6 +137,7 @@ namespace PBJ
 			ItemDB.Item item = GameController.Instance.ItemDb[Random.Range(0, GameController.Instance.ItemDb.Length)];
 			m_request = item.Prefab.GetComponent<ObjectController>().Id;
 			m_requestDisplay.sprite = item.Sprite;
+			m_remainingItems = GameController.Instance.ItemsBeforeNewRequest;
 			HUDController.Instance.UpdateCategory(item.Sprite);
 		}
 		public void Kill()
@@ -160,11 +157,15 @@ namespace PBJ
 			RuntimeManager.PlayOneShot(m_eatSound);
 			m_requestContainer.SetActive(false);
 			yield return new WaitForSeconds(m_requestDelay);
-			if(successful)
+			if (successful)
 			{
 				RuntimeManager.PlayOneShot(m_requestGoodSound);
 				yield return new WaitForSeconds(m_requestDelay);
-				MakeNewRequest();
+				m_remainingItems--;
+				if (m_remainingItems <= 0)
+				{
+					MakeNewRequest();
+				}
 			}
 			m_requestContainer.SetActive(true);
 			yield return new WaitForSeconds(m_statusIconHold);

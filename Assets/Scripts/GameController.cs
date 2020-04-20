@@ -30,6 +30,15 @@ namespace PBJ
 		private int m_sustinenceDrain;
 		[SerializeField]
 		private float m_sustinenceDrainRate;
+        [SerializeField]
+        private int m_itemsBeforeNewRequest;
+        public int ItemsBeforeNewRequest
+        {
+            get
+            {
+                return m_itemsBeforeNewRequest;
+            }
+        }
 		[SerializeField]
 		private ItemDB m_itemDb;
 
@@ -54,7 +63,6 @@ namespace PBJ
 		private EventInstance m_themeInstance;
 
 		private bool m_deathStarted;
-
 
 		public ItemDB.Item[] ItemDb
 		{
@@ -108,7 +116,6 @@ namespace PBJ
 			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence };
 			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
 			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
-
 			m_deathStarted = false;
 			GodController.Instance.Spawn();
 			PlayerStatus.Instance.Spawn();
