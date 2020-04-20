@@ -224,11 +224,9 @@ namespace PBJ
 			{
 				get
 				{
-					return ((float)Happiness * HappinessAdjustment);/* +
-					((float)ItemsEaten * ItemsEatenAdjustment) +
-					((float)ItemsTouched * ItemsTouchedAdjustment) +
+					return ((float)ItemsTouched * ItemsTouchedAdjustment) +
 					((float)ItemsDestroyed * ItemsDestroyedAdjustment) +
-					((float)PeopleStunned * PeopleStunnedAdjustment);*/
+					((float)PeopleStunned * PeopleStunnedAdjustment);
 				}
 			}
 			public int Happiness;
@@ -241,11 +239,9 @@ namespace PBJ
 			public int PeopleStunned;
 
 			//Adjustments
-			private const float HappinessAdjustment = .1f;
-			private const float ItemsEatenAdjustment = .5f;
-			private const float ItemsTouchedAdjustment = .1f;
-			private const float ItemsDestroyedAdjustment = .1f;
-			private const float PeopleStunnedAdjustment = .5f;
+			private const float ItemsTouchedAdjustment = .05f;
+			private const float ItemsDestroyedAdjustment = .25f;
+			private const float PeopleStunnedAdjustment = .25f;
 		}
 	}
 }

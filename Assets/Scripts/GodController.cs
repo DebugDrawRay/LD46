@@ -18,6 +18,8 @@ namespace PBJ
 		[SerializeField]
 		private GameObject m_requestContainer;
 		[SerializeField]
+		private GameObject m_happyIcon;
+		[SerializeField]
 		private float m_openDist;
 		[SerializeField]
 		private float m_requestDist;
@@ -76,6 +78,7 @@ namespace PBJ
 			MakeNewRequest();
 			m_hasRequest = true;
 			m_requestContainer.SetActive(false);
+			m_happyIcon.SetActive(false);
 		}
 		private void Update()
 		{
@@ -135,7 +138,7 @@ namespace PBJ
 		{
 			RuntimeManager.PlayOneShot(m_requestSound);
 			ItemDB.Item item = GameController.Instance.ItemDb[Random.Range(0, GameController.Instance.ItemDb.Length)];
-			m_request = item.Prefab.GetComponent<ObjectController>().Id;
+			m_request = item.Category;
 			m_requestDisplay.sprite = item.Sprite;
 			m_remainingItems = GameController.Instance.ItemsBeforeNewRequest;
 			HUDController.Instance.UpdateCategory(item.Sprite);
@@ -160,7 +163,9 @@ namespace PBJ
 			if (successful)
 			{
 				RuntimeManager.PlayOneShot(m_requestGoodSound);
+				m_happyIcon.SetActive(true);
 				yield return new WaitForSeconds(m_requestDelay);
+				m_happyIcon.SetActive(false);
 				m_remainingItems--;
 				if (m_remainingItems <= 0)
 				{
