@@ -214,6 +214,12 @@ namespace PBJ
 							HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
 						}
 					}
+					if (CurrentState.Happiness >= m_maxHappiness)
+					{
+						StartCoroutine(WinSequence());
+						m_deathStarted = true;
+						CurrentGameState = GameState.Gameover;
+					}
 
 				}
 			}
@@ -232,10 +238,26 @@ namespace PBJ
 			GodController.Instance.Evolve();
 		}
 
+		public IEnumerator WinSequence()
+		{
+			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			float time = Mathf.RoundToInt(100 * (Time.time - m_state.GameStart)) / 100f;
+			yield return new WaitForSeconds(m_deathDelay);
+			ProCamera2D.Instance.RemoveAllCameraTargets();
+			ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
+			ProCamera2D.Instance.VerticalFollowSmoothness = m_cameraSpeed;
+			ProCamera2D.Instance.HorizontalFollowSmoothness = m_cameraSpeed;
+
+			PlayerStatus.Instance.SetPaused(true);
+			yield return new WaitForSeconds(m_timeToDeath);
+
+			PauseMenuController.Instance.EndScreen(false, m_state.ItemsEaten, m_state.ItemsTouched, m_state.ItemsDestroyed, m_state.PeopleStunned, time);
+		}
+
 		public IEnumerator DeathSequence()
 		{
 			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            float time = Mathf.RoundToInt(100 * (Time.time - m_state.GameStart)) / 100f;
+			float time = Mathf.RoundToInt(100 * (Time.time - m_state.GameStart)) / 100f;
 			yield return new WaitForSeconds(m_deathDelay);
 			ProCamera2D.Instance.RemoveAllCameraTargets();
 			ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
@@ -278,13 +300,13 @@ namespace PBJ
 				}
 			}
 
-            public int Power
-            {
-                get
-                {
-                    return Mathf.RoundToInt((float)Happiness * HappinessAdjustment);
-                }
-            }
+			public int Power
+			{
+				get
+				{
+					return Mathf.RoundToInt((float)Happiness * HappinessAdjustment);
+				}
+			}
 			public int Happiness;
 			public int Sustinence;
 			public bool IsEvolved;
@@ -295,10 +317,10 @@ namespace PBJ
 
 			public int PeopleStunned;
 
-            public float GameStart;
+			public float GameStart;
 
 			//Adjustments
-            private const float HappinessAdjustment = 1;
+			private const float HappinessAdjustment = 1;
 			private const float ItemsTouchedAdjustment = .05f;
 			private const float ItemsDestroyedAdjustment = .25f;
 			private const float PeopleStunnedAdjustment = .25f;
