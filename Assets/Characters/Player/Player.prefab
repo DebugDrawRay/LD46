@@ -371,6 +371,7 @@ MonoBehaviour:
   m_anim: {fileID: 7702664738937963768}
   m_damageSound: event:/SFX/Player/Damaged
   m_deathSound: event:/SFX/Player/Death
+  m_shadow: {fileID: 707837550}
 --- !u!58 &828802919
 CircleCollider2D:
   m_ObjectHideFlags: 0

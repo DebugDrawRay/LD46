@@ -1871,30 +1871,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1028864129 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4731624546317013419, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
-    type: 3}
-  m_PrefabInstance: {fileID: 2163242359926079386}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1028864132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1028864129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4695037a2aece46e6bbdf2cbb78dc2da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pc2D: {fileID: 519420030}
-  IsAMovingObject: 0
-  IsAChildSprite: 0
-  LocalPosition: {x: 0, y: 0}
-  SpriteScale: 1
-  _initialScale: {x: 1, y: 1, z: 1}
 --- !u!4 &1114259596 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5864198802631822438, guid: a07f21851ccca0c4c95d5bbd52eb8d46,
@@ -2581,6 +2557,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1028864132, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487, type: 3}
+      propertyPath: _pc2D
+      value: 
+      objectReference: {fileID: 519420030}
     - target: {fileID: 1694416125, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487, type: 3}
       propertyPath: _pc2D
       value: 
@@ -2655,16 +2635,6 @@ PrefabInstance:
       propertyPath: _pc2D
       value: 
       objectReference: {fileID: 519420030}
-    - target: {fileID: 2636962346069834863, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.34375
-      objectReference: {fileID: 0}
-    - target: {fileID: 2636962346069834863, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.34375
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b3e2416cf4f4a84e97aed4a8f1d8487, type: 3}
 --- !u!1001 &3108106061835326811

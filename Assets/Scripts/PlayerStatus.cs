@@ -35,6 +35,8 @@ namespace PBJ
 		[SerializeField]
 		[FMODUnity.EventRef]
 		private string m_deathSound;
+		[SerializeField]
+		private GameObject m_shadow;
 		private Tween m_knockTween;
 		private Vector2 m_facingDir;
 		private int m_currentHealth;
@@ -79,6 +81,7 @@ namespace PBJ
 		}
 		public void Spawn()
 		{
+			m_shadow.SetActive(true);
 			SetCanAct(true);
 			m_currentHealth = MaxHealth;
 			SetFacing(new Vector2(0, -1));
@@ -150,6 +153,7 @@ namespace PBJ
 
 		private void Death()
 		{
+			m_shadow.SetActive(false);
 			GetComponent<HeldObjectManager>().ScatterStack();
 			SetCanAct(false);
 			m_anim.SetTrigger(AnimationConst.Death);
