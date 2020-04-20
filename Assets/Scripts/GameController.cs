@@ -132,44 +132,56 @@ namespace PBJ
 		{
 			if (!m_deathStarted)
 			{
-				if (CurrentState.Sustinence <= 0)
+				if (PlayerStatus.Instance.Dead)
 				{
-					if (Time.time > m_lastHealthDrain + m_healthDrainRate)
-					{
-						PlayerStatus.Instance.DrainHealth(m_healthDrain);
-						m_lastHealthDrain = Time.time;
-						if (PlayerStatus.Instance.Dead)
-						{
-							StartCoroutine(DeathSequence());
-							m_deathStarted = true;
-							CurrentGameState = GameState.Gameover;
-							Debug.Log("<color=red>GAME OVER</color>");
-						}
-					}
+					StartCoroutine(DeathSequence());
+					m_deathStarted = true;
+					CurrentGameState = GameState.Gameover;
+					Debug.Log("<color=red>GAME OVER</color>");
 				}
 				else
 				{
-					if (Time.time > m_lastSustinenceDrain + m_sustinenceDrainRate)
+					if (CurrentState.Sustinence <= 0)
 					{
-						CurrentState.Sustinence -= m_sustinenceDrain;
-						m_lastSustinenceDrain = Time.time;
-						HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
+						if (Time.time > m_lastHealthDrain + m_healthDrainRate)
+						{
+							PlayerStatus.Instance.DrainHealth(m_healthDrain);
+							m_lastHealthDrain = Time.time;
+							if (PlayerStatus.Instance.Dead)
+							{
+								StartCoroutine(DeathSequence());
+								m_deathStarted = true;
+								CurrentGameState = GameState.Gameover;
+								Debug.Log("<color=red>GAME OVER</color>");
+							}
+						}
 					}
-					if (Time.time > m_lastHappinessDrain + m_happinessDrainRate)
+					else
 					{
-						CurrentState.Happiness -= m_happinessDrain;
-						m_lastHappinessDrain = Time.time;
-						HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
+						if (Time.time > m_lastSustinenceDrain + m_sustinenceDrainRate)
+						{
+							CurrentState.Sustinence -= m_sustinenceDrain;
+							m_lastSustinenceDrain = Time.time;
+							HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
+						}
+						if (Time.time > m_lastHappinessDrain + m_happinessDrainRate)
+						{
+							CurrentState.Happiness -= m_happinessDrain;
+							m_lastHappinessDrain = Time.time;
+							HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
+						}
 					}
-				}
 
-				HUDController.Instance.Warn(CurrentState.Sustinence <= m_initialSustinence / 3);
+				}
 			}
+			HUDController.Instance.Warn(!m_deathStarted && CurrentState.Sustinence <= m_initialSustinence / 3);
+
 		}
 
 		public IEnumerator DeathSequence()
 		{
 			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
 			yield return new WaitForSeconds(m_deathDelay);
 			ProCamera2D.Instance.RemoveAllCameraTargets();
 			ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
@@ -205,11 +217,11 @@ namespace PBJ
 			{
 				get
 				{
-					return ((float)Happiness * HappinessAdjustment) +
+					return ((float)Happiness * HappinessAdjustment);/* +
 					((float)ItemsEaten * ItemsEatenAdjustment) +
 					((float)ItemsTouched * ItemsTouchedAdjustment) +
 					((float)ItemsDestroyed * ItemsDestroyedAdjustment) +
-					((float)PeopleStunned * PeopleStunnedAdjustment); 
+					((float)PeopleStunned * PeopleStunnedAdjustment);*/
 				}
 			}
 			public int Happiness;

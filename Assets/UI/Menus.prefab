@@ -1596,6 +1596,7 @@ MonoBehaviour:
   m_happyMeter: {fileID: 6414998516313009847}
   m_healthMeter: {fileID: 8780211401684473471}
   m_warning: {fileID: 9089043793442416488}
+  m_warnSound: event:/SFX/God/Warning
 --- !u!1 &3868622942988127231
 GameObject:
   m_ObjectHideFlags: 0

@@ -274,6 +274,7 @@ namespace PBJ
 			m_rigid.bodyType = RigidbodyType2D.Dynamic;
 			m_collider.enabled = true;
 			m_rigid.AddForce(force, ForceMode2D.Impulse);
+			m_objectState.Held = false;
 		}
 
 		public void OnCollisionEnter2D(Collision2D collision)

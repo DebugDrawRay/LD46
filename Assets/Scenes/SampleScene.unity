@@ -244,6 +244,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menus
       objectReference: {fileID: 0}
+    - target: {fileID: 6859472888958058981, guid: 1712c76608aa18b448b9cdb38b778de4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.00048828125
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1712c76608aa18b448b9cdb38b778de4, type: 3}
 --- !u!4 &310061051 stripped
@@ -5268,7 +5273,7 @@ PrefabInstance:
     - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
         type: 3}
       propertyPath: m_initialSustinence
-      value: 100
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3130090229542573138, guid: 3546e1cec0cbbf442ab321306d6e4e20,
         type: 3}
