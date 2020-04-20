@@ -97,23 +97,28 @@ namespace PBJ
 
 		private void InitializeGame()
 		{
-            m_themeInstance.start();
+			m_themeInstance.start();
 			m_state = new WorldState() { Happiness = m_initialHappiness, Sustinence = m_initialSustinence };
+			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_initialHappiness);
+			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
+
 			m_deathStarted = false;
 			GodController.Instance.Spawn();
 			PlayerStatus.Instance.Spawn();
-            ProCamera2D.Instance.RemoveAllCameraTargets();
+			ProCamera2D.Instance.RemoveAllCameraTargets();
 			ProCamera2D.Instance.AddCameraTarget(PlayerStatus.Instance.transform);
 			ProCamera2D.Instance.VerticalFollowSmoothness = 0;
 			ProCamera2D.Instance.HorizontalFollowSmoothness = 0;
-            ProCamera2D.Instance.CenterOnTargets();
+			ProCamera2D.Instance.CenterOnTargets();
 
 		}
 
 		private void Update()
 		{
 			if (CurrentGameState == GameState.Playing)
+			{
 				UpdateGodState();
+			}
 		}
 
 		private void UpdateGodState()
@@ -141,11 +146,13 @@ namespace PBJ
 					{
 						CurrentState.Sustinence -= m_sustinenceDrain;
 						m_lastSustinenceDrain = Time.time;
+						HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
 					}
 					if (Time.time > m_lastHappinessDrain + m_happinessDrainRate)
 					{
 						CurrentState.Happiness -= m_happinessDrain;
 						m_lastHappinessDrain = Time.time;
+						HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_initialHappiness);
 					}
 				}
 			}
@@ -153,7 +160,7 @@ namespace PBJ
 
 		public IEnumerator DeathSequence()
 		{
-            m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			yield return new WaitForSeconds(m_deathDelay);
 			ProCamera2D.Instance.RemoveAllCameraTargets();
 			ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
@@ -166,10 +173,10 @@ namespace PBJ
 			yield return new WaitForSeconds(m_timeToDeath);
 		}
 
-        public void OnQuit()
-        {
-            m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        }
+		public void OnQuit()
+		{
+			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		}
 
 		public class WorldState
 		{
