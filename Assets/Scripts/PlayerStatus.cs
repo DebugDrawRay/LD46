@@ -12,16 +12,30 @@ namespace PBJ
 
 		public int MaxHealth;
 		public float MaxSpeed;
-		public int MaxCarry;
-		public int MaxItemWeight;
+		public int MaxCarry
+		{
+			get
+			{
+				return m_maxCarry + GameController.Instance.CurrentState.Power;
+			}
+		}
+		[SerializeField]
+		private int m_maxCarry;
 
 		public float PickupRange;
 		public float PickupSpeed;
 		public float PickupCooldown;
 
 		public float ThrowCooldown;
-		public float ThrowForce;
-
+		public float ThrowForce
+		{
+			get
+			{
+				return m_throwForce + GameController.Instance.CurrentState.Power * 5;
+			}
+		}
+		[SerializeField]
+		private int m_throwForce;
 		public LayerMask ItemMask;
 
 		[SerializeField]

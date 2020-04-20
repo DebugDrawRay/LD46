@@ -357,13 +357,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 10
   MaxSpeed: 5
-  MaxCarry: 3
-  MaxItemWeight: 1
+  m_maxCarry: 3
   PickupRange: 0.5
   PickupSpeed: 12
   PickupCooldown: 0
   ThrowCooldown: 0.15
-  ThrowForce: 25
+  m_throwForce: 25
   ItemMask:
     serializedVersion: 2
     m_Bits: 256

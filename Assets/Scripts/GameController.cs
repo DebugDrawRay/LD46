@@ -276,6 +276,14 @@ namespace PBJ
 					((float)PeopleStunned * PeopleStunnedAdjustment);
 				}
 			}
+
+            public int Power
+            {
+                get
+                {
+                    return Mathf.RoundToInt((float)Happiness * HappinessAdjustment);
+                }
+            }
 			public int Happiness;
 			public int Sustinence;
 			public bool IsEvolved;
@@ -287,6 +295,7 @@ namespace PBJ
 			public int PeopleStunned;
 
 			//Adjustments
+            private const float HappinessAdjustment = 1;
 			private const float ItemsTouchedAdjustment = .05f;
 			private const float ItemsDestroyedAdjustment = .25f;
 			private const float PeopleStunnedAdjustment = .25f;
