@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 6443843196923790280, guid: cece48feb6cda504e981bc7fae232db0,
         type: 3}
       propertyPath: m_Name
-      value: chicken_brown
+      value: chicken_brown Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cece48feb6cda504e981bc7fae232db0, type: 3}

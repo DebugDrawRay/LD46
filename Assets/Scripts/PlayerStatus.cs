@@ -165,6 +165,7 @@ namespace PBJ
 		public void DrainHealth(int drain)
 		{
 			m_currentHealth -= drain;
+			HUDController.Instance.AdjustHealth((float)m_currentHealth/(float)MaxHealth);
 			if (Dead)
 			{
 				Death();
