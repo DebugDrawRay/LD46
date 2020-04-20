@@ -3,6 +3,7 @@ using UnityEngine;
 using Com.LuisPedroFonseca.ProCamera2D;
 using FMOD.Studio;
 using FMODUnity;
+using UnityEngine.Assertions;
 
 namespace PBJ
 {
@@ -20,6 +21,8 @@ namespace PBJ
 
 		[SerializeField]
 		private int m_maxHappiness;
+		[SerializeField]
+		private int m_happinessToEvolve;
 		[SerializeField]
 		private int m_initialSustinence;
 		[SerializeField]
@@ -85,6 +88,11 @@ namespace PBJ
 
 		private void Awake()
 		{
+			Assert.AreNotEqual(m_maxHappiness, 0);
+			Assert.AreNotEqual(m_happinessToEvolve, 0);
+			Assert.AreNotEqual(m_initialSustinence, 0);
+
+
 			if (Instance != null)
 			{
 				Destroy(Instance.gameObject);
@@ -105,7 +113,7 @@ namespace PBJ
 		private void InitializeGame()
 		{
 			m_themeInstance.start();
-			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence };
+			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence, IsEvolved = false };
 			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
 			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
 
@@ -156,6 +164,10 @@ namespace PBJ
 							}
 						}
 					}
+					else if (CanEvolve())
+					{
+						Evolve();
+					}
 					else
 					{
 						if (Time.time > m_lastSustinenceDrain + m_sustinenceDrainRate)
@@ -176,6 +188,17 @@ namespace PBJ
 			}
 			HUDController.Instance.Warn(!m_deathStarted && CurrentState.Sustinence <= m_initialSustinence / 3);
 
+		}
+
+		private bool CanEvolve()
+		{
+			return !CurrentState.IsEvolved && !GodController.Instance.IsEvolving && CurrentState.Happiness >= m_happinessToEvolve;
+		}
+
+		private void Evolve()
+		{
+			// The GodController will start its Evolve routine and then set CurrentState.IsEvolved when finished
+			GodController.Instance.Evolve(() => CurrentState.IsEvolved = true);
 		}
 
 		public IEnumerator DeathSequence()
@@ -226,6 +249,7 @@ namespace PBJ
 			}
 			public int Happiness;
 			public int Sustinence;
+			public bool IsEvolved;
 
 			public int ItemsEaten;
 			public int ItemsTouched;

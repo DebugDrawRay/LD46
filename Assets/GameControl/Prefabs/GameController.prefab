@@ -1085,7 +1085,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentGameState: 0
-  m_maxHappiness: 0
+  m_maxHappiness: 20
+  m_happinessToEvolve: 5
   m_initialSustinence: 1000
   m_happinessDrain: 0
   m_happinessDrainRate: 0

@@ -50,11 +50,13 @@ MonoBehaviour:
   m_anim: {fileID: 2163242361460402336}
   m_requestDisplay: {fileID: 2163242361075985999}
   m_requestContainer: {fileID: 2163242360670471043}
+  m_requestContainerLargePositionOffset: {x: -4, y: 3.5}
   m_openDist: 6
   m_requestDist: 6
   m_itemLayer:
     serializedVersion: 2
     m_Bits: 256
+  m_evolveDelay: 1
   m_closeDelay: 1
   m_statusIconHold: 2
   m_requestDelay: 2
@@ -64,6 +66,8 @@ MonoBehaviour:
   m_mouthOpenSound: event:/SFX/God/MouthOpen
   m_eatSound: event:/SFX/God/Eat
   m_deathSound: event:/SFX/God/Death
+  m_evolveSound: 
+  IsEvolving: 0
 --- !u!60 &6190348255294143954
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -18,11 +18,15 @@ namespace PBJ
 		[SerializeField]
 		private GameObject m_requestContainer;
 		[SerializeField]
+		private Vector2 m_requestContainerLargePositionOffset;
+		[SerializeField]
 		private float m_openDist;
 		[SerializeField]
 		private float m_requestDist;
 		[SerializeField]
 		private LayerMask m_itemLayer;
+		[SerializeField]
+		private float m_evolveDelay;
 		[SerializeField]
 		private float m_closeDelay;
 		[SerializeField]
@@ -47,14 +51,24 @@ namespace PBJ
 		[SerializeField]
 		[EventRef]
 		private string m_deathSound;
+		[SerializeField]
+		[EventRef]
+		private string m_evolveSound;
+
 
 		private bool m_hasOpened;
 		private float m_lastOpenTime;
 
 		private string m_request;
 		private Coroutine m_checkRequest;
+		private Coroutine m_evolveRoutine;
 
 		private bool m_hasRequest;
+
+		[HideInInspector]
+		public bool IsEvolving;
+
+		public delegate void EvolveCompleteEventCallback();
 
 		private PlayerStatus m_player
 		{
@@ -63,6 +77,7 @@ namespace PBJ
 				return PlayerStatus.Instance;
 			}
 		}
+
 		private void Awake()
 		{
 			if (Instance != null)
@@ -71,9 +86,11 @@ namespace PBJ
 			}
 			Instance = this;
 		}
+
 		private void Start()
 		{
 		}
+
 		public void Spawn()
 		{
 			m_anim.Rebind();
@@ -81,10 +98,15 @@ namespace PBJ
 			m_hasRequest = true;
 			m_requestContainer.SetActive(false);
 		}
+
 		private void Update()
 		{
+			if (IsEvolving)
+				return;
+
 			CheckNearbyItems();
 		}
+
 		private void CheckNearbyItems()
 		{
 			float playerDist = Vector2.Distance(transform.position, m_player.transform.position);
@@ -115,9 +137,8 @@ namespace PBJ
 					}
 				}
 			}
-
-
 		}
+
 		public void Feed(ObjectController obj)
 		{
 			GameController.Instance.IncreaseSustinence(obj.SustinenceProvided);
@@ -135,6 +156,7 @@ namespace PBJ
 			GameController.Instance.CurrentState.ItemsEaten++;
 			Destroy(obj.gameObject);
 		}
+
 		public void MakeNewRequest()
 		{
 			RuntimeManager.PlayOneShot(m_requestSound);
@@ -143,6 +165,7 @@ namespace PBJ
 			m_requestDisplay.sprite = item.Sprite;
 			HUDController.Instance.UpdateCategory(item.Sprite);
 		}
+
 		public void Kill()
 		{
 			if (m_checkRequest != null)
@@ -154,6 +177,7 @@ namespace PBJ
 			m_anim.SetTrigger(AnimationConst.Death);
 			RuntimeManager.PlayOneShot(m_deathSound);
 		}
+
 		private IEnumerator CheckRequest(bool successful)
 		{
 			m_hasRequest = false;
@@ -170,6 +194,35 @@ namespace PBJ
 			yield return new WaitForSeconds(m_statusIconHold);
 			m_requestContainer.SetActive(false);
 			m_hasRequest = true;
+		}
+
+		public void Evolve(EvolveCompleteEventCallback eventCallback)
+		{
+			if (m_checkRequest != null)
+				StopCoroutine(m_checkRequest);
+
+			IsEvolving = true;
+			m_evolveRoutine = StartCoroutine(EvolveRoutine(eventCallback));
+		}
+
+		private IEnumerator EvolveRoutine(EvolveCompleteEventCallback eventCallback)
+		{
+			
+			m_anim.SetBool(AnimationConst.IsEvolved, true);
+			m_anim.SetTrigger(AnimationConst.Evolve);
+			m_hasRequest = false;
+			RuntimeManager.PlayOneShot(m_evolveSound);
+			m_requestContainer.SetActive(false);
+
+			Vector2 newPosition = m_requestContainer.transform.position;
+			newPosition += m_requestContainerLargePositionOffset;
+			m_requestContainer.transform.position = newPosition;
+
+			yield return new WaitForSeconds(m_evolveDelay);
+
+			IsEvolving = false;
+			m_requestContainer.SetActive(true);
+			eventCallback.Invoke();
 		}
 	}
 }

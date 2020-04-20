@@ -12,7 +12,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Death
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: IsLargeState
+    m_ConditionEvent: IsEvolved
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 28862071498567170}
@@ -114,7 +114,7 @@ AnimatorTransition:
     m_ConditionEvent: Open
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: IsLargeState
+    m_ConditionEvent: IsEvolved
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6975974089625041050}
@@ -392,10 +392,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Morph
+    m_ConditionEvent: Evolve
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: IsLargeState
+    m_ConditionEvent: IsEvolved
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2960423217396596787}
@@ -541,7 +541,7 @@ AnimatorController:
   m_Name: God
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: IsLargeState
+  - m_Name: IsEvolved
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -565,7 +565,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Morph
+  - m_Name: Evolve
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -623,7 +623,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Chomp
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: IsLargeState
+    m_ConditionEvent: IsEvolved
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2981225490209508281}
@@ -687,7 +687,7 @@ AnimatorTransition:
     m_ConditionEvent: Open
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: IsLargeState
+    m_ConditionEvent: IsEvolved
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3701442570655539336}
@@ -871,7 +871,7 @@ AnimatorTransition:
     m_ConditionEvent: Open
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: IsLargeState
+    m_ConditionEvent: IsEvolved
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4568868916632098777}
@@ -891,7 +891,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Chomp
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: IsLargeState
+    m_ConditionEvent: IsEvolved
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3956199441011775670}
@@ -919,7 +919,7 @@ AnimatorTransition:
     m_ConditionEvent: Open
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: IsLargeState
+    m_ConditionEvent: IsEvolved
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1830285821724090740}
@@ -939,7 +939,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Death
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: IsLargeState
+    m_ConditionEvent: IsEvolved
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4835266046559484421}
