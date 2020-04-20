@@ -32,7 +32,7 @@ namespace PBJ
 		private Animator m_anim;
 		[SerializeField]
 		[FMODUnity.EventRef]
-		private string m_damageSound;		
+		private string m_damageSound;
 		[SerializeField]
 		[FMODUnity.EventRef]
 		private string m_deathSound;
@@ -85,7 +85,7 @@ namespace PBJ
 			m_shadow.SetActive(true);
 			SetCanAct(true);
 			m_currentHealth = MaxHealth;
-			HUDController.Instance.AdjustHealth((float)m_currentHealth/(float)MaxHealth);
+			HUDController.Instance.AdjustHealth((float)m_currentHealth / (float)MaxHealth);
 			SetFacing(new Vector2(0, -1));
 			m_anim.Rebind();
 		}
@@ -102,19 +102,10 @@ namespace PBJ
 		{
 			if (GameController.Instance.CurrentGameState != GameController.GameState.Playing)
 				return;
-
-			if (dir != Vector2.zero)
-			{
-				m_facingDir = dir;
-				if (dir.x != 0)
-				{
-					m_anim.SetFloat(AnimationConst.FaceX, m_facingDir.x);
-				}
-				if (dir.y != 0)
-				{
-					m_anim.SetFloat(AnimationConst.FaceY, m_facingDir.y);
-				}
-			}
+				
+			m_facingDir = dir;
+			m_anim.SetFloat(AnimationConst.FaceX, m_facingDir.x);
+			m_anim.SetFloat(AnimationConst.FaceY, m_facingDir.y);
 		}
 
 		public void Damage(int amount, Vector2 origin)
@@ -124,7 +115,7 @@ namespace PBJ
 				SetCanAct(false);
 				m_canBeDamaged = false;
 				m_currentHealth--;
-				HUDController.Instance.AdjustHealth((float)m_currentHealth/(float)MaxHealth);
+				HUDController.Instance.AdjustHealth((float)m_currentHealth / (float)MaxHealth);
 				if (Dead)
 				{
 					Death();
@@ -166,7 +157,7 @@ namespace PBJ
 		public void DrainHealth(int drain)
 		{
 			m_currentHealth -= drain;
-			HUDController.Instance.AdjustHealth((float)m_currentHealth/(float)MaxHealth);
+			HUDController.Instance.AdjustHealth((float)m_currentHealth / (float)MaxHealth);
 			if (Dead)
 			{
 				Death();
