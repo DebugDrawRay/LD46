@@ -18,5 +18,8 @@ namespace PBJ.Configuration
 		public const string Chomp = "Chomp";
 		public const string Open = "Open";
 		public const string Close = "Close";
+
+		public const string Stun = "Stun";
+		public const string Running = "Run";
 	}
 }

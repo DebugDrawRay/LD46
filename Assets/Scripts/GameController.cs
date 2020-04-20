@@ -21,30 +21,38 @@ namespace PBJ
 		private int m_sustinenceDrain;
 		[SerializeField]
 		private float m_sustinenceDrainRate;
-        [SerializeField]
-        private ItemDB m_itemDb;
+		[SerializeField]
+		private ItemDB m_itemDb;
 
-        [Header("Game Over Sequence")]
+		[Header("Player")]
+		[SerializeField]
+		public int m_healthDrain;
+		[SerializeField]
+		public float m_healthDrainRate;
+		[Header("Game Over Sequence")]
         [SerializeField]
-        public float m_timeToDeath;
-        [SerializeField]
-        public float m_timeAfterDeath;
-        [SerializeField]
-        public float m_cameraSpeed;
+        public float m_deathDelay;
+		[SerializeField]
+		public float m_timeToDeath;
+		[SerializeField]
+		public float m_timeAfterDeath;
+		[SerializeField]
+		public float m_cameraSpeed;
 
-        private bool m_deathStarted;
+		private bool m_deathStarted;
 
 
-        public ItemDB.Item[] ItemDb
-        {
-            get
-            {
-                return m_itemDb.Items;
-            }
-        }
+		public ItemDB.Item[] ItemDb
+		{
+			get
+			{
+				return m_itemDb.Items;
+			}
+		}
 
 		private float m_lastHappinessDrain;
 		private float m_lastSustinenceDrain;
+		private float m_lastHealthDrain;
 		private WorldState m_state;
 		public WorldState CurrentState
 		{
@@ -56,25 +64,25 @@ namespace PBJ
 
 		private void Awake()
 		{
-            if(Instance != null)
-            {
-                Destroy(Instance.gameObject);
-            }
+			if (Instance != null)
+			{
+				Destroy(Instance.gameObject);
+			}
 			Instance = this;
 		}
 
 		private void Start()
 		{
-            InitializeGame();
+			InitializeGame();
 		}
 
-        private void InitializeGame()
-        {
+		private void InitializeGame()
+		{
 			m_state = new WorldState() { Happiness = m_initialHappiness, Sustinence = m_initialSustinence };
-            m_deathStarted = false;
-            GodController.Instance.Spawn();
-            PlayerStatus.Instance.Spawn();
-        }
+			m_deathStarted = false;
+			GodController.Instance.Spawn();
+			PlayerStatus.Instance.Spawn();
+		}
 
 		private void Update()
 		{
@@ -83,39 +91,51 @@ namespace PBJ
 
 		private void UpdateGodState()
 		{
-            if(CurrentState.Sustinence <= 0)
-            {
-                m_deathStarted = true;
-                StartCoroutine(DeathSequence());
-                Debug.Log("<color=red>GAME OVER</color>");
-            }
-            else
-            {
-			if (Time.time > m_lastSustinenceDrain + m_sustinenceDrainRate)
+			if (!m_deathStarted)
 			{
-				CurrentState.Sustinence -= m_sustinenceDrain;
-				m_lastSustinenceDrain = Time.time;
+				if (CurrentState.Sustinence <= 0)
+				{
+					if (Time.time > m_lastHealthDrain + m_healthDrainRate)
+					{
+						PlayerStatus.Instance.DrainHealth(m_healthDrain);
+                        m_lastHealthDrain = Time.time;
+						if (PlayerStatus.Instance.Dead)
+						{
+							StartCoroutine(DeathSequence());
+							m_deathStarted = true;
+							Debug.Log("<color=red>GAME OVER</color>");
+						}
+					}
+				}
+				else
+				{
+					if (Time.time > m_lastSustinenceDrain + m_sustinenceDrainRate)
+					{
+						CurrentState.Sustinence -= m_sustinenceDrain;
+						m_lastSustinenceDrain = Time.time;
+					}
+					if (Time.time > m_lastHappinessDrain + m_happinessDrainRate)
+					{
+						CurrentState.Happiness -= m_happinessDrain;
+						m_lastHappinessDrain = Time.time;
+					}
+				}
 			}
-			if (Time.time > m_lastHappinessDrain + m_happinessDrainRate)
-			{
-				CurrentState.Happiness -= m_happinessDrain;
-				m_lastHappinessDrain = Time.time;
-			}
-            }
 		}
 
-        public IEnumerator DeathSequence()
-        {
-            ProCamera2D.Instance.RemoveAllCameraTargets();
-            ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
-            ProCamera2D.Instance.VerticalFollowSmoothness = m_cameraSpeed;
-            ProCamera2D.Instance.HorizontalFollowSmoothness = m_cameraSpeed;
+		public IEnumerator DeathSequence()
+		{
+            yield return new WaitForSeconds(m_deathDelay);
+			ProCamera2D.Instance.RemoveAllCameraTargets();
+			ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
+			ProCamera2D.Instance.VerticalFollowSmoothness = m_cameraSpeed;
+			ProCamera2D.Instance.HorizontalFollowSmoothness = m_cameraSpeed;
 
-            PlayerStatus.Instance.SetPaused(true);
-            yield return new WaitForSeconds(m_timeToDeath);
-            GodController.Instance.Kill();
-            yield return new WaitForSeconds(m_timeToDeath);
-        }
+			PlayerStatus.Instance.SetPaused(true);
+			yield return new WaitForSeconds(m_timeToDeath);
+			GodController.Instance.Kill();
+			yield return new WaitForSeconds(m_timeToDeath);
+		}
 
 		public class WorldState
 		{

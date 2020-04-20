@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using PBJ.Configuration;
 
 namespace PBJ
 {
@@ -20,6 +21,8 @@ namespace PBJ
 		private float m_chaseSpeed;
 		[SerializeField]
 		private float m_chaseTime;
+		[SerializeField]
+		private float m_chaseDelay;
 
 		[Header("Attack")]
 		[SerializeField]
@@ -50,7 +53,7 @@ namespace PBJ
 		private Tween m_knockTween;
 
 		private Vector2 m_currentPatrolPoint;
-        [SerializeField]
+		[SerializeField]
 		private float m_waypointDistance;
 
 		private Rigidbody2D m_rigid;
@@ -69,6 +72,10 @@ namespace PBJ
 
 		private bool m_canAct;
 		private bool m_canBeDamaged;
+
+		private float m_stoppedChaseTime;
+
+        private bool m_cancelMovement;
 
 		private float AttackRange
 		{
@@ -122,13 +129,13 @@ namespace PBJ
 			}
 		}
 
-        private bool Stunned
-        {
-            get
-            {
-                return m_currentHealth <= 0;
-            }
-        }
+		private bool Stunned
+		{
+			get
+			{
+				return m_currentHealth <= 0;
+			}
+		}
 
 		private void Awake()
 		{
@@ -148,26 +155,28 @@ namespace PBJ
 
 		}
 
-        private void Update()
-        {
-            UpdateStun();
-        }
+		private void Update()
+		{
+			UpdateStun();
+		}
 
-        private void UpdateStun()
-        {
-            if(Stunned)
-            {
-                if(Time.time > m_lastStunTime + m_stunTime)
-                {
-                    m_currentHealth = m_maxHealth;
-                    OnKnockbackComplete();
-                }
-            }
-        }
+		private void UpdateStun()
+		{
+			if (Stunned)
+			{
+				if (Time.time > m_lastStunTime + m_stunTime)
+				{
+					m_anim.SetBool(AnimationConst.Stun, false);
+					m_currentHealth = m_maxHealth;
+					ReturnToHome();
+					OnKnockbackComplete();
+				}
+			}
+		}
 
 		private void FixedUpdate()
 		{
-			if (m_canAct)
+			if (m_canAct && !Stunned)
 			{
 				UpdateStates();
 			}
@@ -194,21 +203,32 @@ namespace PBJ
 		private void ReturnToHome()
 		{
 			m_currentState = State.ReturnToHome;
+			m_anim.SetBool(AnimationConst.Running, false);
 		}
 		private void UpdateReturn()
 		{
 			Vector2 newPos = Vector2.MoveTowards(transform.position, m_home, m_patrolSpeed * Time.deltaTime);
 			m_rigid.MovePosition(newPos);
-			if (Vector2.Distance(transform.position, m_home) <= m_waypointDistance)
+			SetFacing((m_home - (Vector2)transform.position).normalized);
+			m_anim.SetBool(AnimationConst.Moving, true);
+			if (Vector2.Distance(transform.position, m_home) <= m_waypointDistance || m_cancelMovement)
 			{
+                if(m_cancelMovement)
+                {
+                    m_cancelMovement = false;
+                    m_home = transform.position;
+                }
 				EnterPatrol();
 				return;
 			}
 			float playerDist = Vector2.Distance(transform.position, PlayerStatus.Instance.transform.position);
 			if (playerDist <= ChaseRange && !m_player.Dead)
 			{
-				EnterChase();
-				return;
+				if (Time.time > m_stoppedChaseTime + m_chaseDelay)
+				{
+					EnterChase();
+					return;
+				}
 			}
 		}
 
@@ -216,6 +236,7 @@ namespace PBJ
 		{
 			m_currentPatrolPoint = FindPatrolPoint();
 			m_currentState = State.Patrol;
+			m_anim.SetBool(AnimationConst.Running, false);
 		}
 		private void UpdatePatrol()
 		{
@@ -226,19 +247,29 @@ namespace PBJ
 				{
 					Vector2 newPos = Vector2.MoveTowards(transform.position, m_currentPatrolPoint, m_patrolSpeed * Time.deltaTime);
 					m_rigid.MovePosition(newPos);
-					if (Vector2.Distance(transform.position, m_currentPatrolPoint) <= m_waypointDistance)
+					SetFacing((m_currentPatrolPoint - (Vector2)transform.position).normalized);
+					m_anim.SetBool(AnimationConst.Moving, true);
+					if (Vector2.Distance(transform.position, m_currentPatrolPoint) <= m_waypointDistance || m_cancelMovement)
 					{
 						m_currentPatrolPoint = FindPatrolPoint();
 						m_lastPatrolTime = Time.time;
+                        m_cancelMovement = false;
 					}
+				}
+				else
+				{
+					m_anim.SetBool(AnimationConst.Moving, false);
 				}
 			}
 			else
 			{
 				if (!m_player.Dead)
 				{
-					EnterChase();
-					return;
+					if (Time.time > m_stoppedChaseTime + m_chaseDelay)
+					{
+						EnterChase();
+						return;
+					}
 				}
 			}
 		}
@@ -247,6 +278,7 @@ namespace PBJ
 		{
 			m_currentState = State.Chase;
 			m_lastChaseTime = Time.time;
+			m_anim.SetBool(AnimationConst.Running, true);
 		}
 		private void UpdateChase()
 		{
@@ -262,8 +294,11 @@ namespace PBJ
 			}
 			Vector2 newPos = Vector2.MoveTowards(transform.position, m_player.transform.position, m_chaseSpeed * Time.deltaTime);
 			m_rigid.MovePosition(newPos);
+			SetFacing(((Vector2)m_player.transform.position - (Vector2)transform.position).normalized);
+			m_anim.SetBool(AnimationConst.Moving, true);
 			if (Time.time > m_lastChaseTime + ChaseTime)
 			{
+				m_stoppedChaseTime = Time.time;
 				ReturnToHome();
 				return;
 			}
@@ -275,6 +310,7 @@ namespace PBJ
 			m_checkAttackRange = false;
 			m_currentState = State.Attack;
 			m_attackPosition = m_player.transform.position;
+			m_anim.SetBool(AnimationConst.Running, true);
 		}
 		private void UpdateAttack()
 		{
@@ -299,7 +335,9 @@ namespace PBJ
 				}
 				Vector2 newPos = Vector2.MoveTowards(transform.position, m_attackPosition, AttackSpeed * Time.deltaTime);
 				m_rigid.MovePosition(newPos);
-
+				SetFacing((m_attackPosition - (Vector2)transform.position).normalized);
+				m_anim.SetBool(AnimationConst.Moving, true);
+				m_anim.SetBool(AnimationConst.Running, true);
 				if (Vector2.Distance(transform.position, m_attackPosition) <= m_waypointDistance)
 				{
 					m_lastAttackTime = Time.time;
@@ -334,6 +372,10 @@ namespace PBJ
 				held.ScatterStack();
 			}
 		}
+        private void OnCollisionEnter2D(Collision2D hit)
+        {
+            m_cancelMovement = true;
+        }
 
 		public void Damage(int amount, Vector2 origin)
 		{
@@ -352,10 +394,13 @@ namespace PBJ
 				m_knockTween = transform.DOMove(pos, m_knockbackLength).SetEase(Ease.OutExpo).SetUpdate(UpdateType.Fixed);
 				if (Stunned)
 				{
-                    m_lastStunTime = Time.time;
+					m_anim.SetBool(AnimationConst.Stun, true);
+					Debug.Log("Why");
+					m_lastStunTime = Time.time;
 				}
 				else
 				{
+					m_anim.SetTrigger(AnimationConst.Damage);
 					m_knockTween.OnComplete(OnKnockbackComplete);
 				}
 				m_knockTween.Play();
@@ -367,6 +412,15 @@ namespace PBJ
 		{
 			m_canAct = true;
 			m_canBeDamaged = true;
+		}
+
+		private void SetFacing(Vector2 dir)
+		{
+			if (dir != Vector2.zero)
+			{
+				m_anim.SetFloat(AnimationConst.FaceX, dir.x);
+				m_anim.SetFloat(AnimationConst.FaceY, dir.y);
+			}
 		}
 	}
 }

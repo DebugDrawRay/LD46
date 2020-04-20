@@ -142,6 +142,19 @@ namespace PBJ
 			m_anim.SetTrigger(AnimationConst.Death);
 		}
 
+		public void DrainHealth(int drain)
+		{
+			m_currentHealth -= drain;
+			if (Dead)
+			{
+				Death();
+			}
+			else
+			{
+				m_anim.SetTrigger(AnimationConst.Damage);
+			}
+		}
+
 		private void OnKnockbackComplete()
 		{
 			SetCanAct(true);

@@ -5,279 +5,282 @@ using UnityEngine.Assertions;
 
 namespace PBJ
 {
-    public class ObjectController : MonoBehaviour
-    {
-        [SerializeField]
-        private float m_objectHeight;
-        public float ObjectHeight
-        {
-            get
-            {
-                return m_objectHeight;
-            }
-        }
+	public class ObjectController : MonoBehaviour
+	{
+		[SerializeField]
+		private float m_objectHeight;
+		public float ObjectHeight
+		{
+			get
+			{
+				return m_objectHeight;
+			}
+		}
 
-        [Header("Explosion Attributes")]
-        [SerializeField]
-        private bool m_isExplosive;
-        [SerializeField]
-        private float m_isExplosionDelaySec;
-        [SerializeField]
-        private GameObject m_explosionPrefab;
-        
-        [Header("Break Attributes")]
-        [SerializeField]
-        private bool m_isBreakable;
-        [SerializeField]
-        private GameObject m_breakPrefab;
-        [SerializeField]
-        private uint m_numberOfBreakObjects;
-        [SerializeField]
-        private float m_breakObjectsSpawnRadius;
-        [SerializeField][Range(0f,100f)]
-        private float m_breakObjectsSpawnRadiusVariationPercent;
-        [SerializeField]
-        private float m_breakObjectsSpawnForce;
-        [SerializeField][Range(0f,100f)]
-        private float m_breakObjectsSpawnForceVariationPercent;
+		[Header("Explosion Attributes")]
+		[SerializeField]
+		private bool m_isExplosive;
+		[SerializeField]
+		private float m_isExplosionDelaySec;
+		[SerializeField]
+		private GameObject m_explosionPrefab;
 
-        [Space]
+		[Header("Break Attributes")]
+		[SerializeField]
+		private bool m_isBreakable;
+		[SerializeField]
+		private GameObject m_breakPrefab;
+		[SerializeField]
+		private uint m_numberOfBreakObjects;
+		[SerializeField]
+		private float m_breakObjectsSpawnRadius;
+		[SerializeField]
+		[Range(0f, 100f)]
+		private float m_breakObjectsSpawnRadiusVariationPercent;
+		[SerializeField]
+		private float m_breakObjectsSpawnForce;
+		[SerializeField]
+		[Range(0f, 100f)]
+		private float m_breakObjectsSpawnForceVariationPercent;
 
-        [SerializeField]
-        // Amount of damage this object will take upon collision
-        private int m_selfDamage;
-        [SerializeField]
-        // Amount of damage that this object can inflict upon other objects
-        private int m_inflictDamage;
+		[Space]
 
-        [SerializeField]
-        private int m_sustinenceProvided;
-        public int SustinenceProvided
-        {
-            get
-            {
-                return m_sustinenceProvided;
-            }
-        }
-        [SerializeField]
-        private int m_happinessProvided;
-        public int HappinessProvided
-        {
-            get
-            {
-                return m_happinessProvided;
-            }
-        }
+		[SerializeField]
+		// Amount of damage this object will take upon collision
+		private int m_selfDamage;
+		[SerializeField]
+		// Amount of damage that this object can inflict upon other objects
+		private int m_inflictDamage;
 
-        //how much time to stay in the thrown state if not acted upon by a collision
-        private const float TimeInThrown = 2f;
+		[SerializeField]
+		private int m_sustinenceProvided;
+		public int SustinenceProvided
+		{
+			get
+			{
+				return m_sustinenceProvided;
+			}
+		}
+		[SerializeField]
+		private int m_happinessProvided;
+		public int HappinessProvided
+		{
+			get
+			{
+				return m_happinessProvided;
+			}
+		}
 
-        public int InflictDamage
-        {
-            get
-            {
-                return m_inflictDamage;
-            }
-        }
+		//how much time to stay in the thrown state if not acted upon by a collision
+		private const float TimeInThrown = 2f;
 
-
-        [SerializeField]
-        private int m_health;
-
-        public struct ObjectState
-        {
-            public bool Breaking;
-            public bool Exploding;
-            public bool Thrown;
-        }
-
-        [SerializeField]
-        private ObjectState m_objectState;
-
-        public ObjectState CurrentState
-        {
-            get
-            {
-                return m_objectState;
-            }
-        }
-        private Rigidbody2D m_rigid;
-        private Collider2D m_collider;
-
-        private float m_lastThrowTime;
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawWireSphere(transform.position, m_breakObjectsSpawnRadius);
-        }
-
-        private void Awake()
-        {
-            // TODO: Add correct preprocessor to compile out these if statements.
-            if (m_isExplosive)
-            {
-                Assert.IsTrue(m_health > 0, "Explosive objects need health greater than 0");
-            }
-            if (m_isBreakable)
-            {
-                Assert.IsTrue(m_health > 0, "Breakable objects need health greater than 0");
-            }
+		public int InflictDamage
+		{
+			get
+			{
+				return m_inflictDamage;
+			}
+		}
 
 
-            if (!TryGetComponent<Rigidbody2D>(out m_rigid))
-            {
-                Debug.LogError("No rigidbody found");
-            }
-            if (!TryGetComponent<Collider2D>(out m_collider))
-            {
-                Debug.LogError("No collider found");
-            }
-        }
+		[SerializeField]
+		private int m_health;
 
-        private void Update()
-        {
-            if (m_objectState.Thrown)
-            {
-                if (Time.time > m_lastThrowTime + TimeInThrown)
-                {
-                    Debug.Log("Done");
-                    m_objectState.Thrown = false;
-                }
-            }
-        }
-        private IEnumerator ExplodeRoutine()
-        {
-            yield return new WaitForSeconds(m_isExplosionDelaySec);
-            Instantiate(m_explosionPrefab, transform.position, transform.rotation);
-            gameObject.SetActive(false);
-        }
+		public struct ObjectState
+		{
+			public bool Breaking;
+			public bool Exploding;
+			public bool Thrown;
+		}
 
-        public void Explode()
-        {
-            Assert.IsTrue(m_isExplosive);
-            Assert.IsNotNull(m_explosionPrefab);
+		[SerializeField]
+		private ObjectState m_objectState;
 
-            if (!CanExplode())
-                return;
+		public ObjectState CurrentState
+		{
+			get
+			{
+				return m_objectState;
+			}
+		}
+		private Rigidbody2D m_rigid;
+		private Collider2D m_collider;
 
-            m_objectState.Exploding = true;
-            StartCoroutine(ExplodeRoutine());
-        }
+		private float m_lastThrowTime;
 
-        public bool IsExplosive()
-        {
-            return m_isExplosive;
-        }
+		private void OnDrawGizmosSelected()
+		{
+			Gizmos.DrawWireSphere(transform.position, m_breakObjectsSpawnRadius);
+		}
 
-        private bool CanExplode()
-        {
-            return m_isExplosive && !m_objectState.Exploding && !m_objectState.Breaking;
-        }
+		private void Awake()
+		{
+			// TODO: Add correct preprocessor to compile out these if statements.
+			if (m_isExplosive)
+			{
+				Assert.IsTrue(m_health > 0, "Explosive objects need health greater than 0");
+			}
+			if (m_isBreakable)
+			{
+				Assert.IsTrue(m_health > 0, "Breakable objects need health greater than 0");
+			}
 
-        public void Break()
-        {
-            Assert.IsTrue(m_isBreakable);
 
-            if (m_isExplosive)
-            {
-                Explode();
-                return;
-            }
+			if (!TryGetComponent<Rigidbody2D>(out m_rigid))
+			{
+				Debug.LogError("No rigidbody found");
+			}
+			if (!TryGetComponent<Collider2D>(out m_collider))
+			{
+				Debug.LogError("No collider found");
+			}
+		}
 
-            m_objectState.Breaking = true;
+		private void Update()
+		{
+			if (m_objectState.Thrown)
+			{
+				if (Time.time > m_lastThrowTime + TimeInThrown)
+				{
+					Debug.Log("Done");
+					m_objectState.Thrown = false;
+				}
+			}
+		}
+		private IEnumerator ExplodeRoutine()
+		{
+			yield return new WaitForSeconds(m_isExplosionDelaySec);
+			Instantiate(m_explosionPrefab, transform.position, transform.rotation);
+			gameObject.SetActive(false);
+		}
 
-            if (m_breakPrefab)
-            {
-                Assert.IsTrue(m_numberOfBreakObjects > 0, "Breakable objects that spawn smaller objects need number of break objects greater than zero");
+		public void Explode()
+		{
+			Assert.IsTrue(m_isExplosive);
+			Assert.IsNotNull(m_explosionPrefab);
 
-                // Spawn the break objects and push them away from the epicenter
-                for (int i = 0; i < m_numberOfBreakObjects; i++)
-                {
-                    float angleDeg = Mathf.Lerp(0f, 360f, (float)i / m_numberOfBreakObjects);
+			if (!CanExplode())
+				return;
 
-                    // Calculate the spawn position along the spawn radius
-                    float spawnPositionAngleDeg = angleDeg + (360f * Random.Range(0f, m_breakObjectsSpawnRadiusVariationPercent / 100f));
-                    float radiusPositionX = m_breakObjectsSpawnRadius * Mathf.Cos(spawnPositionAngleDeg * Mathf.Deg2Rad);
-                    float radiusPositionY = m_breakObjectsSpawnRadius * Mathf.Sin(spawnPositionAngleDeg * Mathf.Deg2Rad);
-                    Vector2 spawnPosition = new Vector2(transform.position.x + radiusPositionX, transform.position.y + radiusPositionY);
+			m_objectState.Exploding = true;
+			StartCoroutine(ExplodeRoutine());
+		}
 
-                    GameObject spawnedObject = Instantiate(m_breakPrefab, spawnPosition, transform.rotation);
-                    if (spawnedObject.TryGetComponent(out Rigidbody2D spawnedRb))
-                    {
-                        // Calculate the angle for the force to be applied
-                        float spawnForceAngleDeg = angleDeg + (360f * Random.Range(0f, m_breakObjectsSpawnForceVariationPercent / 100f));
-                        float forceX = m_breakObjectsSpawnForce * Mathf.Cos(spawnForceAngleDeg * Mathf.Deg2Rad);
-                        float forceY = m_breakObjectsSpawnForce * Mathf.Sin(spawnForceAngleDeg * Mathf.Deg2Rad);
-                        spawnedRb.AddForce(new Vector2(forceX, forceY));
-                    }
-                }
-            }
+		public bool IsExplosive()
+		{
+			return m_isExplosive;
+		}
 
-            gameObject.SetActive(false);
-        }
+		private bool CanExplode()
+		{
+			return m_isExplosive && !m_objectState.Exploding && !m_objectState.Breaking;
+		}
 
-        public bool IsBreakable()
-        {
-            return m_isBreakable;
-        }
+		public void Break()
+		{
+			Assert.IsTrue(m_isBreakable);
 
-        private bool CanBreak()
-        {
-            return m_isBreakable && !m_objectState.Exploding && !m_objectState.Breaking;
-        }
+			if (m_isExplosive)
+			{
+				Explode();
+				return;
+			}
 
-        public void Damage(int damageAmount)
-        {
-            m_health -= damageAmount;
-            if (m_health <= 0)
-            {
-                if (CanExplode())
-                    Explode();
-                else if (CanBreak())
-                    Break();
-            }
-        }
+			m_objectState.Breaking = true;
 
-        public void PickedUp()
-        {
-            m_rigid.bodyType = RigidbodyType2D.Kinematic;
-            m_rigid.velocity = Vector3.zero;
-            m_collider.enabled = false;
-        }
+			if (m_breakPrefab)
+			{
+				Assert.IsTrue(m_numberOfBreakObjects > 0, "Breakable objects that spawn smaller objects need number of break objects greater than zero");
 
-        public void Throw(Vector2 origin, Vector2 force)
-        {
-            transform.SetParent(null);
-            transform.position = origin;
-            m_rigid.bodyType = RigidbodyType2D.Dynamic;
-            m_collider.enabled = true;
-            m_rigid.AddForce(force, ForceMode2D.Impulse);
-            m_objectState.Thrown = true;
-            m_lastThrowTime = Time.time;
-        }
+				// Spawn the break objects and push them away from the epicenter
+				for (int i = 0; i < m_numberOfBreakObjects; i++)
+				{
+					float angleDeg = Mathf.Lerp(0f, 360f, (float)i / m_numberOfBreakObjects);
 
-        public void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (m_objectState.Thrown)
-            {
-                m_objectState.Thrown = false;
+					// Calculate the spawn position along the spawn radius
+					float spawnPositionAngleDeg = angleDeg + (360f * Random.Range(0f, m_breakObjectsSpawnRadiusVariationPercent / 100f));
+					float radiusPositionX = m_breakObjectsSpawnRadius * Mathf.Cos(spawnPositionAngleDeg * Mathf.Deg2Rad);
+					float radiusPositionY = m_breakObjectsSpawnRadius * Mathf.Sin(spawnPositionAngleDeg * Mathf.Deg2Rad);
+					Vector2 spawnPosition = new Vector2(transform.position.x + radiusPositionX, transform.position.y + radiusPositionY);
 
-                if(collision.gameObject.TryGetComponent(out GodController god ))
-                {
-                    god.Feed(this);
-                    Debug.Log("Destroy");
-                    Destroy(gameObject);
-                }
-                if (collision.gameObject.TryGetComponent(out ObjectController other))
-                {
-                    other.Damage(m_inflictDamage);
-                }
-                if (collision.gameObject.TryGetComponent(out HumanController human))
-                {
-                    human.Damage(m_inflictDamage, transform.position);
-                }
-                Damage(m_selfDamage);
-            }
-        }
-    }
+					GameObject spawnedObject = Instantiate(m_breakPrefab, spawnPosition, transform.rotation);
+					if (spawnedObject.TryGetComponent(out Rigidbody2D spawnedRb))
+					{
+						// Calculate the angle for the force to be applied
+						float spawnForceAngleDeg = angleDeg + (360f * Random.Range(0f, m_breakObjectsSpawnForceVariationPercent / 100f));
+						float forceX = m_breakObjectsSpawnForce * Mathf.Cos(spawnForceAngleDeg * Mathf.Deg2Rad);
+						float forceY = m_breakObjectsSpawnForce * Mathf.Sin(spawnForceAngleDeg * Mathf.Deg2Rad);
+						spawnedRb.AddForce(new Vector2(forceX, forceY));
+					}
+				}
+			}
+
+			gameObject.SetActive(false);
+		}
+
+		public bool IsBreakable()
+		{
+			return m_isBreakable;
+		}
+
+		private bool CanBreak()
+		{
+			return m_isBreakable && !m_objectState.Exploding && !m_objectState.Breaking;
+		}
+
+		public void Damage(int damageAmount)
+		{
+			m_health -= damageAmount;
+			if (m_health <= 0)
+			{
+				if (CanExplode())
+					Explode();
+				else if (CanBreak())
+					Break();
+			}
+		}
+
+		public void PickedUp()
+		{
+			m_rigid.bodyType = RigidbodyType2D.Kinematic;
+			m_rigid.velocity = Vector3.zero;
+			m_collider.enabled = false;
+		}
+
+		public void Throw(Vector2 origin, Vector2 force)
+		{
+			transform.SetParent(null);
+			transform.position = origin;
+			m_rigid.bodyType = RigidbodyType2D.Dynamic;
+			m_collider.enabled = true;
+			m_rigid.AddForce(force, ForceMode2D.Impulse);
+			m_objectState.Thrown = true;
+			m_lastThrowTime = Time.time;
+		}
+
+		public void OnCollisionEnter2D(Collision2D collision)
+		{
+			if (collision.gameObject.TryGetComponent(out GodController god))
+			{
+				god.Feed(this);
+				Debug.Log("Destroy");
+				Destroy(gameObject);
+			}
+
+			if (m_objectState.Thrown)
+			{
+				m_objectState.Thrown = false;
+
+				if (collision.gameObject.TryGetComponent(out ObjectController other))
+				{
+					other.Damage(m_inflictDamage);
+				}
+				if (collision.gameObject.TryGetComponent(out HumanController human))
+				{
+					human.Damage(m_inflictDamage, transform.position);
+				}
+				Damage(m_selfDamage);
+			}
+		}
+	}
 }
