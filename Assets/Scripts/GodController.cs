@@ -99,7 +99,9 @@ namespace PBJ
 			{
 				m_requestContainer.SetActive(playerDist <= m_requestDist);
 			}
-			if (playerDist <= m_openDist && m_player.GetComponent<HeldObjectManager>().HasItem)
+			ObjectController obj = Physics2D.OverlapCircle(transform.position, m_openDist, m_itemLayer)?.GetComponent<ObjectController>();
+			if ((playerDist <= m_openDist && m_player.GetComponent<HeldObjectManager>().HasItem) ||
+			(obj != null && obj.CurrentState.Thrown))
 			{
 				if (!m_hasOpened)
 				{
@@ -124,23 +126,25 @@ namespace PBJ
 		}
 		public void Feed(ObjectController obj)
 		{
-			GameController.Instance.CurrentState.Sustinence += obj.SustinenceProvided;
-			if (obj.gameObject.name == m_request)
+			GameController.Instance.IncreaseSustinence(obj.SustinenceProvided);
+			if (obj.Id == m_request)
 			{
-				GameController.Instance.CurrentState.Happiness += obj.HappinessProvided;
+				GameController.Instance.IncreaseHappiness(obj.HappinessProvided);
+
 			}
 			if (m_checkRequest != null)
 			{
 				StopCoroutine(m_checkRequest);
 			}
-			m_checkRequest = StartCoroutine(CheckRequest(obj.gameObject.name == m_request));
+			m_checkRequest = StartCoroutine(CheckRequest(obj.Id == m_request));
+			GameController.Instance.CurrentState.ItemsEaten++;
 			Destroy(obj.gameObject);
 		}
 		public void MakeNewRequest()
 		{
 			RuntimeManager.PlayOneShot(m_requestSound);
 			ItemDB.Item item = GameController.Instance.ItemDb[Random.Range(0, GameController.Instance.ItemDb.Length)];
-			m_request = item.Prefab.name;
+			m_request = item.Prefab.GetComponent<ObjectController>().Id;
 			m_requestDisplay.sprite = item.Sprite;
 		}
 		public void Kill()

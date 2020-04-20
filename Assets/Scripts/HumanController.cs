@@ -89,21 +89,22 @@ namespace PBJ
 		{
 			get
 			{
-				return m_attackRange;// ToDo: Add mood adjustment
+				return m_attackRange;
 			}
 		}
 		private float ChaseRange
 		{
 			get
 			{
-				return m_chaseRange;// ToDo: Add mood adjustment
+				Debug.Log(m_chaseRange * GameController.Instance.Mood);
+				return m_chaseRange * GameController.Instance.Mood;
 			}
 		}
 		private float ChaseTime
 		{
 			get
 			{
-				return m_chaseTime;// ToDo: Add mood adjustment
+				return m_chaseTime;
 			}
 		}
 		private float AttackSpeed
@@ -117,7 +118,7 @@ namespace PBJ
 		{
 			get
 			{
-				return m_attackDamage;// ToDo: Add mood adjustment
+				return m_attackDamage;
 			}
 		}
 		private enum State
@@ -275,6 +276,7 @@ namespace PBJ
 				{
 					if (Time.time > m_stoppedChaseTime + m_chaseDelay)
 					{
+						Debug.Log("Chase");
 						EnterChase();
 						return;
 					}
@@ -409,6 +411,7 @@ namespace PBJ
 					Debug.Log("Why");
 					m_lastStunTime = Time.time;
 					RuntimeManager.PlayOneShot(m_stunSound);
+					GameController.Instance.CurrentState.PeopleStunned++;
 				}
 				else
 				{

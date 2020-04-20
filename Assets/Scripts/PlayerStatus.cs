@@ -17,6 +17,7 @@ namespace PBJ
 
 		public float PickupRange;
 		public float PickupSpeed;
+		public float PickupCooldown;
 
 		public float ThrowCooldown;
 		public float ThrowForce;
@@ -84,6 +85,7 @@ namespace PBJ
 			m_shadow.SetActive(true);
 			SetCanAct(true);
 			m_currentHealth = MaxHealth;
+			HUDController.Instance.AdjustHealth((float)m_currentHealth/(float)MaxHealth);
 			SetFacing(new Vector2(0, -1));
 			m_anim.Rebind();
 		}
@@ -122,6 +124,7 @@ namespace PBJ
 				SetCanAct(false);
 				m_canBeDamaged = false;
 				m_currentHealth--;
+				HUDController.Instance.AdjustHealth((float)m_currentHealth/(float)MaxHealth);
 				if (Dead)
 				{
 					Death();
@@ -163,6 +166,7 @@ namespace PBJ
 		public void DrainHealth(int drain)
 		{
 			m_currentHealth -= drain;
+			HUDController.Instance.AdjustHealth((float)m_currentHealth/(float)MaxHealth);
 			if (Dead)
 			{
 				Death();

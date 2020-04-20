@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8444422984319107010}
   - component: {fileID: 4027257309138107483}
-  - component: {fileID: 246361836210371208}
-  - component: {fileID: 5748992119581728537}
   - component: {fileID: 5297395173468933909}
   - component: {fileID: 4051657301586171816}
+  - component: {fileID: 246361836210371208}
+  - component: {fileID: 5748992119581728537}
   m_Layer: 8
   m_Name: CabinSW
   m_TagString: Untagged
@@ -85,6 +85,62 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &5297395173468933909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6857336870286714976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: cabin
+  m_objectHeight: 6
+  m_isExplosive: 1
+  m_isExplosionDelaySec: 0
+  m_explosionPrefab: {fileID: 3728366976040509558, guid: 28c9c584764509d499fe1d4ce1ae9e67,
+    type: 3}
+  m_isBreakable: 1
+  m_breakPrefab: {fileID: 9102206554303946951, guid: 1bdf8e88f8befea4eb6b813c96fdc002,
+    type: 3}
+  m_numberOfBreakObjects: 10
+  m_breakObjectsSpawnRadius: 5
+  m_breakObjectsSpawnRadiusVariationPercent: 100
+  m_breakObjectsSpawnForce: 50
+  m_breakObjectsSpawnForceVariationPercent: 100
+  m_selfDamage: 0
+  m_inflictDamage: 3
+  m_sustinenceProvided: 10
+  m_happinessProvided: 10
+  m_collideSound: event:/SFX/Pickups/Collide
+  m_breakSound: event:/SFX/Pickups/Break
+  m_health: 3
+  m_objectState:
+    Breaking: 0
+    Exploding: 0
+    Thrown: 0
+    Held: 0
+--- !u!114 &4051657301586171816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6857336870286714976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695037a2aece46e6bbdf2cbb78dc2da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pc2D: {fileID: 0}
+  IsAMovingObject: 0
+  IsAChildSprite: 0
+  LocalPosition: {x: 0, y: 0}
+  SpriteScale: 1
+  _initialScale: {x: 1, y: 1, z: 1}
 --- !u!61 &246361836210371208
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -119,12 +175,12 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6857336870286714976}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 2
+  m_LinearDrag: 3.75
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -132,51 +188,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5297395173468933909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6857336870286714976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_objectHeight: 5
-  m_isExplosive: 0
-  m_isExplosionDelaySec: 0
-  m_explosionPrefab: {fileID: 0}
-  m_isBreakable: 0
-  m_breakPrefab: {fileID: 0}
-  m_numberOfBreakObjects: 0
-  m_breakObjectsSpawnRadius: 0
-  m_breakObjectsSpawnRadiusVariationPercent: 0
-  m_breakObjectsSpawnForce: 0
-  m_breakObjectsSpawnForceVariationPercent: 0
-  m_selfDamage: 0
-  m_inflictDamage: 0
-  m_sustinenceProvided: 0
-  m_happinessProvided: 0
-  m_collideSound: event:/SFX/Pickups/Collide
-  m_breakSound: event:/SFX/Pickups/Break
-  m_health: 0
---- !u!114 &4051657301586171816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6857336870286714976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4695037a2aece46e6bbdf2cbb78dc2da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pc2D: {fileID: 0}
-  IsAMovingObject: 0
-  IsAChildSprite: 0
-  LocalPosition: {x: 0, y: 0}
-  SpriteScale: 1
-  _initialScale: {x: 1, y: 1, z: 1}

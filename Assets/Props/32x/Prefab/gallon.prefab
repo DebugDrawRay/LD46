@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3171494985319560248}
   - component: {fileID: 1203981461657824264}
   - component: {fileID: 2143164611271277856}
-  - component: {fileID: 6718196730130437783}
+  - component: {fileID: 920892907099589891}
   - component: {fileID: 3722367254579204131}
   m_Layer: 8
   m_Name: gallon
@@ -115,7 +115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 0.25
+  Id: gallon
+  m_objectHeight: 0.75
   m_isExplosive: 0
   m_isExplosionDelaySec: 0
   m_explosionPrefab: {fileID: 0}
@@ -127,14 +128,19 @@ MonoBehaviour:
   m_breakObjectsSpawnForce: 0
   m_breakObjectsSpawnForceVariationPercent: 0
   m_selfDamage: 0
-  m_inflictDamage: 0
-  m_sustinenceProvided: 0
-  m_happinessProvided: 0
+  m_inflictDamage: 1
+  m_sustinenceProvided: 5
+  m_happinessProvided: 5
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
   m_health: 0
---- !u!58 &6718196730130437783
-CircleCollider2D:
+  m_objectState:
+    Breaking: 0
+    Exploding: 0
+    Thrown: 0
+    Held: 0
+--- !u!61 &920892907099589891
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,9 +152,19 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0009756088, y: -0.27902317}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 0.8731718, y: 0.44195366}
+  m_EdgeRadius: 0
 --- !u!50 &3722367254579204131
 Rigidbody2D:
   serializedVersion: 4

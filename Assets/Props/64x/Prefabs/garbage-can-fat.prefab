@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3658279247940455340}
   - component: {fileID: 8948898112595918352}
-  - component: {fileID: 1742134805258979106}
   - component: {fileID: 8142238228250458998}
-  - component: {fileID: 420353981141374328}
   - component: {fileID: 2014847373715299724}
+  - component: {fileID: 420353981141374328}
+  - component: {fileID: 1742134805258979106}
   m_Layer: 8
   m_Name: garbage-can-fat
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148607906292834162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.12, y: -1.75, z: 0}
+  m_LocalPosition: {x: 14.125, y: -1.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,27 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!50 &1742134805258979106
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148607906292834162}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 2
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!114 &8142238228250458998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectHeight: 1
+  Id: garbage
+  m_objectHeight: 1.75
   m_isExplosive: 0
   m_isExplosionDelaySec: 0
   m_explosionPrefab: {fileID: 0}
@@ -130,12 +110,35 @@ MonoBehaviour:
   m_breakObjectsSpawnForce: 0
   m_breakObjectsSpawnForceVariationPercent: 0
   m_selfDamage: 0
-  m_inflictDamage: 0
-  m_sustinenceProvided: 0
-  m_happinessProvided: 0
+  m_inflictDamage: 2
+  m_sustinenceProvided: 10
+  m_happinessProvided: 10
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
   m_health: 0
+  m_objectState:
+    Breaking: 0
+    Exploding: 0
+    Thrown: 0
+    Held: 0
+--- !u!114 &2014847373715299724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148607906292834162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695037a2aece46e6bbdf2cbb78dc2da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pc2D: {fileID: 0}
+  IsAMovingObject: 0
+  IsAChildSprite: 0
+  LocalPosition: {x: 0, y: 0}
+  SpriteScale: 1
+  _initialScale: {x: 1, y: 1, z: 1}
 --- !u!61 &420353981141374328
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -162,21 +165,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 0.53818554}
   m_EdgeRadius: 0
---- !u!114 &2014847373715299724
-MonoBehaviour:
+--- !u!50 &1742134805258979106
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148607906292834162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4695037a2aece46e6bbdf2cbb78dc2da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pc2D: {fileID: 0}
-  IsAMovingObject: 0
-  IsAChildSprite: 0
-  LocalPosition: {x: 0, y: 0}
-  SpriteScale: 1
-  _initialScale: {x: 1, y: 1, z: 1}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 3.75
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

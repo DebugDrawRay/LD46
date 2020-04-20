@@ -19,7 +19,7 @@ namespace PBJ
 		}
 
 		[SerializeField]
-		private int m_initialHappiness;
+		private int m_maxHappiness;
 		[SerializeField]
 		private int m_initialSustinence;
 		[SerializeField]
@@ -63,6 +63,13 @@ namespace PBJ
 				return m_itemDb.Items;
 			}
 		}
+		public float Mood
+		{
+			get
+			{
+				return m_state.Mood;
+			}
+		}
 
 		private float m_lastHappinessDrain;
 		private float m_lastSustinenceDrain;
@@ -97,23 +104,28 @@ namespace PBJ
 
 		private void InitializeGame()
 		{
-            m_themeInstance.start();
-			m_state = new WorldState() { Happiness = m_initialHappiness, Sustinence = m_initialSustinence };
+			m_themeInstance.start();
+			m_state = new WorldState() { Happiness = 0, Sustinence = m_initialSustinence };
+			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
+			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
+
 			m_deathStarted = false;
 			GodController.Instance.Spawn();
 			PlayerStatus.Instance.Spawn();
-            ProCamera2D.Instance.RemoveAllCameraTargets();
+			ProCamera2D.Instance.RemoveAllCameraTargets();
 			ProCamera2D.Instance.AddCameraTarget(PlayerStatus.Instance.transform);
 			ProCamera2D.Instance.VerticalFollowSmoothness = 0;
 			ProCamera2D.Instance.HorizontalFollowSmoothness = 0;
-            ProCamera2D.Instance.CenterOnTargets();
+			ProCamera2D.Instance.CenterOnTargets();
 
 		}
 
 		private void Update()
 		{
 			if (CurrentGameState == GameState.Playing)
+			{
 				UpdateGodState();
+			}
 		}
 
 		private void UpdateGodState()
@@ -141,19 +153,23 @@ namespace PBJ
 					{
 						CurrentState.Sustinence -= m_sustinenceDrain;
 						m_lastSustinenceDrain = Time.time;
+						HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
 					}
 					if (Time.time > m_lastHappinessDrain + m_happinessDrainRate)
 					{
 						CurrentState.Happiness -= m_happinessDrain;
 						m_lastHappinessDrain = Time.time;
+						HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
 					}
 				}
+
+				HUDController.Instance.Warn(CurrentState.Sustinence <= m_initialSustinence / 3);
 			}
 		}
 
 		public IEnumerator DeathSequence()
 		{
-            m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			yield return new WaitForSeconds(m_deathDelay);
 			ProCamera2D.Instance.RemoveAllCameraTargets();
 			ProCamera2D.Instance.AddCameraTarget(GodController.Instance.transform);
@@ -164,24 +180,36 @@ namespace PBJ
 			yield return new WaitForSeconds(m_timeToDeath);
 			GodController.Instance.Kill();
 			yield return new WaitForSeconds(m_timeToDeath);
+			PauseMenuController.Instance.GameOver();
 		}
 
-        public void OnQuit()
-        {
-            m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        }
+		public void OnQuit()
+		{
+			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		}
 
+		public void IncreaseHappiness(int happiness)
+		{
+			m_state.Happiness = Mathf.Clamp(m_state.Happiness + happiness, 0, m_maxHappiness);
+			HUDController.Instance.AdjustHappy((float)m_state.Happiness / (float)m_maxHappiness);
+		}
+		public void IncreaseSustinence(int sustience)
+		{
+			m_state.Sustinence = Mathf.Clamp(m_state.Sustinence + sustience, 0, m_initialSustinence);
+			HUDController.Instance.AdjustHunger((float)m_state.Sustinence / (float)m_initialSustinence);
+		}
+		[System.Serializable]
 		public class WorldState
 		{
 			public float Mood
 			{
 				get
 				{
-					return (Happiness * HappinessAdjustment) +
-					(ItemsEaten * ItemsEatenAdjustment) +
-					(ItemsTouched * ItemsTouchedAdjustment) +
-					(ItemsDestroyed * ItemsDestroyedAdjustment) +
-					(PeopleStunned * PeopleStunnedAdjustment);
+					return ((float)Happiness * HappinessAdjustment) +
+					((float)ItemsEaten * ItemsEatenAdjustment) +
+					((float)ItemsTouched * ItemsTouchedAdjustment) +
+					((float)ItemsDestroyed * ItemsDestroyedAdjustment) +
+					((float)PeopleStunned * PeopleStunnedAdjustment); 
 				}
 			}
 			public int Happiness;
@@ -194,11 +222,11 @@ namespace PBJ
 			public int PeopleStunned;
 
 			//Adjustments
-			private const float HappinessAdjustment = 1;
-			private const float ItemsEatenAdjustment = 1;
-			private const float ItemsTouchedAdjustment = 1;
-			private const float ItemsDestroyedAdjustment = 1;
-			private const float PeopleStunnedAdjustment = 1;
+			private const float HappinessAdjustment = .1f;
+			private const float ItemsEatenAdjustment = .5f;
+			private const float ItemsTouchedAdjustment = .1f;
+			private const float ItemsDestroyedAdjustment = .1f;
+			private const float PeopleStunnedAdjustment = .5f;
 		}
 	}
 }
