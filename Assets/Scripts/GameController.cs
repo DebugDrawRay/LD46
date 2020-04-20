@@ -10,6 +10,14 @@ namespace PBJ
 	{
 		public static GameController Instance;
 
+		public GameState CurrentGameState;
+		public enum GameState
+		{
+			Playing,
+			Paused,
+			Gameover
+		}
+
 		[SerializeField]
 		private int m_initialHappiness;
 		[SerializeField]
@@ -98,7 +106,8 @@ namespace PBJ
 
 		private void Update()
 		{
-			UpdateGodState();
+			if (CurrentGameState == GameState.Playing)
+				UpdateGodState();
 		}
 
 		private void UpdateGodState()
@@ -115,6 +124,7 @@ namespace PBJ
 						{
 							StartCoroutine(DeathSequence());
 							m_deathStarted = true;
+							CurrentGameState = GameState.Gameover;
 							Debug.Log("<color=red>GAME OVER</color>");
 						}
 					}
