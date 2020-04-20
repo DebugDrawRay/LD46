@@ -8,7 +8,7 @@ namespace PBJ
 {
 	public class ObjectController : MonoBehaviour
 	{
-        public string Id;
+		public string Id;
 		[SerializeField]
 		private float m_objectHeight;
 		public float ObjectHeight
@@ -44,6 +44,20 @@ namespace PBJ
 		[SerializeField]
 		[Range(0f, 100f)]
 		private float m_breakObjectsSpawnForceVariationPercent;
+
+		[Header("Splinter Attributes")]
+		[SerializeField]
+		private SplinterType m_splinterType;
+		private enum SplinterType
+		{
+			None,
+			Parent,
+			Child
+		}
+		[SerializeField][Min(0)]
+		private float m_splinterChildSeparationForceMagnitude;
+		[SerializeField]
+		private List<ObjectController> m_splinterChildren;
 
 		[Space]
 
@@ -117,6 +131,7 @@ namespace PBJ
 		}
 		private Rigidbody2D m_rigid;
 		private Collider2D m_collider;
+		private SpriteRenderer m_spriteRenderer;
 
 		private float m_lastThrowTime;
 
@@ -145,6 +160,16 @@ namespace PBJ
 			if (!TryGetComponent<Collider2D>(out m_collider))
 			{
 				Debug.LogError("No collider found");
+			}
+			if (!TryGetComponent(out m_spriteRenderer))
+			{
+				Debug.LogError("No sprite renderer found");
+			}
+
+
+			if (m_splinterType == SplinterType.Child)
+			{
+				InitializeAsSplinterChild();
 			}
 		}
 
@@ -191,7 +216,7 @@ namespace PBJ
 		public void Break()
 		{
 			Assert.IsTrue(m_isBreakable);
-            RuntimeManager.PlayOneShot(m_breakSound);
+			RuntimeManager.PlayOneShot(m_breakSound);
 			GameController.Instance.CurrentState.ItemsDestroyed++;
 
 			m_objectState.Breaking = true;
@@ -240,6 +265,12 @@ namespace PBJ
 		public void Damage(int damageAmount)
 		{
 			m_health -= damageAmount;
+
+			if (m_splinterType != SplinterType.None)
+			{
+				Splinter(m_splinterChildSeparationForceMagnitude);
+			}
+
 			if (m_health <= 0)
 			{
 				if (CanBreak())
@@ -293,7 +324,7 @@ namespace PBJ
 				if (collision.gameObject.TryGetComponent(out ObjectController other))
 				{
 					other.Damage(m_inflictDamage);
-                    RuntimeManager.PlayOneShot(m_collideSound);
+					RuntimeManager.PlayOneShot(m_collideSound);
 				}
 				if (collision.gameObject.TryGetComponent(out HumanController human))
 				{
@@ -302,5 +333,49 @@ namespace PBJ
 				Damage(m_selfDamage);
 			}
 		}
+
+
+		public void InitializeAsSplinterChild()
+		{
+			m_collider.enabled = false;
+			m_rigid.bodyType = RigidbodyType2D.Kinematic;
+		}
+
+		public void Splinter(float splinterChildSeparationForceMagnitude)
+		{
+			Assert.AreNotEqual(SplinterType.None, m_splinterType);
+
+			if (m_splinterType == SplinterType.Child)
+				SplinterAsChildFromParent(splinterChildSeparationForceMagnitude);
+			else if (m_splinterType == SplinterType.Parent)
+				SplinterAsParentFromChild();
+		}
+
+		private void SplinterAsChildFromParent(float splinterChildSeparationForceMagnitude)
+		{
+			m_splinterType = SplinterType.None;
+			m_spriteRenderer.sortingOrder = 0; // TODO: This should be an assignable value??
+			transform.SetParent(null);
+			m_collider.enabled = true;
+			m_rigid.bodyType = RigidbodyType2D.Dynamic;
+			var angleRad = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+			var randomSplinterForce = new Vector2(splinterChildSeparationForceMagnitude * Mathf.Cos(angleRad), splinterChildSeparationForceMagnitude * Mathf.Sin(angleRad));
+			m_rigid.AddForce(randomSplinterForce);
+			// TODO: Splinter animation?
+		}
+
+		private void SplinterAsParentFromChild()
+		{
+			var childrenToRemove = new List<ObjectController>();
+
+			foreach (var child in m_splinterChildren)
+			{
+				child.Splinter(m_splinterChildSeparationForceMagnitude);
+				childrenToRemove.Add(child);
+			}
+
+			childrenToRemove.ForEach(childToRemove => m_splinterChildren.Remove(childToRemove));
+		}
+
 	}
 }
