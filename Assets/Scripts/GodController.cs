@@ -64,6 +64,14 @@ namespace PBJ
 
 		private int m_remainingItems;
 
+		private bool m_canEvolve;
+		public bool CanEvolve
+		{
+			get
+			{
+				return m_canEvolve;
+			}
+		}
 		private PlayerStatus m_player
 		{
 			get
@@ -92,6 +100,7 @@ namespace PBJ
 			m_hasRequest = true;
 			m_requestContainer.SetActive(false);
 			m_happyIcon.SetActive(false);
+			m_canEvolve = true;
 		}
 		private void Update()
 		{
@@ -175,6 +184,7 @@ namespace PBJ
 		private IEnumerator CheckRequest(bool successful)
 		{
 			m_hasRequest = false;
+			m_canEvolve = false;
 			RuntimeManager.PlayOneShot(m_eatSound);
 			m_requestContainer.SetActive(false);
 			yield return new WaitForSeconds(m_closeDelay);
@@ -182,6 +192,7 @@ namespace PBJ
 			{
 				RuntimeManager.PlayOneShot(m_requestGoodSound);
 				m_happyIcon.SetActive(true);
+				m_canEvolve = true;
 				yield return new WaitForSeconds(m_requestDelay);
 				m_happyIcon.SetActive(false);
 				if (m_remainingItems <= 0)

@@ -223,7 +223,7 @@ namespace PBJ
 
 		private bool CanEvolve()
 		{
-			return !CurrentState.IsEvolved && CurrentState.Happiness >= m_maxHappiness * m_happinessPercentToEvolve;
+			return !CurrentState.IsEvolved && CurrentState.Happiness >= m_maxHappiness * m_happinessPercentToEvolve && GodController.Instance.CanEvolve;
 		}
 
 		private void Evolve()
