@@ -223,19 +223,20 @@ namespace PBJ
 
 				}
 			}
-			HUDController.Instance.Warn(!m_deathStarted && !PlayerStatus.Instance.Dead&& CurrentState.Sustinence <= (float)m_maxSustinence * m_alertPercent);
+			HUDController.Instance.Warn(!m_deathStarted && !PlayerStatus.Instance.Dead && CurrentState.Sustinence <= (float)m_maxSustinence * m_alertPercent);
 
 		}
 
 		private bool CanEvolve()
 		{
-			return !CurrentState.IsEvolved && CurrentState.Happiness >= m_maxHappiness * m_happinessPercentToEvolve && GodController.Instance.CanEvolve;
+			return !CurrentState.IsEvolved && CurrentState.Happiness >= (float)m_maxHappiness * m_happinessPercentToEvolve && GodController.Instance.CanEvolve;
 		}
 
 		private void Evolve()
 		{
 			// The GodController will start its Evolve routine and then set CurrentState.IsEvolved when finished
 			GodController.Instance.Evolve();
+            CurrentState.IsEvolved = true;
 		}
 
 		public IEnumerator WinSequence()
