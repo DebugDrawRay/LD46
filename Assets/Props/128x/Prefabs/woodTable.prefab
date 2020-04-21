@@ -119,10 +119,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1309166, y: 0.06870413}
+  m_Offset: {x: -0.096144676, y: 0.06870413}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.49999997, y: 0.2}
     oldSize: {x: 4, y: 4}
     newSize: {x: 4, y: 4}
     adaptiveTilingThreshold: 0.5
@@ -130,7 +130,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5137367, y: 1.1374083}
+  m_Size: {x: 3.0596142, y: 1.1374083}
   m_EdgeRadius: 0
 --- !u!114 &7538067340682373673
 MonoBehaviour:
@@ -164,11 +164,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: structure
   m_objectHeight: 3.5
-  m_isExplosive: 0
+  m_isExplosive: 1
   m_isExplosionDelaySec: 0
   m_explosionPrefab: {fileID: 0}
-  m_isBreakable: 0
-  m_breakPrefab: {fileID: 9102206554303946951, guid: 1bdf8e88f8befea4eb6b813c96fdc002,
+  m_isBreakable: 1
+  m_breakPrefab: {fileID: 4973010253630552482, guid: 165f7d1b55a83694682383b446362691,
     type: 3}
   m_numberOfBreakObjects: 5
   m_breakObjectsSpawnRadius: 3

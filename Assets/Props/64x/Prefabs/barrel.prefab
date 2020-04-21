@@ -99,16 +99,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: vegetation
   m_objectHeight: 1.75
-  m_isExplosive: 0
+  m_isExplosive: 1
   m_isExplosionDelaySec: 0
-  m_explosionPrefab: {fileID: 0}
-  m_isBreakable: 0
+  m_explosionPrefab: {fileID: 8109904909044211545, guid: 58bd159333a4fa54d96d3686d95b16ea,
+    type: 3}
+  m_isBreakable: 1
   m_breakPrefab: {fileID: 0}
-  m_numberOfBreakObjects: 0
-  m_breakObjectsSpawnRadius: 0
-  m_breakObjectsSpawnRadiusVariationPercent: 0
-  m_breakObjectsSpawnForce: 0
-  m_breakObjectsSpawnForceVariationPercent: 0
+  m_numberOfBreakObjects: 3
+  m_breakObjectsSpawnRadius: 1.24
+  m_breakObjectsSpawnRadiusVariationPercent: 100
+  m_breakObjectsSpawnForce: 20
+  m_breakObjectsSpawnForceVariationPercent: 100
   m_splinterType: 0
   m_splinterChildSeparationForceMagnitude: 0
   m_splinterChildren: []
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_happinessProvided: 10
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
-  m_health: 0
+  m_health: 2
   m_objectState:
     Breaking: 0
     Exploding: 0
@@ -155,10 +156,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.081074834}
+  m_Offset: {x: -0.0057201385, y: 0.0982362}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.1}
     oldSize: {x: 2, y: 2}
     newSize: {x: 1.5, y: 2}
     adaptiveTilingThreshold: 0.5
@@ -166,7 +167,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 0.5710585}
+  m_Size: {x: 1.1453209, y: 0.5367358}
   m_EdgeRadius: 0
 --- !u!50 &5456497866397838862
 Rigidbody2D:
