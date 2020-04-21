@@ -905,7 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9aadaf6013635e48a103f5b69127277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_gameSceneString: Main
+  m_gameSceneString: Island
   m_mainMenuObject: {fileID: 1096748725}
   m_tutorialMenuObject: {fileID: 820418497}
   m_tutorialButton: {fileID: 1502069072}

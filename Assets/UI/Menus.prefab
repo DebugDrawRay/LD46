@@ -1122,7 +1122,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.00048828125, y: 0}
   m_SizeDelta: {x: 656.0484, y: 178.68793}
   m_Pivot: {x: -0.00000015459955, y: 1}
 --- !u!222 &1181431388038948938
@@ -2635,7 +2635,7 @@ MonoBehaviour:
   m_pauseMenuFirstSelectedButton: {fileID: 3868622941622154525}
   m_gameOverFirstSelectedButton: {fileID: 3868622941629972236}
   m_mainMenuSceneName: MainMenu
-  m_gameSceneName: Main
+  m_gameSceneName: Island
   m_gameOverHeader: {fileID: 3868622942988127218}
   m_happiness: {fileID: 0}
   m_eaten: {fileID: 1812585624698078466}
