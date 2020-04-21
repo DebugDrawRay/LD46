@@ -357,7 +357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 10
   MaxSpeed: 7
-  m_maxCarry: 3
+  m_maxCarry: 5
   PickupRange: 0.5
   PickupSpeed: 12
   PickupCooldown: 0
