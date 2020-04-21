@@ -96,7 +96,6 @@ namespace PBJ
 		{
 			get
 			{
-				Debug.Log(m_chaseRange * GameController.Instance.Mood);
 				return m_chaseRange * GameController.Instance.Mood;
 			}
 		}
@@ -408,7 +407,7 @@ namespace PBJ
 					m_knockTween.Kill();
 				}
 				Vector2 pos = (Vector2)transform.position + dir;
-				m_knockTween = transform.DOMove(pos, m_knockbackLength).SetEase(Ease.OutExpo).SetUpdate(UpdateType.Fixed);
+				m_knockTween = GetComponent<Rigidbody2D>().DOMove(pos, m_knockbackLength).SetEase(Ease.OutExpo).SetUpdate(UpdateType.Fixed);
 				if (Stunned)
 				{
 					m_anim.SetBool(AnimationConst.Stun, true);

@@ -160,7 +160,7 @@ namespace PBJ
 						m_knockTween.Kill();
 					}
 					Vector2 pos = (Vector2)transform.position + dir;
-					m_knockTween = transform.DOMove(pos, m_knockbackLength).SetEase(Ease.OutExpo).SetUpdate(UpdateType.Fixed).OnComplete(OnKnockbackComplete).Play();
+					m_knockTween = GetComponent<Rigidbody2D>().DOMove(pos, m_knockbackLength).SetEase(Ease.OutExpo).SetUpdate(UpdateType.Fixed).OnComplete(OnKnockbackComplete).Play();
 				}
 			}
 
