@@ -195,10 +195,10 @@ namespace PBJ
 				m_canEvolve = true;
 				yield return new WaitForSeconds(m_requestDelay);
 				m_happyIcon.SetActive(false);
-				if (m_remainingItems <= 0)
-				{
-					MakeNewRequest();
-				}
+			}
+			if (m_remainingItems <= 0)
+			{
+				MakeNewRequest();
 			}
 			m_requestContainer.SetActive(true);
 			yield return new WaitForSeconds(m_statusIconHold);

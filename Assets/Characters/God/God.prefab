@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2163242360146338272}
   - component: {fileID: 2163242360146338275}
-  - component: {fileID: 6190348255294143954}
+  - component: {fileID: 7947484829866335822}
   m_Layer: 11
   m_Name: God
   m_TagString: Untagged
@@ -148,8 +148,8 @@ MonoBehaviour:
   m_evolveSound: event:/SFX/God/Evolve
   m_containerEvolvePos: {x: -3.28125, y: 8.8125}
   m_happyEvolvePos: {x: -0.715, y: 8.65875}
---- !u!60 &6190348255294143954
-PolygonCollider2D:
+--- !u!58 &7947484829866335822
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -161,27 +161,9 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.64017296, y: -0.03332758}
-      - {x: -1.444809, y: -0.55812955}
-      - {x: -1.5601435, y: -1.0366402}
-      - {x: 0.04963112, y: -1.4747629}
-      - {x: 2.7833319, y: -0.9081706}
-      - {x: 2.5284247, y: -0.4980712}
-      - {x: 2.1598444, y: -0.20813465}
-      - {x: 1.8245368, y: 0.016108751}
-      - {x: 0.9510565, y: 0.30901712}
+  m_Offset: {x: 0.44619155, y: -0.22663724}
+  serializedVersion: 2
+  m_Radius: 1.4844539
 --- !u!1 &2163242360670471043
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +254,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2163242360670471043}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4695037a2aece46e6bbdf2cbb78dc2da, type: 3}
   m_Name: 
@@ -372,7 +354,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2163242361075985993}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4695037a2aece46e6bbdf2cbb78dc2da, type: 3}
   m_Name: 
@@ -474,7 +456,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2163242361460402338}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4695037a2aece46e6bbdf2cbb78dc2da, type: 3}
   m_Name: 
@@ -593,7 +575,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4731624546317013419}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4695037a2aece46e6bbdf2cbb78dc2da, type: 3}
   m_Name: 
