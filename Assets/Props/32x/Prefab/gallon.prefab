@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc7fd5f71907944a8140f12535b9738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: junk
+  Id: structure
   m_objectHeight: 0.75
   m_isExplosive: 0
   m_isExplosionDelaySec: 0
