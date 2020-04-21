@@ -116,8 +116,8 @@ MonoBehaviour:
   m_splinterChildren: []
   m_selfDamage: 0
   m_inflictDamage: 2
-  m_sustinenceProvided: 15
-  m_happinessProvided: 10
+  m_sustinenceProvided: 14
+  m_happinessProvided: 4
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
   m_health: 2

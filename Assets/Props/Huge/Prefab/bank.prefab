@@ -104,7 +104,7 @@ MonoBehaviour:
   m_explosionPrefab: {fileID: 3728366976040509558, guid: 28c9c584764509d499fe1d4ce1ae9e67,
     type: 3}
   m_isBreakable: 1
-  m_breakPrefab: {fileID: 7538067340682373678, guid: ca8f72d81fb575c48862fd86d9e26fad,
+  m_breakPrefab: {fileID: 4973010253630552482, guid: 51f520eb705c19a469bcd012381d1713,
     type: 3}
   m_numberOfBreakObjects: 5
   m_breakObjectsSpawnRadius: 5
@@ -116,8 +116,8 @@ MonoBehaviour:
   m_splinterChildren: []
   m_selfDamage: 0
   m_inflictDamage: 3
-  m_sustinenceProvided: 50
-  m_happinessProvided: 40
+  m_sustinenceProvided: 70
+  m_happinessProvided: 20
   m_collideSound: event:/SFX/Pickups/Collide
   m_breakSound: event:/SFX/Pickups/Break
   m_health: 3

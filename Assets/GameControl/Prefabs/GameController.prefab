@@ -1085,14 +1085,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentGameState: 0
-  m_maxHappiness: 200
-  m_happinessPercentToEvolve: 125
+  m_maxHappiness: 500
+  m_happinessPercentToEvolve: 5
   m_initialSustinence: 40
   m_maxSustinence: 100
   m_happinessDrain: 0
   m_happinessDrainRate: 0
   m_sustinenceDrain: 1
-  m_sustinenceDrainRate: 0.5
+  m_sustinenceDrainRate: 2
   m_itemsBeforeNewRequest: 3
   m_alertPercent: 0.3
   m_itemDb: {fileID: 11400000, guid: fed4daf018f6a9e40bd8b73a57ff9fb5, type: 2}
