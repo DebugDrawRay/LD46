@@ -257,12 +257,17 @@ PrefabInstance:
     - target: {fileID: 3372654819196969319, guid: 98cec657b4d291148b3474ef6fc7cf8a,
         type: 3}
       propertyPath: m_sustinenceProvided
-      value: 50
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 3372654819196969319, guid: 98cec657b4d291148b3474ef6fc7cf8a,
         type: 3}
       propertyPath: m_happinessProvided
-      value: 40
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3372654819196969319, guid: 98cec657b4d291148b3474ef6fc7cf8a,
+        type: 3}
+      propertyPath: m_numberOfBreakObjects
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6430491968865356492, guid: 98cec657b4d291148b3474ef6fc7cf8a,
         type: 3}
