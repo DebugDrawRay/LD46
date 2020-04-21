@@ -17,8 +17,6 @@ MonoBehaviour:
     Sprite: {fileID: 21300000, guid: 9ecd2347f9aecb3449f1dd341e98642f, type: 3}
   - Category: structure
     Sprite: {fileID: 21300000, guid: 61c309a408c253c4e94298b04d080a88, type: 3}
-  - Category: junk
-    Sprite: {fileID: 21300000, guid: 2289c6ba4c734854b889d02bba7df708, type: 3}
   - Category: meat
     Sprite: {fileID: 21300000, guid: 3bbd54f7478e13a479ca04f9e0d9cbdc, type: 3}
   - Category: metal
