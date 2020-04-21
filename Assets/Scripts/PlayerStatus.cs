@@ -201,5 +201,13 @@ namespace PBJ
 			SetCanAct(true);
 			m_canBeDamaged = true;
 		}
+
+		private void OnColliderEnter2D(Collider2D hit)
+		{
+			if (m_knockTween != null && m_knockTween.IsPlaying())
+			{
+				m_knockTween.Kill();
+			}
+		}
 	}
 }
