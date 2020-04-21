@@ -388,6 +388,10 @@ namespace PBJ
 		private void OnCollisionEnter2D(Collision2D hit)
 		{
 			m_cancelMovement = true;
+			if (m_knockTween != null && m_knockTween.IsPlaying())
+			{
+				m_knockTween.Kill();
+			}
 		}
 
 		public void Damage(int amount, Vector2 origin)
