@@ -276,6 +276,7 @@ namespace PBJ
 		public void OnQuit()
 		{
 			m_themeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            HUDController.Instance.Warn(false);
 		}
 
 		public void IncreaseHappiness(int happiness)
