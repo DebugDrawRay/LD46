@@ -223,7 +223,7 @@ namespace PBJ
 
 				}
 			}
-			HUDController.Instance.Warn(!m_deathStarted && CurrentState.Sustinence <= (float)m_maxSustinence * m_alertPercent);
+			HUDController.Instance.Warn(!m_deathStarted && !PlayerStatus.Instance.Dead&& CurrentState.Sustinence <= (float)m_maxSustinence * m_alertPercent);
 
 		}
 
