@@ -320,7 +320,7 @@ namespace PBJ
 			public float GameStart;
 
 			//Adjustments
-			private const float HappinessAdjustment = 1;
+			private const float HappinessAdjustment = .1f;
 			private const float ItemsTouchedAdjustment = .05f;
 			private const float ItemsDestroyedAdjustment = .25f;
 			private const float PeopleStunnedAdjustment = .25f;

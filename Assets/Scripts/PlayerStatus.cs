@@ -16,7 +16,7 @@ namespace PBJ
 		{
 			get
 			{
-				return m_maxCarry + GameController.Instance.CurrentState.Power;
+				return m_maxCarry + GameController.Instance.CurrentState.Power / 2;
 			}
 		}
 		[SerializeField]
@@ -31,7 +31,7 @@ namespace PBJ
 		{
 			get
 			{
-				return m_throwForce + GameController.Instance.CurrentState.Power * 5;
+				return m_throwForce + GameController.Instance.CurrentState.Power;
 			}
 		}
 		[SerializeField]
